@@ -1,0 +1,112 @@
+{
+  planets: {
+    none: {
+      typeName: "No planet",
+      textureName: "sprite/star.png",
+      starChance: {
+        default: 0.1
+      }
+    },
+    terran: {
+      typeName: "Terran",
+      textureName: "",
+      starChance: {
+        default: 0.2,
+        stars: {
+          yellow: 1.0,
+          green: 0.8,
+          red: 0.3,
+        }
+      }
+    },
+    desert: {
+      typeName: "Desert",
+      textureName: "",
+      starChance: {
+        default: 0.4,
+        stars: {
+          yellow: 0.5,
+          red: 0.5,
+          white: 0.5,
+          blue: 0.5
+        }
+      }
+    },
+    jungle: {
+      typeName: "Jungle",
+      textureName: "",
+      starChance: {
+        default: 0.1,
+        stars: {
+          yellow: 0.8,
+          green: 0.7,
+          red: 0.4,
+        }
+      }
+    },
+    water: {
+      typeName: "Water",
+      textureName: "",
+      starChance: {
+        default: 0.1,
+        stars: {
+          yellow: 0.9,
+          green: 0.75,
+          red: 0.6,
+        }
+      }
+    },
+    ice: {
+      typeName: "Ice",
+      textureName: "",
+      starChance: {
+        default: 0.2,
+        stars: {
+          yellow: 0.4,
+          green: 0.6,
+          red: 0.5,
+          purple: 0.05,
+          white: 0.0
+        }
+      }
+    },
+    rock: {
+      typeName: "Rock",
+      textureName: "",
+      starChance: {
+        default: 0.1,
+        stars: {
+          yellow: 0.9,
+          green: 0.75,
+          red: 0.6,
+        }
+      }
+    },
+    inferno: {
+      typeName: "Inferno",
+      textureName: "",
+      starChance: {
+        default: 0.1,
+        stars: {
+          red: 0.3,
+          blue: 0.6,
+          purple: 0.7,
+          white: 1.0
+        }
+      }
+    },
+    toxic: {
+      typeName: "Toxic",
+      textureName: "",
+      starChance: {
+        default: 0.2,
+        stars: {
+          red: 0.5,
+          blue: 0.65,
+          purple: 0.8,
+          white: 1.1
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  stars: {
+    yellow: {
+      typeName: "Yellow Star",
+      color: "dfdf00ff",
+      minSize: 0.7,
+      maxSize: 1.1,
+    },
+    green: {
+      typeName: "Green Star",
+      color: "00df00ff",
+      minSize: 0.7,
+      maxSize: 1.1
+    },
+    red: {
+      typeName: "Red Star",
+      color: "df0000ff",
+      minSize: 0.8,
+      maxSize: 1.2
+    },
+    blue: {
+      typeName: "Blue Star",
+      color: "0000dfff",
+      minSize: 0.8,
+      maxSize: 1.2
+    },
+    purple: {
+      typeName: "Purple Star",
+      color: "df00dfff",
+      minSize: 0.8,
+      maxSize: 1.2
+    },
+    white: {
+      typeName: "White Star",
+      color: "dfdfdfff",
+      minSize: 1.0,
+      maxSize: 1.5
+    }
+  }
+}
