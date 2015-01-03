@@ -1,11 +1,11 @@
 {
-  l10n: [
+  "l10n": [
     {
-      name: "English",
+      "name": "English",
     },
     {
-      name: "Polski",
-      language: "pl",
+      "name": "Polski",
+      "language": "pl",
     }
   ]
 }

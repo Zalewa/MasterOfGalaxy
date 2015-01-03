@@ -1,43 +1,43 @@
 {
-  i18n: {
-    bundle: "i18n/stars"
+  "i18n": {
+    "bundle": "i18n/stars"
   },
-  stars: {
-    yellow: {
-      typeName: "$yellow",
-      color: "dfdf00ff",
-      minSize: 0.7,
-      maxSize: 1.1,
+  "stars": {
+    "yellow": {
+      "typeName": "$yellow",
+      "color": "dfdf00ff",
+      "minSize": 0.7,
+      "maxSize": 1.1
     },
-    green: {
-      typeName: "$green",
-      color: "00df00ff",
-      minSize: 0.7,
-      maxSize: 1.1
+    "green": {
+      "typeName": "$green",
+      "color": "00df00ff",
+      "minSize": 0.7,
+      "maxSize": 1.1
     },
-    red: {
-      typeName: "$red",
-      color: "df0000ff",
-      minSize: 0.8,
-      maxSize: 1.2
+    "red": {
+      "typeName": "$red",
+      "color": "df0000ff",
+      "minSize": 0.8,
+      "maxSize": 1.2
     },
-    blue: {
-      typeName: "$blue",
-      color: "0000dfff",
-      minSize: 0.8,
-      maxSize: 1.2
+    "blue": {
+      "typeName": "$blue",
+      "color": "0000dfff",
+      "minSize": 0.8,
+      "maxSize": 1.2
     },
-    purple: {
-      typeName: "$purple",
-      color: "df00dfff",
-      minSize: 0.8,
-      maxSize: 1.2
+    "purple": {
+      "typeName": "$purple",
+      "color": "df00dfff",
+      "minSize": 0.8,
+      "maxSize": 1.2
     },
-    white: {
-      typeName: "$white",
-      color: "dfdfdfff",
-      minSize: 1.0,
-      maxSize: 1.5
+    "white": {
+      "typeName": "$white",
+      "color": "dfdfdfff",
+      "minSize": 1.0,
+      "maxSize": 1.5
     }
   }
 }

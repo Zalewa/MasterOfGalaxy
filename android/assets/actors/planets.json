@@ -1,113 +1,113 @@
 {
-  i18n: {
-    bundle: "i18n/planets"
+  "i18n": {
+    "bundle": "i18n/planets"
   },
-  planets: {
-    none: {
-      typeName: "$noPlanet",
-      textureName: "sprite/star.png",
-      starChance: {
-        default: 0.1
+  "planets": {
+    "none": {
+      "typeName": "$noPlanet",
+      "textureName": "sprite/star.png",
+      "starChance": {
+        "default": 0.1
       }
     },
-    terran: {
-      typeName: "$terran",
-      textureName: "",
-      starChance: {
-        default: 0.2,
-        stars: {
-          yellow: 1.0,
-          green: 0.8,
-          red: 0.3,
+    "terran": {
+      "typeName": "$terran",
+      "textureName": "",
+      "starChance": {
+        "default": 0.2,
+        "stars": {
+          "yellow": 1.0,
+          "green": 0.8,
+          "red": 0.3
         }
       }
     },
-    desert: {
-      typeName: "$desert",
-      textureName: "",
-      starChance: {
-        default: 0.4,
-        stars: {
-          yellow: 0.5,
-          red: 0.5,
-          white: 0.5,
-          blue: 0.5
+    "desert": {
+      "typeName": "$desert",
+      "textureName": "",
+      "starChance": {
+        "default": 0.4,
+        "stars": {
+          "yellow": 0.5,
+          "red": 0.5,
+          "white": 0.5,
+          "blue": 0.5
         }
       }
     },
-    jungle: {
-      typeName: "$jungle",
-      textureName: "",
-      starChance: {
-        default: 0.1,
-        stars: {
-          yellow: 0.8,
-          green: 0.7,
-          red: 0.4,
+    "jungle": {
+      "typeName": "$jungle",
+      "textureName": "",
+      "starChance": {
+        "default": 0.1,
+        "stars": {
+          "yellow": 0.8,
+          "green": 0.7,
+          "red": 0.4
         }
       }
     },
-    water: {
-      typeName: "$water",
-      textureName: "",
-      starChance: {
-        default: 0.1,
-        stars: {
-          yellow: 0.9,
-          green: 0.75,
-          red: 0.6,
+    "water": {
+      "typeName": "$water",
+      "textureName": "",
+      "starChance": {
+        "default": 0.1,
+        "stars": {
+          "yellow": 0.9,
+          "green": 0.75,
+          "red": 0.6
         }
       }
     },
-    ice: {
-      typeName: "$ice",
-      textureName: "",
-      starChance: {
-        default: 0.2,
-        stars: {
-          yellow: 0.4,
-          green: 0.6,
-          red: 0.5,
-          purple: 0.05,
-          white: 0.0
+    "ice": {
+      "typeName": "$ice",
+      "textureName": "",
+      "starChance": {
+        "default": 0.2,
+        "stars": {
+          "yellow": 0.4,
+          "green": 0.6,
+          "red": 0.5,
+          "purple": 0.05,
+          "white": 0.0
         }
       }
     },
-    rock: {
-      typeName: "$rock",
-      textureName: "",
-      starChance: {
-        default: 0.1,
-        stars: {
-          yellow: 0.9,
-          green: 0.75,
-          red: 0.6,
+    "rock": {
+      "typeName": "$rock",
+      "textureName": "",
+      "starChance": {
+        "default": 0.1,
+        "stars": {
+          "yellow": 0.9,
+          "green": 0.75,
+          "red": 0.6
         }
       }
     },
-    inferno: {
-      typeName: "$inferno",
-      textureName: "",
-      starChance: {
-        default: 0.1,
-        stars: {
-          red: 0.3,
-          blue: 0.6,
-          purple: 0.7,
-          white: 1.0
+    "inferno": {
+      "typeName": "$inferno",
+      "textureName": "",
+      "starChance": {
+        "default": 0.1,
+        "stars": {
+          "red": 0.3,
+          "blue": 0.6,
+          "purple": 0.7,
+          "white": 1.0
         }
       }
     },
-    toxic: {
-      typeName: "$toxic",
-      textureName: "",
-      starChance: {
-        default: 0.2,
-        stars: {
-          red: 0.5,
-          blue: 0.65,
-          purple: 0.8,
-          white: 1.1
+    "toxic": {
+      "typeName": "$toxic",
+      "textureName": "",
+      "starChance": {
+        "default": 0.2,
+        "stars": {
+          "red": 0.5,
+          "blue": 0.65,
+          "purple": 0.8,
+          "white": 1.1
         }
       }
     }
