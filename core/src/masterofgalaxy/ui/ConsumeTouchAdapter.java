@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Event;
 import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 
-public class ConsumeTouchListener implements EventListener {
+public class ConsumeTouchAdapter implements EventListener {
     @Override
     public boolean handle(Event event) {
         if (shouldConsume(event)) {

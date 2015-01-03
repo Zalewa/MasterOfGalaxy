@@ -1,36 +1,46 @@
 package masterofgalaxy.mainmenu.options;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
-import masterofgalaxy.assets.I18N;
-import masterofgalaxy.config.VideoDisplayMode;
-import masterofgalaxy.ui.ConsumeTouchListener;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.assets.i18n.LocalizationChangedListener;
+import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
+import masterofgalaxy.ui.EscapeKeyAdapter;
 
-public class OptionsMenu extends Window {
+public class OptionsMenu extends Window implements Localizable {
     private Skin skin;
     private VideoModeOptions videoModeOptions;
+    private LanguageOptions languageOptions;
     private TextButton applyButton;
     private TextButton closeButton;
     private Table buttonRow = new Table();
     private Button xButton;
     private Table mainLayout;
     private MogGame game;
+    private LocalizationChangedListener translationListener = new LocalizationChangedListener(this);;
 
     public OptionsMenu(MogGame game, Skin skin) {
         super("options", skin);
-        I18N.localeChanged.add(new Listener<Object>() {
-            @Override
-            public void receive(Signal<Object> signal, Object object) {
-                applyTranslation();
-            }
-        });
+        I18N.localeChanged.add(translationListener);
         this.game = game;
         this.skin = skin;
-        addListener(new ConsumeTouchListener());
+        setModal(true);
+        addListener(new EscapeKeyAdapter() {
+            @Override
+            protected boolean escape() {
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        close();
+                    }
+                });
+                return false;
+            }
+        });
 
         mainLayout = new Table(skin);
         mainLayout.pad(10.0f);
@@ -40,6 +50,7 @@ public class OptionsMenu extends Window {
         setupXButton();
 
         setupVideoModeWidget();
+        setupLanguageWidget();
 
         setupButtonRow();
         setupApplyButton();
@@ -52,6 +63,12 @@ public class OptionsMenu extends Window {
     private void setupVideoModeWidget() {
         videoModeOptions = new VideoModeOptions(skin);
         mainLayout.add(videoModeOptions).expand().fillX().top();
+        mainLayout.row();
+    }
+
+    private void setupLanguageWidget() {
+        languageOptions = new LanguageOptions(skin);
+        mainLayout.add(languageOptions).expand().fillX().top();
         mainLayout.row();
     }
 
@@ -100,14 +117,17 @@ public class OptionsMenu extends Window {
 
     private void apply() {
         videoModeOptions.apply();
+        languageOptions.apply();
     }
 
     private void close() {
+        I18N.localeChanged.remove(translationListener);
         clear();
         remove();
     }
 
-    private void applyTranslation() {
+    @Override
+    public void applyTranslation() {
         setTitle(I18N.i18n.format("$options"));
         applyButton.setText(I18N.i18n.format("$apply"));
         closeButton.setText(I18N.i18n.format("$close"));

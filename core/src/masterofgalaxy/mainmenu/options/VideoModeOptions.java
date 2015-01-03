@@ -5,8 +5,7 @@ import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Array;
-import masterofgalaxy.assets.I18N;
+import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 
@@ -104,7 +103,7 @@ public class VideoModeOptions extends Table {
     }
 
     private void applyTranslation() {
-        resolutionsLabel.setText(I18N.i18n.format("$resolution"));
+        resolutionsLabel.setText(I18N.i18n.format("$resolution_colon"));
         fullscreenCheckbox.setText(I18N.i18n.format("$fullscreen"));
     }
 

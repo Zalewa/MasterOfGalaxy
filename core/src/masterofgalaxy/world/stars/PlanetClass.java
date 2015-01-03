@@ -1,6 +1,7 @@
 package masterofgalaxy.world.stars;
 
 import com.badlogic.gdx.graphics.Texture;
+import masterofgalaxy.assets.i18n.I18N;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -20,9 +21,14 @@ public class PlanetClass {
     private float defaultStarChance = 0.0f;
     private Map<String, Float> starChances = new LinkedHashMap<String, Float>();
     private boolean valid = true;
+    private String localizationBundleName;
 
     public String getName() {
         return name;
+    }
+
+    public String getLocalizedName() {
+        return I18N.resolveNamed(localizationBundleName, name);
     }
 
     public void setName(String name) {
@@ -72,5 +78,13 @@ public class PlanetClass {
     public float getChanceForStarType(String starTypeName) {
         Float precise = starChances.get(starTypeName);
         return precise != null ? precise : defaultStarChance;
+    }
+
+    public void setLocalizationBundleName(String localizationBundleName) {
+        this.localizationBundleName = localizationBundleName;
+    }
+
+    public String getLocalizationBundleName() {
+        return localizationBundleName;
     }
 }

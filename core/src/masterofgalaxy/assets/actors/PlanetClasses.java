@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import masterofgalaxy.ChanceRange;
+import masterofgalaxy.assets.i18n.I18NJsonReader;
 import masterofgalaxy.exceptions.InvalidInputTypeException;
 import masterofgalaxy.exceptions.NoDataException;
 import masterofgalaxy.world.stars.PlanetClass;
@@ -15,18 +16,19 @@ import masterofgalaxy.world.stars.PlanetClass;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.logging.FileHandler;
 
 public class PlanetClasses {
     private Map<String, PlanetClass> planets = new LinkedHashMap<String, PlanetClass>();
+    private String localizationBundleName;
 
     public PlanetClasses() {
     }
 
     public void load(FileHandle file) {
         JsonReader reader = new JsonReader();
-        JsonValue value = reader.parse(file);
-        JsonValue planets = value.get("planets");
+        JsonValue jsonRoot = reader.parse(file);
+        localizationBundleName = I18NJsonReader.loadNamedBundle(jsonRoot, file.type());
+        JsonValue planets = jsonRoot.get("planets");
         if (planets == null || !planets.isObject()) {
             throw new InvalidInputTypeException(file.path() + " is not a planets file");
         }
@@ -37,6 +39,7 @@ public class PlanetClasses {
             PlanetClass klass = new PlanetClass();
             klass.setName(planet.getString("typeName"));
             klass.setInternalName(name);
+            klass.setLocalizationBundleName(localizationBundleName);
             klass.setTextureName(planet.getString("textureName"));
 
             JsonValue starChances = planet.get("starChance");

@@ -1,9 +1,7 @@
 package masterofgalaxy.world.stars;
 
 import com.badlogic.gdx.graphics.Color;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import masterofgalaxy.assets.i18n.I18N;
 
 public class StarClass {
     public static final StarClass nullKlass;
@@ -18,6 +16,7 @@ public class StarClass {
     private Color color = Color.WHITE.cpy();
     private float minSize = 1.0f;
     private float maxSize = 1.0f;
+    private String localizationBundleName;
     private boolean valid = true;
 
     public String getName() {
@@ -58,6 +57,18 @@ public class StarClass {
 
     public void setMinSize(float minSize) {
         this.minSize = minSize;
+    }
+
+    public String getLocalizationBundleName() {
+        return localizationBundleName;
+    }
+
+    public void setLocalizationBundleName(String localizationBundleName) {
+        this.localizationBundleName = localizationBundleName;
+    }
+
+    public String getLocalizedName() {
+        return I18N.resolveNamed(localizationBundleName, name);
     }
 
     public boolean isValid() {

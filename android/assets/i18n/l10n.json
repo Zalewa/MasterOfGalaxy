@@ -1,0 +1,11 @@
+{
+  l10n: [
+    {
+      name: "English",
+    },
+    {
+      name: "Polski",
+      language: "pl",
+    }
+  ]
+}

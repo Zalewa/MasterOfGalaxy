@@ -1,19 +1,20 @@
 package masterofgalaxy.world.ui;
 
 import com.badlogic.ashley.core.Entity;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.NameComponent;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
 import masterofgalaxy.ecs.components.StarComponent;
 
-public class StarUi extends Table {
+public class StarUi extends Table implements Localizable {
     private Skin skin;
+    private Entity entity;
     private Label nameLabel;
     private Label ownerLabel;
     private Label starLabel;
@@ -25,6 +26,7 @@ public class StarUi extends Table {
     public StarUi(Skin skin) {
         super(skin);
         this.skin = skin;
+        I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         setupHeader();
         setupStarInfo();
@@ -69,6 +71,10 @@ public class StarUi extends Table {
     }
 
     public void setEntity(Entity entity) {
+        this.entity = entity;
+        if (entity == null) {
+            return;
+        }
         NameComponent name = Mappers.name.get(entity);
         PlayerOwnerComponent owner = Mappers.playerOwner.get(entity);
         StarComponent starComponent = Mappers.star.get(entity);
@@ -80,8 +86,8 @@ public class StarUi extends Table {
             } else {
                 ownerLabel.setText("");
             }
-            starLabel.setText(starComponent.klass.getName());
-            planetLabel.setText(starComponent.planetKlass.getName());
+            starLabel.setText(starComponent.klass.getLocalizedName());
+            planetLabel.setText(starComponent.planetKlass.getLocalizedName());
             planetImage.setDrawable(getPlanetDrawable(starComponent));
         }
     }
@@ -92,5 +98,10 @@ public class StarUi extends Table {
         } else {
             return null;
         }
+    }
+
+    @Override
+    public void applyTranslation() {
+        setEntity(entity);
     }
 }

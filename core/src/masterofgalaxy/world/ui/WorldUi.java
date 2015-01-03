@@ -11,10 +11,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import masterofgalaxy.assets.I18N;
+import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ui.ConsumeTouchListener;
+import masterofgalaxy.ui.ConsumeTouchAdapter;
 import masterofgalaxy.world.WorldScreen;
 
 public class WorldUi implements Disposable {
@@ -85,7 +85,7 @@ public class WorldUi implements Disposable {
     }
 
     private void registerEvents() {
-        stage.addListener(new ConsumeTouchListener());
+        stage.addListener(new ConsumeTouchAdapter());
         worldScreen.selectionChanged.add(entitySelectionListener);
 
         I18N.localeChanged.add(new Listener<Object>() {

@@ -1,37 +1,40 @@
 {
+  i18n: {
+    bundle: "i18n/stars"
+  },
   stars: {
     yellow: {
-      typeName: "Yellow Star",
+      typeName: "$yellow",
       color: "dfdf00ff",
       minSize: 0.7,
       maxSize: 1.1,
     },
     green: {
-      typeName: "Green Star",
+      typeName: "$green",
       color: "00df00ff",
       minSize: 0.7,
       maxSize: 1.1
     },
     red: {
-      typeName: "Red Star",
+      typeName: "$red",
       color: "df0000ff",
       minSize: 0.8,
       maxSize: 1.2
     },
     blue: {
-      typeName: "Blue Star",
+      typeName: "$blue",
       color: "0000dfff",
       minSize: 0.8,
       maxSize: 1.2
     },
     purple: {
-      typeName: "Purple Star",
+      typeName: "$purple",
       color: "df00dfff",
       minSize: 0.8,
       maxSize: 1.2
     },
     white: {
-      typeName: "White Star",
+      typeName: "$white",
       color: "dfdfdfff",
       minSize: 1.0,
       maxSize: 1.5

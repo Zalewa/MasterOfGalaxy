@@ -1,16 +1,20 @@
 package masterofgalaxy.mainmenu;
 
-import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
-import masterofgalaxy.assets.I18N;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.mainmenu.options.OptionsMenu;
-import masterofgalaxy.ui.ConsumeTouchListener;
+import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
+import masterofgalaxy.ui.Ui;
 
-public class MainMenu extends Window {
+public class MainMenu extends Window implements Localizable {
     private Skin skin;
     private TextButton optionsButton;
     private TextButton exitButton;
@@ -19,19 +23,13 @@ public class MainMenu extends Window {
     private Table mainLayout;
     private MogGame game;
 
-    public Signal<Object> cancelRequested = new Signal<Object>();
-
     public MainMenu(MogGame game, Skin skin) {
         super("title", skin);
-        I18N.localeChanged.add(new Listener<Object>() {
-            @Override
-            public void receive(Signal<Object> signal, Object object) {
-                applyTranslation();
-            }
-        });
+        I18N.localeChanged.add(new LocalizationChangedListener(this));
         this.game = game;
         this.skin = skin;
-        addListener(new ConsumeTouchListener());
+        setModal(true);
+        addListener(new ActorRemoveEscapeKeyAdapter(this));
 
         mainLayout = new Table(skin);
         mainLayout.pad(10.0f);
@@ -51,7 +49,7 @@ public class MainMenu extends Window {
         xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                cancelRequested.dispatch(null);
+                remove();
             }
         });
 
@@ -63,7 +61,10 @@ public class MainMenu extends Window {
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                getParent().addActor(new OptionsMenu(game, skin));
+                OptionsMenu menu = new OptionsMenu(game, skin);
+                getParent().addActor(menu);
+                getStage().setKeyboardFocus(menu);
+                Ui.centerWithinStage(menu);
             }
         });
 
@@ -89,7 +90,7 @@ public class MainMenu extends Window {
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                cancelRequested.dispatch(null);
+                remove();
             }
         });
 
@@ -97,8 +98,10 @@ public class MainMenu extends Window {
         mainLayout.row();
     }
 
-    private void applyTranslation() {
+    @Override
+    public void applyTranslation() {
         setTitle(I18N.i18n.format("$mainMenu"));
+        optionsButton.setText(I18N.i18n.format("$options"));
         exitButton.setText(I18N.i18n.format("$exitGame"));
         cancelButton.setText(I18N.i18n.format("$cancel"));
     }

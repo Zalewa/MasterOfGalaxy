@@ -1,18 +1,12 @@
 package masterofgalaxy.world.ui;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.mainmenu.MainMenu;
-import masterofgalaxy.ui.ConsumeTouchListener;
 import masterofgalaxy.ui.Ui;
 
 public class GlobalUi {
@@ -23,22 +17,6 @@ public class GlobalUi {
     public GlobalUi(MogGame game) {
         this.game = game;
         stage = new Stage(new ScreenViewport());
-        stage.addListener(new EventListener() {
-            @Override
-            public boolean handle(Event event) {
-                if (mainMenu.isVisible()) {
-                    if (event instanceof InputEvent) {
-                        InputEvent inputEvent = (InputEvent) event;
-                        if (inputEvent.getType() == InputEvent.Type.keyDown && inputEvent.getKeyCode() == Input.Keys.ESCAPE) {
-                            setMainMenuVisible(false);
-                        }
-                    }
-                    return true;
-                }
-                return false;
-            }
-        });
-
         setupMainMenuWindow();
     }
 
@@ -51,20 +29,34 @@ public class GlobalUi {
     public void render(float delta) {
         stage.getViewport().apply();
         stage.act(delta);
-        stage.draw();;
+        stage.draw();
     }
 
     public void setMainMenuVisible(boolean visible) {
-        mainMenu.setVisible(visible);
+        if (visible) {
+            stage.addActor(mainMenu);
+            mainMenu.setVisible(true);
+            Ui.centerWithinStage(mainMenu);
+        } else {
+            mainMenu.remove();
+        }
     }
 
     public boolean isMainMenuVisible() {
-        return mainMenu.isVisible();
+        return mainMenu.getParent() == stage.getRoot() && mainMenu.isVisible();
     }
 
     public void updateScreenSize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        //centerMainMenu();
+        centerAllWindows();
+    }
+
+    private void centerAllWindows() {
+        for (Actor actor : stage.getRoot().getChildren()) {
+            if (actor instanceof Window) {
+                Ui.centerWithinStage(actor);
+            }
+        }
     }
 
     public Stage getStage() {
@@ -74,18 +66,5 @@ public class GlobalUi {
     private void setupMainMenuWindow() {
         mainMenu = new MainMenu(game, game.getAssetManager().get(UiSkin.skin));
         mainMenu.setColor(1.0f, 1.0f, 1.0f, 0.9f);
-        mainMenu.addListener(new ConsumeTouchListener());
-
-        mainMenu.cancelRequested.add(new Listener<Object>() {
-            @Override
-            public void receive(Signal<Object> signal, Object object) {
-                setMainMenuVisible(false);
-            }
-        });
-
-        stage.addActor(mainMenu);
-
-        //centerMainMenu();
-        mainMenu.setVisible(false);
     }
 }

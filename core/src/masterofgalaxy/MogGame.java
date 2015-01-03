@@ -5,7 +5,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import masterofgalaxy.assets.Font;
-import masterofgalaxy.assets.I18N;
+import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.assets.actors.ActorAssets;
@@ -74,6 +74,8 @@ public class MogGame extends Game {
 	}
 
 	private void loadI18nAssets() {
+		I18N.loadLocalizations(Gdx.files.internal("i18n/l10n.json"));
+
 		GeneralConfig config = new GeneralConfig();
 		Locale locale = config.getLocale();
 		I18N.load(locale);
