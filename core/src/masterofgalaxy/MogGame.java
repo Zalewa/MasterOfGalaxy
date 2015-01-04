@@ -4,7 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import masterofgalaxy.assets.Font;
+import masterofgalaxy.assets.fonts.Font;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.assets.UiSkin;
@@ -86,6 +86,8 @@ public class MogGame extends Game {
 	private void loadAssets() {
 		loadI18nAssets();
 		Font.loadAll(assetManager);
+		assetManager.finishLoading();
+
 		Sprite.loadAll(assetManager);
 		UiSkin.loadAll(assetManager);
 

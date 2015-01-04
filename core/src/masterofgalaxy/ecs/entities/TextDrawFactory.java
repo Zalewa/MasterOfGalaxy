@@ -3,7 +3,7 @@ package masterofgalaxy.ecs.entities;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.PooledEngine;
 import masterofgalaxy.MogGame;
-import masterofgalaxy.assets.Font;
+import masterofgalaxy.assets.fonts.Font;
 import masterofgalaxy.ecs.components.BodyComponent;
 import masterofgalaxy.ecs.components.ParentshipComponent;
 import masterofgalaxy.ecs.components.TextRenderComponent;
@@ -14,7 +14,7 @@ public class TextDrawFactory {
         entity.add(entityEngine.createComponent(BodyComponent.class));
 
         TextRenderComponent textRender = entityEngine.createComponent(TextRenderComponent.class);
-        textRender.font = game.getAssetManager().get(Font.starNameFont);
+        textRender.font = Font.getStarNameFont(game.getAssetManager());
         entity.add(textRender);
         entity.add(entityEngine.createComponent(ParentshipComponent.class));
         return entity;

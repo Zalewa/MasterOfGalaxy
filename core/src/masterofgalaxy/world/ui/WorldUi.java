@@ -29,7 +29,7 @@ public class WorldUi implements Disposable {
 
     public WorldUi(WorldScreen worldScreen) {
         this.worldScreen = worldScreen;
-        skin = worldScreen.getGame().getAssetManager().get(UiSkin.skin);
+        skin = UiSkin.skin;
         stage = new Stage(new ScreenViewport());
 
         setupMainLayout();

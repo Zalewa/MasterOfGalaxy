@@ -87,7 +87,7 @@ public class GlobalUi implements Disposable {
     }
 
     private void setupMainMenuWindow() {
-        mainMenu = new MainMenu(game, game.getAssetManager().get(UiSkin.skin));
+        mainMenu = new MainMenu(game, UiSkin.skin);
         mainMenu.setColor(1.0f, 1.0f, 1.0f, 0.9f);
     }
 

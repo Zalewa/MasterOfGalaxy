@@ -1,0 +1,18 @@
+{
+  "fontroles": {
+    "star-name": "star-name-font.ttf",
+    "ui": "ui.ttf"
+  },
+  "fonts": {
+    "star-name-font.ttf": {
+      "file": "fonts/RailwaySans/fonts/TTF/Railway.ttf",
+      "size": 22,
+      "kerning": true
+    },
+    "ui.ttf": {
+      "file": "fonts/RailwaySans/fonts/TTF/Railway.ttf",
+      "size": 18,
+      "kerning": true
+    }
+  }
+}
