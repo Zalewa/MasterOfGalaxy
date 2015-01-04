@@ -73,8 +73,8 @@
         }
       }
     },
-    "rock": {
-      "typeName": "$rock",
+    "metal": {
+      "typeName": "$metal",
       "textureName": "",
       "starChance": {
         "default": 0.1,
