@@ -41,6 +41,7 @@ public class WorldScreen extends ScreenAdapter {
 
         ui = new WorldUi(this);
         globalUi = new GlobalUi(game);
+        globalUi.setCanResumeGame(false);
         camera = new WorldCamera(this);
         viewport = new ExtendViewport(1000.0f, 1000.0f, camera.getCamera());
 
@@ -203,5 +204,9 @@ public class WorldScreen extends ScreenAdapter {
         } else {
             globalUi.setMainMenuVisible(true);
         }
+    }
+
+    public boolean isGameInProgress() {
+        return true;
     }
 }

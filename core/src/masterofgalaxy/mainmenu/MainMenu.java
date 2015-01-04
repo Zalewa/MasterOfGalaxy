@@ -1,9 +1,6 @@
 package masterofgalaxy.mainmenu;
 
-import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
@@ -16,12 +13,19 @@ import masterofgalaxy.ui.Ui;
 
 public class MainMenu extends Window implements Localizable {
     private Skin skin;
+    private Container<TextButton> resumeGameButtonContainer;
+    private TextButton resumeGameButton;
+    private TextButton newGameButton;
     private TextButton optionsButton;
     private TextButton exitButton;
+    private Container<TextButton> cancelButtonContainer;
     private TextButton cancelButton;
+    private Container<TextButton> titleScreenButtonContainer;
+    private TextButton titleScreenButton;
     private Button xButton;
     private Table mainLayout;
     private MogGame game;
+    private ActorRemoveEscapeKeyAdapter escapeAdapter = new ActorRemoveEscapeKeyAdapter(this);
 
     public MainMenu(MogGame game, Skin skin) {
         super("title", skin);
@@ -29,15 +33,18 @@ public class MainMenu extends Window implements Localizable {
         this.game = game;
         this.skin = skin;
         setModal(true);
-        addListener(new ActorRemoveEscapeKeyAdapter(this));
+        addListener(escapeAdapter);
 
         mainLayout = new Table(skin);
-        mainLayout.pad(10.0f);
+        mainLayout.pad(12.0f);
         mainLayout.defaults().space(5.0f);
         add(mainLayout).expand().fill();
 
         setupXButton();
+        setupResumeGameButton();
+        setupNewGameButton();
         setupOptionsButton();
+        setupTitleScreenButton();
         setupExitButton();
         setupCancelButton();
 
@@ -56,6 +63,34 @@ public class MainMenu extends Window implements Localizable {
         getButtonTable().add(xButton).height(getPadTop());
     }
 
+    private void setupResumeGameButton() {
+        resumeGameButton = new TextButton("$resumeGame", skin);
+        resumeGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.resumeGame();
+            }
+        });
+
+        resumeGameButtonContainer = new Container<TextButton>(resumeGameButton);
+        resumeGameButtonContainer.fillX();
+        mainLayout.add(resumeGameButtonContainer).fillX();
+        mainLayout.row();
+    }
+
+    private void setupNewGameButton() {
+        newGameButton = new TextButton("$newGame", skin);
+        newGameButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.startNewGame();
+            }
+        });
+
+        mainLayout.add(newGameButton).fillX();
+        mainLayout.row();
+    }
+
     private void setupOptionsButton() {
         optionsButton = new TextButton("Options", skin);
         optionsButton.addListener(new ChangeListener() {
@@ -72,6 +107,21 @@ public class MainMenu extends Window implements Localizable {
         mainLayout.row();
     }
 
+    private void setupTitleScreenButton() {
+        titleScreenButton = new TextButton("$titleScreen", skin);
+        titleScreenButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                game.goToTitleScreen();
+            }
+        });
+
+        titleScreenButtonContainer = new Container<TextButton>(titleScreenButton);
+        titleScreenButtonContainer.fillX();
+        mainLayout.add(titleScreenButtonContainer).fillX();
+        mainLayout.row();
+    }
+
     private void setupExitButton() {
         exitButton = new TextButton("Exit Game", skin);
         exitButton.addListener(new ChangeListener() {
@@ -81,7 +131,7 @@ public class MainMenu extends Window implements Localizable {
             }
         });
 
-        mainLayout.add(exitButton).expandY().uniformX().top();
+        mainLayout.add(exitButton).expandY().uniformX().fillX().top();
         mainLayout.row();
     }
 
@@ -94,15 +144,47 @@ public class MainMenu extends Window implements Localizable {
             }
         });
 
-        mainLayout.add(cancelButton).bottom();
+        cancelButtonContainer = new Container<TextButton>(cancelButton);
+        cancelButtonContainer.fillX();
+        mainLayout.add(cancelButtonContainer).bottom();
         mainLayout.row();
+    }
+
+    public void setCancelable(boolean cancelable) {
+        escapeAdapter.setEnabled(cancelable);
+        xButton.setVisible(cancelable);
+        if (cancelable) {
+            cancelButtonContainer.setActor(cancelButton);
+        } else {
+            cancelButtonContainer.removeActor(cancelButton);
+        }
+    }
+
+    public void setCanGoToTitleScreen(boolean can) {
+        if (can) {
+            titleScreenButtonContainer.setActor(titleScreenButton);
+        } else {
+            titleScreenButtonContainer.removeActor(titleScreenButton);
+        }
+    }
+
+    public void setCanResumeGame(boolean can) {
+        if (can) {
+            resumeGameButtonContainer.setActor(resumeGameButton);
+        } else {
+            resumeGameButtonContainer.removeActor(resumeGameButton);
+        }
     }
 
     @Override
     public void applyTranslation() {
-        setTitle(I18N.i18n.format("$mainMenu"));
-        optionsButton.setText(I18N.i18n.format("$options"));
-        exitButton.setText(I18N.i18n.format("$exitGame"));
-        cancelButton.setText(I18N.i18n.format("$cancel"));
+        setTitle(I18N.resolve("$mainMenu"));
+        resumeGameButton.setText(I18N.resolve("$resumeGame"));
+        newGameButton.setText(I18N.resolve("$newGame"));
+        optionsButton.setText(I18N.resolve("$options"));
+        titleScreenButton.setText(I18N.resolve("$titleScreen"));
+        exitButton.setText(I18N.resolve("$exitGame"));
+        cancelButton.setText(I18N.resolve("$cancel"));
+        pack();
     }
 }

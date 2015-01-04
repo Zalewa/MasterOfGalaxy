@@ -13,6 +13,7 @@ import masterofgalaxy.config.GeneralConfig;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.titlescreen.TitleScreen;
 import masterofgalaxy.world.WorldScreen;
 
 import java.util.Locale;
@@ -20,6 +21,7 @@ import java.util.Locale;
 public class MogGame extends Game {
 	SpriteBatch spriteBatch;
 	Mappers componentMappers;
+	TitleScreen titleScreen;
 	WorldScreen worldScreen;
 	AssetManager assetManager;
 	InputMultiplexer inputMultiplexer;
@@ -36,9 +38,33 @@ public class MogGame extends Game {
 
 		loadAssets();
 
-		worldScreen = new WorldScreen(this);
+		goToTitleScreen();
+	}
+
+	public void goToTitleScreen() {
+		if (titleScreen == null) {
+			titleScreen = new TitleScreen(this);
+		}
+		titleScreen.reset();
+		setScreen(titleScreen);
+	}
+
+	public void startNewGame() {
+		if (worldScreen == null) {
+			worldScreen = new WorldScreen(this);
+		}
 		worldScreen.resetGame();
 		setScreen(worldScreen);
+	}
+
+	public void resumeGame() {
+		if (isGameResumable()) {
+			setScreen(worldScreen);
+		}
+	}
+
+	public boolean isGameResumable() {
+		return worldScreen != null && worldScreen.isGameInProgress();
 	}
 
 	private void setupScreenMode() {
@@ -99,7 +125,12 @@ public class MogGame extends Game {
 	@Override
 	public void dispose() {
 		saveCurrentVideoMode();
-		worldScreen.dispose();
+		if (titleScreen != null) {
+			titleScreen.dispose();
+		}
+		if (worldScreen != null) {
+			worldScreen.dispose();
+		}
 		assetManager.dispose();
 	}
 

@@ -43,11 +43,20 @@ public class I18N {
         localeChanged.dispatch(null);
     }
 
-    public static String resolveNamed(String bundleName, String key) {
+    public static String resolve(String key, Object... args) {
+        try {
+            return i18n.format(key, args);
+        } catch (MissingResourceException e) {
+            // Do nothing, we will return the key.
+        }
+        return key;
+    }
+
+    public static String resolveNamed(String bundleName, String key, Object... args) {
         I18NBundle bundle = getNamedBundle(bundleName);
         if (bundle != null) {
             try {
-                return bundle.get(key);
+                return bundle.format(key, args);
             } catch (MissingResourceException e) {
                 // Do nothing, we will return the key.
             }
