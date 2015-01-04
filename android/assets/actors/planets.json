@@ -12,7 +12,7 @@
     },
     "terran": {
       "typeName": "$terran",
-      "textureName": "",
+      "textureName": "sprite/planets/terran.png",
       "starChance": {
         "default": 0.2,
         "stars": {
@@ -24,7 +24,7 @@
     },
     "desert": {
       "typeName": "$desert",
-      "textureName": "",
+      "textureName": "sprite/planets/desert1.png",
       "starChance": {
         "default": 0.4,
         "stars": {
@@ -37,7 +37,7 @@
     },
     "jungle": {
       "typeName": "$jungle",
-      "textureName": "",
+      "textureName": "sprite/planets/jungle1.png",
       "starChance": {
         "default": 0.1,
         "stars": {
@@ -49,7 +49,7 @@
     },
     "water": {
       "typeName": "$water",
-      "textureName": "",
+      "textureName": "sprite/planets/water2.png",
       "starChance": {
         "default": 0.1,
         "stars": {
@@ -61,7 +61,7 @@
     },
     "ice": {
       "typeName": "$ice",
-      "textureName": "",
+      "textureName": "sprite/planets/ice1.png",
       "starChance": {
         "default": 0.2,
         "stars": {
@@ -75,7 +75,7 @@
     },
     "metal": {
       "typeName": "$metal",
-      "textureName": "",
+      "textureName": "sprite/planets/metal1.png",
       "starChance": {
         "default": 0.1,
         "stars": {
@@ -87,7 +87,7 @@
     },
     "inferno": {
       "typeName": "$inferno",
-      "textureName": "",
+      "textureName": "sprite/planets/inferno3.png",
       "starChance": {
         "default": 0.1,
         "stars": {
@@ -100,7 +100,7 @@
     },
     "toxic": {
       "typeName": "$toxic",
-      "textureName": "",
+      "textureName": "sprite/planets/toxic1.png",
       "starChance": {
         "default": 0.2,
         "stars": {
