@@ -47,7 +47,7 @@ public class LanguageOptions extends Table {
     }
 
     private void applyLanguage() {
-        I18N.load(getSelectedEntry().getLocale());
+        I18N.load(getSelectedEntry());
     }
 
     private void saveConfig() {
@@ -61,30 +61,11 @@ public class LanguageOptions extends Table {
 
     private void setCurrentLocalization() {
         Locale locale = I18N.getLocale();
-        LocalizationEntry entry = pickBestFittingEntry(locale);
+        LocalizationEntry entry = LocalizationEntry.pickBestFitting(languageSelectBox.getItems(), locale);
+        if (entry == null) {
+            entry = LocalizationEntry.pickDefault(languageSelectBox.getItems());
+        }
         languageSelectBox.setSelected(entry);
-    }
-
-    private LocalizationEntry pickBestFittingEntry(Locale locale) {
-        int currentCandidateScore = 0;
-        LocalizationEntry candidate = getDefaultEntry();
-        for (LocalizationEntry entry : languageSelectBox.getItems()) {
-            int score = entry.similarityScore(locale);
-            if (score > currentCandidateScore) {
-                candidate = entry;
-                currentCandidateScore = score;
-            }
-        }
-        return candidate;
-    }
-
-    private LocalizationEntry getDefaultEntry() {
-        for (LocalizationEntry entry : languageSelectBox.getItems()) {
-            if (entry.isDefault()) {
-                return entry;
-            }
-        }
-        return null;
     }
 
     private LocalizationEntry getSelectedEntry() {

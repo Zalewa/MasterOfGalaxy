@@ -6,6 +6,7 @@
     {
       "name": "Polski",
       "language": "pl",
+      "extraChars": "żółćęśąźńŻÓŁĆĘŚĄŹŃ"
     }
   ]
 }

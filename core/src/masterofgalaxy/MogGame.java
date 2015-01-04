@@ -1,5 +1,7 @@
 package masterofgalaxy;
 
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -9,6 +11,7 @@ import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.assets.actors.ActorAssets;
+import masterofgalaxy.assets.i18n.LocalizationEntry;
 import masterofgalaxy.config.GeneralConfig;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
@@ -85,6 +88,8 @@ public class MogGame extends Game {
 
 	private void loadAssets() {
 		loadI18nAssets();
+		assetManager.finishLoading();
+
 		Font.loadAll(assetManager);
 		assetManager.finishLoading();
 
@@ -105,9 +110,9 @@ public class MogGame extends Game {
 		I18N.loadLocalizations(Gdx.files.internal("i18n/l10n.json"));
 
 		GeneralConfig config = new GeneralConfig();
-		Locale locale = config.getLocale();
-		I18N.load(locale);
-		config.setLocale(locale);
+		LocalizationEntry localization = I18N.getBestFittingLocalization(config.getLocale());
+		I18N.load(localization);
+		config.setLocale(localization.getLocale());
 		config.flush();
 	}
 

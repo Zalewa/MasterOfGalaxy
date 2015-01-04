@@ -8,6 +8,9 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGeneratorLoader;
 import com.badlogic.gdx.graphics.g2d.freetype.FreetypeFontLoader;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.LocalizationEntry;
 
 import java.util.Map;
 
@@ -53,6 +56,22 @@ public class Font {
         fontParam.minFilter = def.getMinFilter();
         fontParam.magFilter = def.getMagFilter();
 
+        for (LocalizationEntry entry : I18N.getLocalizations()) {
+            fontParam.characters += entry.getExtraChars();
+        }
+        fontParam.characters = uniqueifyCharacters(fontParam.characters);
+
         manager.load(def.getName(), BitmapFont.class, loaderParam);
+    }
+
+    private static String uniqueifyCharacters(String characters) {
+        String unique = "";
+        for (int i = 0; i < characters.length(); ++i) {
+            char c = characters.charAt(i);
+            if (!unique.contains(Character.toString(c))) {
+                unique += c;
+            }
+        }
+        return unique;
     }
 }

@@ -10,6 +10,7 @@ public class LocalizationEntry {
     private String country = "";
     private String language = "";
     private String variant = "";
+    private String extraChars = "";
 
     public static Array<LocalizationEntry> parseJson(JsonValue jsonRoot) {
         Array<LocalizationEntry> result = new Array<LocalizationEntry>();
@@ -22,9 +23,32 @@ public class LocalizationEntry {
             entry.setCountry(localizationDef.getString("country", ""));
             entry.setLanguage(localizationDef.getString("language", ""));
             entry.setVariant(localizationDef.getString("variant", ""));
+            entry.setExtraChars(localizationDef.getString("extraChars", ""));
             result.add(entry);
         }
         return result;
+    }
+
+    public static LocalizationEntry pickBestFitting(Array<LocalizationEntry> candidates, Locale locale) {
+        int currentCandidateScore = 0;
+        LocalizationEntry candidate = null;
+        for (LocalizationEntry entry : candidates) {
+            int score = entry.similarityScore(locale);
+            if (score > currentCandidateScore) {
+                candidate = entry;
+                currentCandidateScore = score;
+            }
+        }
+        return candidate;
+    }
+
+    public static LocalizationEntry pickDefault(Array<LocalizationEntry> candidates) {
+        for (LocalizationEntry entry : candidates) {
+            if (entry.isDefault()) {
+                return entry;
+            }
+        }
+        return null;
     }
 
     public int similarityScore(Locale locale) {
@@ -84,6 +108,14 @@ public class LocalizationEntry {
 
     public void setVariant(String variant) {
         this.variant = variant;
+    }
+
+    public String getExtraChars() {
+        return extraChars;
+    }
+
+    public void setExtraChars(String extraChars) {
+        this.extraChars = extraChars;
     }
 
     private static String emptyStrIfNull(String s) {

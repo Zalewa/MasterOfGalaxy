@@ -15,6 +15,7 @@ import java.util.MissingResourceException;
 public class I18N {
     private static Map<String, L10NSource> namedBundles = new LinkedHashMap<String, L10NSource>();
     private static Locale locale;
+    private static LocalizationEntry currentLocalization;
     private static Array<LocalizationEntry> localizations = new Array<LocalizationEntry>();
 
     public static I18NBundle i18n;
@@ -25,8 +26,9 @@ public class I18N {
         localizations.addAll(LocalizationEntry.parseJson(reader.parse(file)));
     }
 
-    public static void load(Locale locale) {
-        I18N.locale = locale;
+    public static void load(LocalizationEntry localization) {
+        currentLocalization = localization;
+        I18N.locale = localization.getLocale();
         System.out.println("Loading locale: " + locale);
         i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/i18n"), locale);
 
@@ -80,11 +82,23 @@ public class I18N {
         return null;
     }
 
+    public static LocalizationEntry getBestFittingLocalization(Locale locale) {
+        LocalizationEntry entry = LocalizationEntry.pickBestFitting(localizations, locale);
+        if (entry == null) {
+            entry = LocalizationEntry.pickDefault(localizations);
+        }
+        return entry;
+    }
+
     public static Array<LocalizationEntry> getLocalizations() {
         return localizations;
     }
 
     public static Locale getLocale() {
         return locale;
+    }
+
+    public static LocalizationEntry getCurrentLocalization() {
+        return currentLocalization;
     }
 }
