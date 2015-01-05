@@ -16,6 +16,8 @@ import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
 
+import java.lang.annotation.Target;
+
 public class WorldScreen extends ScreenAdapter {
     private MogGame game;
     private PooledEngine entityEngine;
@@ -29,7 +31,6 @@ public class WorldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
-    private MoveToTargetSystem moveToTargetSystem;
 
     public Signal<Entity> selectionChanged = new Signal<Entity>();
 
@@ -51,15 +52,15 @@ public class WorldScreen extends ScreenAdapter {
         pickLogic = new PickLogic(this);
         background = new WorldBackground(this);
 
-        moveToTargetSystem = new MoveToTargetSystem();
-
         entityEngine = new PooledEngine();
+        entityEngine.addSystem(new TargetPurgingSystem());
         entityEngine.addSystem(new BlinkSystem());
         entityEngine.addSystem(new SelectionScalingSystem());
         entityEngine.addSystem(new DockPositioningSystem());
-        entityEngine.addSystem(moveToTargetSystem);
+        entityEngine.addSystem(new MoveToTargetSystem());
         entityEngine.addSystem(new ParentshipSystem());
         entityEngine.addSystem(new RenderingSystem(game));
+        entityEngine.addSystem(new TargetDrawSystem(game));
         entityEngine.addSystem(new TextRenderingSystem(game));
     }
 
@@ -120,6 +121,10 @@ public class WorldScreen extends ScreenAdapter {
         RenderingSystem render = entityEngine.getSystem(RenderingSystem.class);
         render.setCamera(camera.getCamera());
         render.setViewport(viewport);
+
+        TargetDrawSystem targetDraw = entityEngine.getSystem(TargetDrawSystem.class);
+        targetDraw.setCamera(camera.getCamera());
+        targetDraw.setViewport(viewport);
     }
 
     private void applyTextRenderingTranslation() {

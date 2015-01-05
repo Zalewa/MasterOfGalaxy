@@ -31,6 +31,7 @@ public class FleetFactory {
 
         entity.add(engine.createComponent(PickableComponent.class));
         entity.add(engine.createComponent(FleetComponent.class));
+        entity.add(engine.createComponent(EntityTargetComponent.class));
 
         engine.addEntity(entity);
         return entity;

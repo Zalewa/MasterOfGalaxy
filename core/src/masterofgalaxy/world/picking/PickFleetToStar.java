@@ -5,6 +5,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.math.Vector2;
 import masterofgalaxy.ecs.components.DockComponent;
+import masterofgalaxy.ecs.components.EntityTargetComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.MoveTargetComponent;
 
@@ -25,22 +26,27 @@ class PickFleetToStar implements PickStrategy {
             Mappers.body.get(fleet).setPosition(startingPos);
         }
 
-        MoveTargetComponent component = Mappers.moveTarget.get(fleet);
-        if (component == null) {
-            component = pickLogic.getScreen().getEntityEngine().createComponent(MoveTargetComponent.class);
-            component.speed = 100.0f;
-            fleet.add(component);
-        }
-        component.setTarget(Mappers.body.get(target).getPosition());
+        EntityTargetComponent entityTarget = Mappers.entityTarget.get(fleet);
+        entityTarget.target = target;
 
-        component.destinationReached.add(new Listener<Entity>() {
+        MoveTargetComponent moveTarget = Mappers.moveTarget.get(fleet);
+        if (moveTarget == null) {
+            moveTarget = pickLogic.getScreen().getEntityEngine().createComponent(MoveTargetComponent.class);
+            moveTarget.speed = 100.0f;
+            fleet.add(moveTarget);
+        }
+        moveTarget.setTarget(Mappers.body.get(target).getPosition());
+
+        moveTarget.destinationReached.add(new Listener<Entity>() {
             @Override
             public void receive(Signal<Entity> signal, Entity object) {
                 DockComponent dock = pickLogic.getScreen().getEntityEngine().createComponent(DockComponent.class);
                 dock.dockedAt = target;
                 object.add(dock);
                 object.remove(MoveTargetComponent.class);
+                Mappers.entityTarget.get(object).target = null;
                 signal.remove(this);
+
             }
         });
     }

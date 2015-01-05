@@ -4,6 +4,7 @@ import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import masterofgalaxy.assets.Background;
 import masterofgalaxy.assets.fonts.Font;
 import masterofgalaxy.assets.i18n.I18N;
@@ -23,6 +24,7 @@ import masterofgalaxy.world.WorldScreen;
 
 public class MogGame extends Game {
 	SpriteBatch spriteBatch;
+	ShapeRenderer shapeRenderer;
 	Mappers componentMappers;
 	TitleScreen titleScreen;
 	WorldScreen worldScreen;
@@ -36,6 +38,7 @@ public class MogGame extends Game {
 
 		assetManager = new AssetManager();
 		spriteBatch = new SpriteBatch();
+		shapeRenderer = new ShapeRenderer();
 		setupInput();
 		createEntityEngine();
 
@@ -168,6 +171,10 @@ public class MogGame extends Game {
 
 	public SpriteBatch getSpriteBatch() {
 		return spriteBatch;
+	}
+
+	public ShapeRenderer getShapeRenderer() {
+		return shapeRenderer;
 	}
 
 	public AssetManager getAssetManager() {

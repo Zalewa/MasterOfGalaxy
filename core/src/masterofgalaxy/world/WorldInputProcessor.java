@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
+import masterofgalaxy.ecs.systems.MoveToTargetSystem;
 import masterofgalaxy.ecs.systems.RenderingSystem;
 
 import java.text.MessageFormat;
@@ -29,6 +30,9 @@ public class WorldInputProcessor extends InputAdapter {
         } else if (keycode == Input.Keys.D) {
             debug = !debug;
             screen.setDebug(debug);
+        } else if (keycode == Input.Keys.M) {
+            MoveToTargetSystem system = screen.getEntityEngine().getSystem(MoveToTargetSystem.class);
+            system.setProcessing(!system.checkProcessing());
         } else if (keycode == Input.Keys.ESCAPE) {
             screen.escape();
         }
