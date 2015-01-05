@@ -10,8 +10,14 @@ import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.ecs.components.*;
 
 public class StarFactory {
+    public static int lastId = 0;
+
     public static Entity build(MogGame game, PooledEngine entityEngine) {
         Entity entity = entityEngine.createEntity();
+
+        IdComponent idComponent = entityEngine.createComponent(IdComponent.class);
+        idComponent.id = "Star" + nextId();
+        entity.add(idComponent);
 
         RenderComponent render = entityEngine.createComponent(RenderComponent.class);
         render.setTexture(game.getAssetManager().get(Sprite.star));
@@ -58,5 +64,9 @@ public class StarFactory {
         entityEngine.addEntity(drawable);
 
         return drawable;
+    }
+
+    private static int nextId() {
+        return lastId++;
     }
 }

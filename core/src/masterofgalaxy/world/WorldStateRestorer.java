@@ -43,6 +43,7 @@ public class WorldStateRestorer {
         Player owner = worldScreen.getWorld().findPlayerByName(starState.owner);
         Entity star = StarFactory.build(worldScreen.getGame(), worldScreen.getEntityEngine());
 
+        Mappers.id.get(star).id = starState.id;
         Mappers.playerOwner.get(star).setOwner(owner);
         Mappers.body.get(star).setState(starState.body);
         Mappers.star.get(star).setState(starState.star);

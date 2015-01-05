@@ -15,6 +15,7 @@ import masterofgalaxy.config.GeneralConfig;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.titlescreen.TitleScreen;
 import masterofgalaxy.world.WorldScreen;
@@ -64,6 +65,7 @@ public class MogGame extends Game {
 
 	public void restoreGame(GameState state) {
 		makeSureWorldScreenIsInit();
+		StarFactory.lastId = state.getStarFactoryId();
 		worldScreen.restoreGame(state.getWorldState());
 		setScreen(worldScreen);
 	}

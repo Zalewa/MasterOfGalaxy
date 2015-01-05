@@ -42,6 +42,7 @@ public class WorldStateBuilder {
         for (int i = 0; i < stars.size(); ++i) {
             Entity star = stars.get(i);
             StarState state = new StarState();
+            state.id = Mappers.id.get(star).id;
             state.body = Mappers.body.get(star).getState();
 
             Player owner = Mappers.playerOwner.get(star).getOwner();

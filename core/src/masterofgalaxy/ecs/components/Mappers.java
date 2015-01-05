@@ -16,4 +16,5 @@ public class Mappers {
     public static final ComponentMapper<FleetComponent> fleet = ComponentMapper.getFor(FleetComponent.class);
     public static final ComponentMapper<DockComponent> dock = ComponentMapper.getFor(DockComponent.class);
     public static final ComponentMapper<MoveTargetComponent> moveTarget = ComponentMapper.getFor(MoveTargetComponent.class);
+    public static final ComponentMapper<IdComponent> id = ComponentMapper.getFor(IdComponent.class);
 }
