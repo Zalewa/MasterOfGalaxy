@@ -34,6 +34,7 @@ public class TextRenderComponent extends Component implements Pool.Poolable {
         text = "";
         tint.set(Color.WHITE);
         resetTextChangeListener();
+        resetColorChangeListener();
     }
 
     public void registerTextChangedSignal(Signal<String> signal) {
