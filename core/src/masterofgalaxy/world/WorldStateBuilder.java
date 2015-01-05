@@ -5,10 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.utils.Array;
-import masterofgalaxy.ecs.components.DockComponent;
-import masterofgalaxy.ecs.components.FleetComponent;
-import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.StarComponent;
+import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerState;
 import masterofgalaxy.gamestate.savegame.FleetState;
@@ -78,6 +75,11 @@ public class WorldStateBuilder {
             DockComponent dock = Mappers.dock.get(fleet);
             if (dock != null) {
                 state.dockedAt = Mappers.id.get(dock.dockedAt).id;
+            }
+
+            EntityTargetComponent target = Mappers.entityTarget.get(fleet);
+            if (target.target != null) {
+                state.targetId = Mappers.id.get(target.target).id;
             }
             states.add(state);
         }

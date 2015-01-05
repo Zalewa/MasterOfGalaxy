@@ -1,10 +1,7 @@
 package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
-import masterofgalaxy.ecs.components.BodyComponent;
-import masterofgalaxy.ecs.components.DockComponent;
-import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.RenderComponent;
+import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.Player;
@@ -79,6 +76,14 @@ public class WorldStateRestorer {
                 DockComponent dockComponent = worldScreen.getEntityEngine().createComponent(DockComponent.class);
                 dockComponent.dockedAt = entity;
                 fleet.add(dockComponent);
+            }
+        }
+
+        if (fleetState.targetId != null) {
+            Entity entity = worldScreen.getWorld().findEntityById(fleetState.targetId);
+            if (entity != null) {
+                EntityTargetComponent target = Mappers.entityTarget.get(fleet);
+                target.target = entity;
             }
         }
     }
