@@ -69,6 +69,10 @@ public class GlobalUi implements Disposable {
         mainMenu.setCanResumeGame(gameResumable);
     }
 
+    public void setCanSaveGame(boolean can) {
+        mainMenu.setCanSaveGame(can);
+    }
+
     public void updateScreenSize(int width, int height) {
         stage.getViewport().update(width, height, true);
         centerAllWindows();

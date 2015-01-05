@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
+import masterofgalaxy.gamestate.savegame.WorldState;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
 
@@ -53,16 +54,37 @@ public class WorldScreen extends ScreenAdapter {
         entityEngine.addSystem(new TextRenderingSystem(game));
     }
 
+    public void startNewGame() {
+        resetGame();
+        createNewWorld();
+        postWorldBuildActions();
+    }
+
+    public void restoreGame(WorldState state) {
+        resetGame();
+        new WorldStateRestorer(this).restore(state);
+        postWorldBuildActions();
+    }
+
     private void createNewWorld() {
         WorldBuilder builder = new WorldBuilder(this, System.currentTimeMillis());
         world = builder.build();
+    }
 
+    private void postWorldBuildActions() {
+        resetSelection();
+        resetCamera();
+    }
+
+    private void resetSelection() {
         if (selection != null) {
             selection.dispose();
         }
         selection = new SelectionTracker(game, entityEngine);
         selection.selectionChanged.add(selectionChangedListener);
+    }
 
+    private void resetCamera() {
         viewport.setMinWorldWidth(world.getPlayField().getWidth());
         viewport.setMinWorldHeight(world.getPlayField().getHeight());
         camera.centerCamera();
@@ -165,13 +187,13 @@ public class WorldScreen extends ScreenAdapter {
         return viewport;
     }
 
-    public void resetGame() {
+    private void resetGame() {
         if (world != null) {
             world.dispose();
         }
+        world = new World(this);
         ui.reset();
         resetEntityEngine();
-        createNewWorld();
     }
 
     private void resetEntityEngine() {
@@ -199,14 +221,23 @@ public class WorldScreen extends ScreenAdapter {
     }
 
     public void escape() {
-        if (globalUi.isMainMenuVisible()) {
-            globalUi.setMainMenuVisible(false);
+        if (!globalUi.isMainMenuVisible()) {
+            showMainMenu();
         } else {
-            globalUi.setMainMenuVisible(true);
+            globalUi.setMainMenuVisible(false);
         }
+    }
+
+    private void showMainMenu() {
+        globalUi.setMainMenuVisible(true);
+        globalUi.setCanSaveGame(isGameInProgress());
     }
 
     public boolean isGameInProgress() {
         return true;
+    }
+
+    public WorldState buildWorldState() {
+        return new WorldStateBuilder(this).build();
     }
 }

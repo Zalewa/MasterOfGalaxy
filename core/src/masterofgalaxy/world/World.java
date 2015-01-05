@@ -21,8 +21,17 @@ public class World {
     public void dispose() {
     }
 
+    public Player findPlayerByName(String name) {
+        for (Player player : players) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+        return Player.nullPlayer;
+    }
+
     void setPlayField(Rectangle rectangle) {
-        this.playField = rectangle;
+        this.playField.set(rectangle);
     }
 
     public Rectangle getPlayField() {

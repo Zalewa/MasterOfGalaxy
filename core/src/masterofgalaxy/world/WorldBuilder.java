@@ -75,7 +75,6 @@ public class WorldBuilder {
         float sizeScale = RandomUtil.nextFloat(random, klass.getMinSize(), klass.getMaxSize());
 
         Entity star = StarFactory.build(screen.getGame(), screen.getEntityEngine());
-        StarFactory.buildNameDrawable(screen.getGame(), screen.getEntityEngine(), star);
 
         BodyComponent body = screen.getGame().getComponentMappers().body.get(star);
         body.setPosition(x, y);

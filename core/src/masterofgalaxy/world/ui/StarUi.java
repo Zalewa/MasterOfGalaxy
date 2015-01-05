@@ -1,9 +1,12 @@
 package masterofgalaxy.world.ui;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
+import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
@@ -22,9 +25,11 @@ public class StarUi extends Table implements Localizable {
     private Table starInfoLayout;
     private Label planetLabel;
     private Image planetImage;
+    private MogGame game;
 
-    public StarUi(Skin skin) {
+    public StarUi(MogGame game, Skin skin) {
         super(skin);
+        this.game = game;
         this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
@@ -93,11 +98,13 @@ public class StarUi extends Table implements Localizable {
     }
 
     private TextureRegionDrawable getPlanetDrawable(StarComponent starComponent) {
-        if (starComponent.planetKlass.getTexture() != null) {
-            return new TextureRegionDrawable(new TextureRegion(starComponent.planetKlass.getTexture()));
-        } else {
+        Texture texture;
+        try {
+            texture = game.getAssetManager().get(starComponent.planetKlass.getTextureName(), Texture.class);
+        } catch (GdxRuntimeException e) {
             return null;
         }
+        return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
     @Override

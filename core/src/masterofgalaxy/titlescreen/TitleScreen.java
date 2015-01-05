@@ -20,6 +20,7 @@ public class TitleScreen extends ScreenAdapter {
     @Override
     public void show() {
         ui.setCanResumeGame(game.isGameResumable());
+        ui.setCanSaveGame(game.isGameSavable());
         ui.packMainMenu();
         game.getInputMultiplexer().addProcessor(ui.getStage());
     }

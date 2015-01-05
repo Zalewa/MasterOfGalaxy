@@ -1,7 +1,5 @@
 package masterofgalaxy;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -16,10 +14,9 @@ import masterofgalaxy.config.GeneralConfig;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.titlescreen.TitleScreen;
 import masterofgalaxy.world.WorldScreen;
-
-import java.util.Locale;
 
 public class MogGame extends Game {
 	SpriteBatch spriteBatch;
@@ -53,10 +50,8 @@ public class MogGame extends Game {
 	}
 
 	public void startNewGame() {
-		if (worldScreen == null) {
-			worldScreen = new WorldScreen(this);
-		}
-		worldScreen.resetGame();
+		makeSureWorldScreenIsInit();
+		worldScreen.startNewGame();
 		setScreen(worldScreen);
 	}
 
@@ -66,8 +61,24 @@ public class MogGame extends Game {
 		}
 	}
 
+	public void restoreGame(GameState state) {
+		makeSureWorldScreenIsInit();
+		worldScreen.restoreGame(state.getWorldState());
+		setScreen(worldScreen);
+	}
+
 	public boolean isGameResumable() {
 		return worldScreen != null && worldScreen.isGameInProgress();
+	}
+
+	public boolean isGameSavable() {
+		return isGameResumable();
+	}
+
+	private void makeSureWorldScreenIsInit() {
+		if (worldScreen == null) {
+			worldScreen = new WorldScreen(this);
+		}
 	}
 
 	private void setupScreenMode() {
@@ -102,8 +113,6 @@ public class MogGame extends Game {
 		actorAssets.loadAssets(assetManager);
 
 		assetManager.finishLoading();
-
-		actorAssets.applyAssets(assetManager);
 	}
 
 	private void loadI18nAssets() {
@@ -190,5 +199,9 @@ public class MogGame extends Game {
 	public void exit() {
 		dispose();
 		Gdx.app.exit();
+	}
+
+	public WorldScreen getWorldScreen() {
+		return worldScreen;
 	}
 }

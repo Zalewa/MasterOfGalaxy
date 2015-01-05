@@ -75,6 +75,10 @@ public class RenderComponent extends Component implements Pool.Poolable {
         setScale(width / getSize().x, height / getSize().y);
     }
 
+    public void setScaleToSize(Vector2 scaleTo) {
+        setScale(scaleTo.x / getSize().x, scaleTo.y / getSize().y);
+    }
+
     public void scaleScale(float factor) {
         scale.x *= factor;
         scale.y *= factor;

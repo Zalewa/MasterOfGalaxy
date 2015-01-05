@@ -5,6 +5,14 @@ import com.badlogic.gdx.utils.Array;
 import java.util.*;
 
 public class PlayerBuilder {
+    public static Array<Player> fromStates(Array<PlayerState> states) {
+        Array<Player> result = new Array<Player>();
+        for (PlayerState state : states) {
+            result.add(new Player(state));
+        }
+        return result;
+    }
+
     private Random random;
 
     public PlayerBuilder(long seed) {

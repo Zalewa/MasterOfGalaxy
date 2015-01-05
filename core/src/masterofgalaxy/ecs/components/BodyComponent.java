@@ -6,55 +6,51 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Pool;
 
 public class BodyComponent extends Component implements Pool.Poolable{
-    private Vector2 position;
-    private Vector2 size;
+    private final BodyState state = new BodyState();
     private Rectangle bounds = new Rectangle();
 
     public BodyComponent() {
-        position = Vector2.Zero.cpy();
-        size = Vector2.Zero.cpy();
+        state.setPosition(Vector2.Zero.cpy());
+        state.setSize(Vector2.Zero.cpy());
     }
 
     @Override
     public void reset() {
-        position.set(Vector2.Zero);
-        size.set(Vector2.Zero);
+        state.setPosition(Vector2.Zero);
+        state.setSize(Vector2.Zero);
         updateBounds();
     }
 
     public Vector2 getPosition() {
-        return position;
+        return state.getPosition();
     }
 
     public void setPosition(float x, float y) {
-        position.set(x, y);
+        state.setPosition(x, y);
         updateBounds();
     }
 
     public void setPosition(Vector2 position) {
-        this.position.set(position);
+        state.setPosition(position);
         updateBounds();
     }
 
-
     public void translate(float x, float y) {
-        position.x += x;
-        position.y += y;
+        state.getPosition().x += x;
+        state.getPosition().y += y;
         updateBounds();
     }
 
     public Vector2 getSize() {
-        return size;
+        return state.getSize();
     }
 
     public void setSize(float x, float y) {
-        this.size.set(x, y);
-        updateBounds();
+        state.setSize(x, y);
     }
 
     public void setSize(Vector2 size) {
-        this.size.set(size);
-        updateBounds();
+        state.setSize(size);
     }
 
     public void scale(float factor) {
@@ -62,8 +58,8 @@ public class BodyComponent extends Component implements Pool.Poolable{
     }
 
     public void scale(float x, float y) {
-        size.x *= x;
-        size.y *= y;
+        state.getSize().x *= x;
+        state.getSize().y *= y;
         updateBounds();
     }
 
@@ -72,9 +68,18 @@ public class BodyComponent extends Component implements Pool.Poolable{
     }
 
     private void updateBounds() {
-        bounds.width = size.x;
-        bounds.height = size.y;
-        bounds.x = position.x - size.x / 2.0f;
-        bounds.y = position.y - size.y / 2.0f;
+        bounds.width = state.getSize().x;
+        bounds.height = state.getSize().y;
+        bounds.x = state.getPosition().x - state.getSize().x / 2.0f;
+        bounds.y = state.getPosition().y - state.getSize().y / 2.0f;
+    }
+
+    public BodyState getState() {
+        return state;
+    }
+
+    public void setState(BodyState state) {
+        this.state.set(state);
+        updateBounds();
     }
 }

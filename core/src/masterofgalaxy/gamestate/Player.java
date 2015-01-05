@@ -13,30 +13,40 @@ public class Player {
         nullPlayer.valid = false;
     }
 
+    private final PlayerState state = new PlayerState();
     private boolean valid = true;
-    private String name;
-    private Color color = Color.WHITE.cpy();
+
+    public Player() {
+    }
+
+    public Player(PlayerState state) {
+        this.state.set(state);
+    }
 
     public Signal<Color> colorChanged = new Signal<Color>();
 
     public Color getColor() {
-        return color;
+        return state.getColor();
     }
 
     public void setColor(Color color) {
-        this.color.set(color);
-        colorChanged.dispatch(this.color);
+        state.setColor(color);
+        colorChanged.dispatch(state.getColor());
     }
 
     public String getName() {
-        return name;
+        return state.getName();
     }
 
     public void setName(String name) {
-        this.name = name;
+        state.setName(name);
     }
 
     public boolean isValid() {
         return valid;
+    }
+
+    public PlayerState getState() {
+        return state;
     }
 }

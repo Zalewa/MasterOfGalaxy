@@ -14,4 +14,9 @@ public class StarComponent extends Component implements Pool.Poolable {
         klass = StarClass.nullKlass;
         planetKlass = PlanetClass.nullKlass;
     }
+
+    public void setState(StarComponent star) {
+        klass = star.klass;
+        planetKlass = star.planetKlass;
+    }
 }

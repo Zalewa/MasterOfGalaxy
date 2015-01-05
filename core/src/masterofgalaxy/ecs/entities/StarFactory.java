@@ -32,6 +32,8 @@ public class StarFactory {
 
         entityEngine.addEntity(entity);
 
+        StarFactory.buildNameDrawable(game, entityEngine, entity);
+
         return entity;
     }
 

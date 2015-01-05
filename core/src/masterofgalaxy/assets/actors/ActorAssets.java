@@ -7,10 +7,6 @@ public class ActorAssets {
     public PlanetClasses planetClasses = new PlanetClasses();
     public StarClasses starClasses = new StarClasses();
 
-    public void applyAssets(AssetManager assetManager) {
-        planetClasses.applyTextures(assetManager);
-    }
-
     public void loadAssets(AssetManager assetManager) {
         planetClasses.loadTextures(assetManager);
     }

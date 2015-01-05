@@ -77,14 +77,6 @@ public class PlanetClasses {
         }
     }
 
-    public void applyTextures(AssetManager asset) {
-        for (PlanetClass planet : planets.values()) {
-            if (!planet.getTextureName().trim().isEmpty()) {
-                planet.setTexture(asset.get(planet.getTextureName(), Texture.class));
-            }
-        }
-    }
-
     public PlanetClass pickRandomClassForStarType(Random random, String starType) {
         PlanetClass[] klasses = planets.values().toArray(new PlanetClass[planets.size()]);
         Array<ChanceRange<PlanetClass>> chances = new Array<ChanceRange<PlanetClass>>();

@@ -50,7 +50,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupStarUi() {
-        starUi = new StarUi(skin);
+        starUi = new StarUi(worldScreen.getGame(), skin);
         starUi.setVisible(false);
         mainLayout.add(starUi).expand().fillX().center().top();
         mainLayout.row();

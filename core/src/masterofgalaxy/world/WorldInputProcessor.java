@@ -25,7 +25,7 @@ public class WorldInputProcessor extends InputAdapter {
             RenderingSystem render = screen.getEntityEngine().getSystem(RenderingSystem.class);
             render.setDrawBounds(!render.isDrawBounds());
         } else if (keycode == Input.Keys.R) {
-            screen.resetGame();
+            screen.startNewGame();
         } else if (keycode == Input.Keys.D) {
             debug = !debug;
             screen.setDebug(debug);

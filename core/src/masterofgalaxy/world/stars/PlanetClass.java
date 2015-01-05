@@ -17,7 +17,6 @@ public class PlanetClass {
     private String name = "null";
     private String internalName = "null";
     private String textureName = "";
-    private Texture texture;
     private float defaultStarChance = 0.0f;
     private Map<String, Float> starChances = new LinkedHashMap<String, Float>();
     private boolean valid = true;
@@ -41,14 +40,6 @@ public class PlanetClass {
 
     public void setInternalName(String internalName) {
         this.internalName = internalName;
-    }
-
-    public Texture getTexture() {
-        return texture;
-    }
-
-    public void setTexture(Texture texture) {
-        this.texture = texture;
     }
 
     public String getTextureName() {
