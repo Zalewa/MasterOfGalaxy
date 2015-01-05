@@ -62,7 +62,11 @@ public class WorldCamera {
 
     public void zoomBy(float delta) {
         camera.zoom += delta;
-        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, 1.0f);
+        camera.zoom = MathUtils.clamp(camera.zoom, 0.1f, getMaxZoom());
         lockCamera();
+    }
+
+    public float getMaxZoom() {
+        return 1.0f;
     }
 }

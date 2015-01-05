@@ -18,6 +18,7 @@ import masterofgalaxy.world.ui.WorldUi;
 public class WorldScreen extends ScreenAdapter {
     private MogGame game;
     private PooledEngine entityEngine;
+    private WorldBackground background;
     private WorldCamera camera;
     private World world;
     private WorldUi ui;
@@ -45,6 +46,7 @@ public class WorldScreen extends ScreenAdapter {
         globalUi.setCanResumeGame(false);
         camera = new WorldCamera(this);
         viewport = new ExtendViewport(1000.0f, 1000.0f, camera.getCamera());
+        background = new WorldBackground(this);
 
         entityEngine = new PooledEngine();
         entityEngine.addSystem(new BlinkSystem());
@@ -92,9 +94,14 @@ public class WorldScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        renderBackground(delta);
         renderEngine(delta);
         renderUi(delta);
         renderGlobalUi(delta);
+    }
+
+    private void renderBackground(float delta) {
+        background.render(delta);
     }
 
     private void renderEngine(float delta) {
