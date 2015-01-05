@@ -6,16 +6,13 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
-import masterofgalaxy.ecs.components.DockComponent;
-import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.MoveTargetComponent;
 import masterofgalaxy.ecs.systems.*;
 import masterofgalaxy.gamestate.savegame.WorldState;
+import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
 
@@ -28,7 +25,7 @@ public class WorldScreen extends ScreenAdapter {
     private WorldUi ui;
     private GlobalUi globalUi;
     private WorldInputProcessor inputProcessor =  new WorldInputProcessor(this);
-    private SelectionTracker selection = null;
+    private PickLogic pickLogic = null;
     private ExtendViewport viewport;
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
@@ -51,6 +48,7 @@ public class WorldScreen extends ScreenAdapter {
         globalUi.setCanResumeGame(false);
         camera = new WorldCamera(this);
         viewport = new ExtendViewport(1000.0f, 1000.0f, camera.getCamera());
+        pickLogic = new PickLogic(this);
         background = new WorldBackground(this);
 
         moveToTargetSystem = new MoveToTargetSystem();
@@ -83,16 +81,14 @@ public class WorldScreen extends ScreenAdapter {
     }
 
     private void postWorldBuildActions() {
-        resetSelection();
+        resetActorPicker();
         resetCamera();
     }
 
-    private void resetSelection() {
-        if (selection != null) {
-            selection.dispose();
-        }
-        selection = new SelectionTracker(game, entityEngine);
-        selection.selectionChanged.add(selectionChangedListener);
+    private void resetActorPicker() {
+        pickLogic.dispose();
+        pickLogic = new PickLogic(this);
+        pickLogic.addSelectionChangedListener(selectionChangedListener);
     }
 
     private void resetCamera() {
@@ -221,46 +217,8 @@ public class WorldScreen extends ScreenAdapter {
 
     public void pickEntity(float x, float y) {
         EntityPicker picker = new EntityPicker(entityEngine);
-        Entity entity = picker.pickNextEntity(selection.getSelectedEntity(), x, y);
-        actionOnPickedEntity(entity);
-    }
-
-    private void actionOnPickedEntity(Entity entity) {
-        if (selection.getSelectedEntity() != null && entity != null) {
-            if (Mappers.fleet.has(selection.getSelectedEntity()) && Mappers.star.has(entity)) {
-                Entity fleet = selection.getSelectedEntity();
-                final Entity target = entity;
-                MoveTargetComponent component = Mappers.moveTarget.get(fleet);
-                if (component == null) {
-                    component = entityEngine.createComponent(MoveTargetComponent.class);
-                    component.speed = 100.0f;
-                    fleet.add(component);
-                }
-                component.target.set(Mappers.body.get(target).getPosition());
-
-                DockComponent dock = Mappers.dock.get(fleet);
-                if (dock != null) {
-                    Vector2 startingPos = new Vector2(Mappers.body.get(dock.dockedAt).getPosition());
-                    fleet.remove(DockComponent.class);
-                    Mappers.body.get(fleet).setPosition(startingPos);
-                }
-
-                component.destinationReached.add(new Listener<Entity>() {
-                    @Override
-                    public void receive(Signal<Entity> signal, Entity object) {
-                        DockComponent dock = entityEngine.createComponent(DockComponent.class);
-                        dock.dockedAt = target;
-                        object.add(dock);
-                        object.remove(MoveTargetComponent.class);
-                        signal.remove(this);
-                    }
-                });
-            } else {
-                selection.setSelection(entity);
-            }
-        } else {
-            selection.setSelection(entity);
-        }
+        Entity entity = picker.pickNextEntity(pickLogic.getSelectedEntity(), x, y);
+        pickLogic.pick(entity);
     }
 
     public WorldUi getUi() {
