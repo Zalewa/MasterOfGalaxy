@@ -15,15 +15,19 @@ class PickFleetToStar implements PickStrategy {
         Entity fleet = pickLogic.getSelectedEntity();
         final Entity target = picked;
 
+        EntityTargetComponent entityTarget = Mappers.entityTarget.get(fleet);
+
         DockComponent dock = Mappers.dock.get(fleet);
         if (dock != null) {
             if (dock.dockedAt == target) {
-                pickLogic.setSelection(target);
+                if (entityTarget.target != null) {
+                    entityTarget.target = null;
+                } else {
+                    pickLogic.setSelection(target);
+                }
                 return;
             }
         }
-
-        EntityTargetComponent entityTarget = Mappers.entityTarget.get(fleet);
         entityTarget.target = target;
     }
 }
