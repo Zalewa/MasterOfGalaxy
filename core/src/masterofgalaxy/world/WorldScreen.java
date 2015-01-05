@@ -89,6 +89,7 @@ public class WorldScreen extends ScreenAdapter {
     private void resetCamera() {
         viewport.setMinWorldWidth(world.getPlayField().getWidth());
         viewport.setMinWorldHeight(world.getPlayField().getHeight());
+        camera.resetZoom();
         camera.centerCamera();
     }
 
