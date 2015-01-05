@@ -22,15 +22,17 @@ public class MoveToTargetSystem extends IteratingSystem {
         BodyComponent body = Mappers.body.get(entity);
         MoveTargetComponent moveTarget = Mappers.moveTarget.get(entity);
 
-        if (!body.getPosition().epsilonEquals(moveTarget.getTarget(), 0.001f) || moveTarget.isFirstStep()) {
-            moveTarget.clearFirstStep();
+        if (!body.getPosition().epsilonEquals(moveTarget.getTarget(), 0.001f)) {
             diff.set(moveTarget.getTarget()).sub(body.getPosition());
             step.set(diff).nor().scl(moveTarget.speed * deltaTime);
 
             if (step.len2() < diff.len2()) {
                 body.translate(step.x, step.y);
             } else {
-                moveTarget.destinationReached.dispatch(entity);
+                if (!moveTarget.isDestinationReachedDispatched()) {
+                    moveTarget.destinationReached.dispatch(entity);
+                    moveTarget.setDestinationReachedDispatched(true);
+                }
                 body.setPosition(moveTarget.getTarget());
             }
             ++numProcessed;

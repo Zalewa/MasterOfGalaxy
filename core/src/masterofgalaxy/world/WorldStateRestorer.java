@@ -30,6 +30,7 @@ public class WorldStateRestorer {
     }
 
     private void restoreWorld() {
+        worldScreen.setTurn(worldState.turn);
         worldScreen.getWorld().setPlayField(worldState.playField);
     }
 

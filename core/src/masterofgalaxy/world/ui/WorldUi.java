@@ -5,10 +5,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
@@ -28,6 +25,9 @@ public class WorldUi implements Disposable {
     private StarUi starUi;
     private FleetUi fleetUi;
     private Table mainLayout;
+    private Table bottomLayout;
+    private Label turnLabel;
+    private TextButton nextTurnButton;
     private TextButton mainMenuButton;
 
     public WorldUi(WorldScreen worldScreen) {
@@ -39,6 +39,8 @@ public class WorldUi implements Disposable {
         setupInfoUi();
         setupStarUi();
         setupFleetUi();
+        setupBottomLayout();
+        setupTurnLabel();
         setupButtons();
 
         mainLayout.layout();
@@ -69,8 +71,32 @@ public class WorldUi implements Disposable {
         fleetUi = new FleetUi(worldScreen.getGame(), skin);
     }
 
+    private void setupBottomLayout() {
+        bottomLayout = new Table(skin);
+        mainLayout.add(bottomLayout).expand().fillX().center().bottom();
+    }
+
+    private void setupTurnLabel() {
+        turnLabel = new Label("$turnNo", skin);
+        bottomLayout.add(turnLabel).expandX().fillX();
+        bottomLayout.row();
+    }
+
     private void setupButtons() {
+        setupNextTurnButton();
         setupMainMenuButton();
+    }
+
+    private void setupNextTurnButton() {
+        nextTurnButton = new TextButton("$nextTurn", skin);
+        nextTurnButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                worldScreen.endTurn();
+            }
+        });
+        bottomLayout.add(nextTurnButton).expandX().fillX();
+        bottomLayout.row();
     }
 
     private void setupMainMenuButton() {
@@ -81,8 +107,8 @@ public class WorldUi implements Disposable {
                 worldScreen.getGlobalUi().setMainMenuVisible(true);
             }
         });
-        mainLayout.add(mainMenuButton).expand().fillX().center().bottom();
-        mainLayout.row();
+        bottomLayout.add(mainMenuButton).expandX().fillX();
+        bottomLayout.row();
     }
 
     public void act(float delta) {
@@ -132,6 +158,21 @@ public class WorldUi implements Disposable {
         updateSelectionUi(null);
     }
 
+    public void startTurnProcessing() {
+        nextTurnButton.setVisible(false);
+        mainMenuButton.setVisible(false);
+    }
+
+    public void endTurnProcessing() {
+        nextTurnButton.setVisible(true);
+        mainMenuButton.setVisible(true);
+        updateTurnLabel();
+    }
+
+    private void updateTurnLabel() {
+        turnLabel.setText(I18N.resolve("$turnNo", worldScreen.getTurn()));
+    }
+
     private class EntitySelectionListener implements Listener<Entity> {
         @Override
         public void receive(Signal<Entity> signal, Entity object) {
@@ -140,6 +181,8 @@ public class WorldUi implements Disposable {
     }
 
     private void applyTranslation() {
-        mainMenuButton.setText(I18N.i18n.format("$mainMenu"));
+        updateTurnLabel();
+        nextTurnButton.setText(I18N.resolve("$nextTurn"));
+        mainMenuButton.setText(I18N.resolve("$mainMenu"));
     }
 }

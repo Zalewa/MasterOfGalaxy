@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Pool;
 
 public class MoveTargetComponent extends Component implements Pool.Poolable {
     private Vector2 target = Vector2.Zero.cpy();
-    private boolean firstStep = false;
+    private boolean destinationReachedDispatched = false;
     public float speed = 0.0f;
 
     public Signal<Entity> destinationReached = new Signal<Entity>();
@@ -17,7 +17,7 @@ public class MoveTargetComponent extends Component implements Pool.Poolable {
     public void reset() {
         target.set(Vector2.Zero);
         speed = 0.0f;
-        firstStep = false;
+        destinationReachedDispatched = false;
         destinationReached.removeAllListeners();
     }
 
@@ -27,14 +27,14 @@ public class MoveTargetComponent extends Component implements Pool.Poolable {
 
     public void setTarget(Vector2 target) {
         this.target.set(target);
-        firstStep = true;
+        destinationReachedDispatched = false;
     }
 
-    public boolean isFirstStep() {
-        return firstStep;
+    public boolean isDestinationReachedDispatched() {
+        return destinationReachedDispatched;
     }
 
-    public void clearFirstStep() {
-        firstStep = false;
+    public void setDestinationReachedDispatched(boolean destinationReachedDispatched) {
+        this.destinationReachedDispatched = destinationReachedDispatched;
     }
 }

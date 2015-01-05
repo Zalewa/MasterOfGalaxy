@@ -13,10 +13,9 @@ import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
 import masterofgalaxy.gamestate.savegame.WorldState;
 import masterofgalaxy.world.picking.PickLogic;
+import masterofgalaxy.world.turns.TurnProcessor;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
-
-import java.lang.annotation.Target;
 
 public class WorldScreen extends ScreenAdapter {
     private MogGame game;
@@ -28,6 +27,7 @@ public class WorldScreen extends ScreenAdapter {
     private GlobalUi globalUi;
     private WorldInputProcessor inputProcessor =  new WorldInputProcessor(this);
     private PickLogic pickLogic = null;
+    private TurnProcessor turnProcessor;
     private ExtendViewport viewport;
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
@@ -101,6 +101,7 @@ public class WorldScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
+        turnProcessor.update(delta);
         renderBackground(delta);
         renderEngine(delta);
         renderUi(delta);
@@ -213,11 +214,26 @@ public class WorldScreen extends ScreenAdapter {
         world = new World(this);
         ui.reset();
         resetEntityEngine();
+        resetTurnProcessor();
     }
 
     private void resetEntityEngine() {
         entityEngine.removeAllEntities();
         entityEngine.clearPools();
+        entityEngine.getSystem(MoveToTargetSystem.class).setProcessing(false);
+    }
+
+    private void resetTurnProcessor() {
+        if (turnProcessor != null) {
+            turnProcessor.dispose();
+        }
+        turnProcessor = new TurnProcessor(this);
+        turnProcessor.turnProcessingFinished.add(new Listener<Object>() {
+            @Override
+            public void receive(Signal<Object> signal, Object object) {
+                startNextTurn();
+            }
+        });
     }
 
     public void pickEntity(float x, float y) {
@@ -258,5 +274,22 @@ public class WorldScreen extends ScreenAdapter {
 
     public WorldState buildWorldState() {
         return new WorldStateBuilder(this).build();
+    }
+
+    public void endTurn() {
+        turnProcessor.startProcessing();
+        ui.startTurnProcessing();
+    }
+
+    private void startNextTurn() {
+        ui.endTurnProcessing();
+    }
+
+    public int getTurn() {
+        return world != null ? turnProcessor.getTurn() : 0;
+    }
+
+    public void setTurn(int turn) {
+        turnProcessor.setTurn(turn);
     }
 }

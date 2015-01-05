@@ -8,6 +8,7 @@ import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerState;
 
 public class WorldState {
+    public int turn;
     public Rectangle playField;
     public Array<PlayerState> players;
     public Array<StarState> stars;

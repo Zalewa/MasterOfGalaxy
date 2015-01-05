@@ -21,33 +21,9 @@ class PickFleetToStar implements PickStrategy {
                 pickLogic.setSelection(target);
                 return;
             }
-            Vector2 startingPos = new Vector2(Mappers.body.get(dock.dockedAt).getPosition());
-            fleet.remove(DockComponent.class);
-            Mappers.body.get(fleet).setPosition(startingPos);
         }
 
         EntityTargetComponent entityTarget = Mappers.entityTarget.get(fleet);
         entityTarget.target = target;
-
-        MoveTargetComponent moveTarget = Mappers.moveTarget.get(fleet);
-        if (moveTarget == null) {
-            moveTarget = pickLogic.getScreen().getEntityEngine().createComponent(MoveTargetComponent.class);
-            moveTarget.speed = 100.0f;
-            fleet.add(moveTarget);
-        }
-        moveTarget.setTarget(Mappers.body.get(target).getPosition());
-
-        moveTarget.destinationReached.add(new Listener<Entity>() {
-            @Override
-            public void receive(Signal<Entity> signal, Entity object) {
-                DockComponent dock = pickLogic.getScreen().getEntityEngine().createComponent(DockComponent.class);
-                dock.dockedAt = target;
-                object.add(dock);
-                object.remove(MoveTargetComponent.class);
-                Mappers.entityTarget.get(object).target = null;
-                signal.remove(this);
-
-            }
-        });
     }
 }

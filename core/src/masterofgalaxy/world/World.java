@@ -60,4 +60,8 @@ public class World {
     public void setPlayers(Array<Player> players) {
         this.players = players;
     }
+
+    public float getUnitsPerParsec() {
+        return 100.0f;
+    }
 }

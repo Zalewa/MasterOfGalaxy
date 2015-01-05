@@ -25,6 +25,7 @@ public class WorldStateBuilder {
 
     public WorldState build() {
         state = new WorldState();
+        state.turn = worldScreen.getTurn();
         state.playField = worldScreen.getWorld().getPlayField();
         state.players = getPlayers();
         state.stars = getStars();

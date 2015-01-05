@@ -9,4 +9,8 @@ public class FleetComponent extends Component implements Pool.Poolable {
     public void reset() {
 
     }
+
+    public float getSpeedInParsecsPerTurn() {
+        return 1.0f;
+    }
 }
