@@ -11,4 +11,5 @@ public class WorldState {
     public Rectangle playField;
     public Array<PlayerState> players;
     public Array<StarState> stars;
+    public Array<FleetState> fleets;
 }

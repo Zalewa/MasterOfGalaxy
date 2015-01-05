@@ -5,10 +5,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.utils.Array;
+import masterofgalaxy.ecs.components.DockComponent;
+import masterofgalaxy.ecs.components.FleetComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.StarComponent;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerState;
+import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
 
@@ -25,6 +28,7 @@ public class WorldStateBuilder {
         state.playField = worldScreen.getWorld().getPlayField();
         state.players = getPlayers();
         state.stars = getStars();
+        state.fleets = getFleets();
         return state;
     }
 
@@ -51,6 +55,29 @@ public class WorldStateBuilder {
             }
             state.star = Mappers.star.get(star);
             state.name = Mappers.name.get(star).getName();
+            states.add(state);
+        }
+        return states;
+    }
+
+    private Array<FleetState> getFleets() {
+        Array<FleetState> states = new Array<FleetState>();
+        ImmutableArray<Entity> fleets = worldScreen.getEntityEngine().getEntitiesFor(Family.getFor(FleetComponent.class));
+        for (int i = 0; i < fleets.size(); ++i) {
+            Entity fleet = fleets.get(i);
+            FleetState state = new FleetState();
+            state.id = Mappers.id.get(fleet).id;
+            state.body = Mappers.body.get(fleet).getState();
+
+            Player owner = Mappers.playerOwner.get(fleet).getOwner();
+            if (owner.isValid()) {
+                state.owner = owner.getName();
+            }
+
+            DockComponent dock = Mappers.dock.get(fleet);
+            if (dock != null) {
+                state.dockedAt = Mappers.id.get(dock.dockedAt).id;
+            }
             states.add(state);
         }
         return states;

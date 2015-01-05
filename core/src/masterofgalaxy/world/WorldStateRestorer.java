@@ -2,11 +2,14 @@ package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
 import masterofgalaxy.ecs.components.BodyComponent;
+import masterofgalaxy.ecs.components.DockComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.RenderComponent;
+import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
+import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
 
@@ -23,6 +26,7 @@ public class WorldStateRestorer {
         restoreWorld();
         restorePlayers();
         restoreStars();
+        restoreFleets();
     }
 
     private void restoreWorld() {
@@ -52,5 +56,29 @@ public class WorldStateRestorer {
         RenderComponent render = Mappers.spriteRender.get(star);
         render.setColor(starState.star.klass.getColor());
         render.setScaleToSize(starState.body.getSize());
+    }
+
+    private void restoreFleets() {
+        for (FleetState fleet : worldState.fleets) {
+            restoreFleet(fleet);
+        }
+    }
+
+    private void restoreFleet(FleetState fleetState) {
+        Player owner = worldScreen.getWorld().findPlayerByName(fleetState.owner);
+        Entity fleet = FleetFactory.build(worldScreen.getGame(), worldScreen.getEntityEngine());
+
+        Mappers.id.get(fleet).id = fleetState.id;
+        Mappers.playerOwner.get(fleet).setOwner(owner);
+        Mappers.body.get(fleet).setState(fleetState.body);
+
+        if (fleetState.dockedAt != null) {
+            Entity entity = worldScreen.getWorld().findEntityById(fleetState.dockedAt);
+            if (entity != null) {
+                DockComponent dockComponent = worldScreen.getEntityEngine().createComponent(DockComponent.class);
+                dockComponent.dockedAt = entity;
+                fleet.add(dockComponent);
+            }
+        }
     }
 }

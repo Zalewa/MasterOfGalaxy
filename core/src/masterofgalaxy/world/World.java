@@ -1,8 +1,12 @@
 package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
+import masterofgalaxy.ecs.components.IdComponent;
+import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.gamestate.Player;
 
 public class World {
@@ -28,6 +32,17 @@ public class World {
             }
         }
         return Player.nullPlayer;
+    }
+
+    public Entity findEntityById(String id) {
+        ImmutableArray<Entity> entities = screen.getEntityEngine().getEntitiesFor(Family.getFor(IdComponent.class));
+        for (int i = 0; i < entities.size(); ++i) {
+            Entity entity = entities.get(i);
+            if (Mappers.id.get(entity).id.equals(id)) {
+                return entity;
+            }
+        }
+        return null;
     }
 
     void setPlayField(Rectangle rectangle) {
