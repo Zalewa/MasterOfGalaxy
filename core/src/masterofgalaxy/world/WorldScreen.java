@@ -160,6 +160,7 @@ public class WorldScreen extends ScreenAdapter {
         removeInputHandlerFromGame();
         inputMultiplexer = new InputMultiplexer(globalUi.getStage(), ui.getStage(), inputProcessor);
         game.getInputMultiplexer().addProcessor(inputMultiplexer);
+        globalUi.setMainMenuVisible(false);
     }
 
     @Override
