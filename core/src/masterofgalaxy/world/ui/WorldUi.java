@@ -5,6 +5,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,7 +24,9 @@ public class WorldUi implements Disposable {
     private WorldScreen worldScreen;
     private EntitySelectionListener entitySelectionListener = new EntitySelectionListener();
 
+    private Container<Actor> infoUiContainer;
     private StarUi starUi;
+    private FleetUi fleetUi;
     private Table mainLayout;
     private TextButton mainMenuButton;
 
@@ -33,7 +36,9 @@ public class WorldUi implements Disposable {
         stage = new Stage(new ScreenViewport());
 
         setupMainLayout();
+        setupInfoUi();
         setupStarUi();
+        setupFleetUi();
         setupButtons();
 
         mainLayout.layout();
@@ -49,11 +54,19 @@ public class WorldUi implements Disposable {
         stage.addActor(mainLayout);
     }
 
+    private void setupInfoUi() {
+        infoUiContainer = new Container<Actor>();
+        infoUiContainer.fill();
+        mainLayout.add(infoUiContainer).expand().fillX().center().top();
+        mainLayout.row();
+    }
+
     private void setupStarUi() {
         starUi = new StarUi(worldScreen.getGame(), skin);
-        starUi.setVisible(false);
-        mainLayout.add(starUi).expand().fillX().center().top();
-        mainLayout.row();
+    }
+
+    private void setupFleetUi() {
+        fleetUi = new FleetUi(worldScreen.getGame(), skin);
     }
 
     private void setupButtons() {
@@ -97,13 +110,17 @@ public class WorldUi implements Disposable {
     }
 
     private void updateSelectionUi(Entity entity) {
+        infoUiContainer.removeActor(infoUiContainer.getActor());
         if (entity == null) {
-            starUi.setVisible(false);
             return;
         }
+
         if (Mappers.star.has(entity)) {
-            starUi.setVisible(true);
+            infoUiContainer.setActor(starUi);
             starUi.setEntity(entity);
+        } else if (Mappers.fleet.has(entity)) {
+            infoUiContainer.setActor(fleetUi);
+            fleetUi.setEntity(entity);
         }
     }
 

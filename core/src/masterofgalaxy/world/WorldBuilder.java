@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import masterofgalaxy.RandomUtil;
 import masterofgalaxy.ecs.components.*;
+import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.world.stars.PlanetClass;
@@ -35,6 +36,7 @@ public class WorldBuilder {
         createCorners();
         createStars(20);
         assignPlayersToStars();
+        buildFleets();
 
         return world;
     }
@@ -47,6 +49,25 @@ public class WorldBuilder {
         for (int i = 0; i < world.getPlayers().size; ++i) {
             PlayerOwnerComponent owner = Mappers.playerOwner.get(stars.get(position + i));
             owner.setOwner(world.getPlayers().get(i));
+        }
+    }
+
+    private void buildFleets() {
+        Family family = Family.getFor(StarComponent.class);
+        ImmutableArray<Entity> stars = screen.getEntityEngine().getEntitiesFor(family);
+        for (int i = 0; i < stars.size(); ++i) {
+            Entity star = stars.get(i);
+            PlayerOwnerComponent starOwner = Mappers.playerOwner.get(star);
+            if (starOwner.getOwner().isValid()) {
+                Entity fleet = FleetFactory.build(screen.getGame(), screen.getEntityEngine());
+
+                DockComponent dock = screen.getEntityEngine().createComponent(DockComponent.class);
+                dock.dockedAt = star;
+                fleet.add(dock);
+
+                PlayerOwnerComponent fleetOwner = Mappers.playerOwner.get(fleet);
+                fleetOwner.setOwner(starOwner.getOwner());
+            }
         }
     }
 

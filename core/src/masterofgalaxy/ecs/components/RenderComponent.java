@@ -1,6 +1,8 @@
 package masterofgalaxy.ecs.components;
 
 import com.badlogic.ashley.core.Component;
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
@@ -14,6 +16,14 @@ public class RenderComponent extends Component implements Pool.Poolable {
     private Vector2 textureSize = new Vector2(0.0f, 0.0f);
     private Vector2 scaledSize = new Vector2(1.0f, 1.0f);
 
+    private Signal<Color> listenedColorChangedSignal;
+    private Listener<Color> colorChangedListener = new Listener<Color>() {
+        @Override
+        public void receive(Signal<Color> signal, Color newColor) {
+            color.set(newColor);
+        }
+    };
+
     public RenderComponent() {
     }
 
@@ -23,6 +33,19 @@ public class RenderComponent extends Component implements Pool.Poolable {
         texture = null;
         scale.set(1.0f, 1.0f);
         textureSize.set(0.0f, 0.0f);
+        resetColorChangeListener();
+    }
+
+    public void registerColorChangedSignal(Signal<Color> signal) {
+        resetColorChangeListener();
+        listenedColorChangedSignal = signal;
+        listenedColorChangedSignal.add(colorChangedListener);
+    }
+
+    private void resetColorChangeListener() {
+        if (listenedColorChangedSignal != null) {
+            listenedColorChangedSignal.remove(colorChangedListener);
+        }
     }
 
     public Vector2 getSize() {

@@ -6,10 +6,14 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
+import masterofgalaxy.ecs.components.DockComponent;
+import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.components.MoveTargetComponent;
 import masterofgalaxy.ecs.systems.*;
 import masterofgalaxy.gamestate.savegame.WorldState;
 import masterofgalaxy.world.ui.GlobalUi;
@@ -28,6 +32,7 @@ public class WorldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
+    private MoveToTargetSystem moveToTargetSystem;
 
     public Signal<Entity> selectionChanged = new Signal<Entity>();
 
@@ -48,9 +53,13 @@ public class WorldScreen extends ScreenAdapter {
         viewport = new ExtendViewport(1000.0f, 1000.0f, camera.getCamera());
         background = new WorldBackground(this);
 
+        moveToTargetSystem = new MoveToTargetSystem();
+
         entityEngine = new PooledEngine();
         entityEngine.addSystem(new BlinkSystem());
         entityEngine.addSystem(new SelectionScalingSystem());
+        entityEngine.addSystem(new DockPositioningSystem());
+        entityEngine.addSystem(moveToTargetSystem);
         entityEngine.addSystem(new ParentshipSystem());
         entityEngine.addSystem(new RenderingSystem(game));
         entityEngine.addSystem(new TextRenderingSystem(game));
@@ -213,7 +222,45 @@ public class WorldScreen extends ScreenAdapter {
     public void pickEntity(float x, float y) {
         EntityPicker picker = new EntityPicker(entityEngine);
         Entity entity = picker.pickNextEntity(selection.getSelectedEntity(), x, y);
-        selection.setSelection(entity);
+        actionOnPickedEntity(entity);
+    }
+
+    private void actionOnPickedEntity(Entity entity) {
+        if (selection.getSelectedEntity() != null && entity != null) {
+            if (Mappers.fleet.has(selection.getSelectedEntity()) && Mappers.star.has(entity)) {
+                Entity fleet = selection.getSelectedEntity();
+                final Entity target = entity;
+                MoveTargetComponent component = Mappers.moveTarget.get(fleet);
+                if (component == null) {
+                    component = entityEngine.createComponent(MoveTargetComponent.class);
+                    component.speed = 100.0f;
+                    fleet.add(component);
+                }
+                component.target.set(Mappers.body.get(target).getPosition());
+
+                DockComponent dock = Mappers.dock.get(fleet);
+                if (dock != null) {
+                    Vector2 startingPos = new Vector2(Mappers.body.get(dock.dockedAt).getPosition());
+                    fleet.remove(DockComponent.class);
+                    Mappers.body.get(fleet).setPosition(startingPos);
+                }
+
+                component.destinationReached.add(new Listener<Entity>() {
+                    @Override
+                    public void receive(Signal<Entity> signal, Entity object) {
+                        DockComponent dock = entityEngine.createComponent(DockComponent.class);
+                        dock.dockedAt = target;
+                        object.add(dock);
+                        object.remove(MoveTargetComponent.class);
+                        signal.remove(this);
+                    }
+                });
+            } else {
+                selection.setSelection(entity);
+            }
+        } else {
+            selection.setSelection(entity);
+        }
     }
 
     public WorldUi getUi() {

@@ -8,7 +8,7 @@ public class Player {
 
     static {
         nullPlayer = new Player();
-        nullPlayer.setName("null");
+        nullPlayer.setName("");
         nullPlayer.setColor(Color.DARK_GRAY);
         nullPlayer.valid = false;
     }

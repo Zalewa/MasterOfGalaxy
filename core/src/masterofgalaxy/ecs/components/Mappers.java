@@ -13,4 +13,7 @@ public class Mappers {
     public static final ComponentMapper<ParentshipComponent> parentship = ComponentMapper.getFor(ParentshipComponent.class);
     public static final ComponentMapper<TextRenderComponent> textRender = ComponentMapper.getFor(TextRenderComponent.class);
     public static final ComponentMapper<PlayerOwnerComponent> playerOwner = ComponentMapper.getFor(PlayerOwnerComponent.class);
+    public static final ComponentMapper<FleetComponent> fleet = ComponentMapper.getFor(FleetComponent.class);
+    public static final ComponentMapper<DockComponent> dock = ComponentMapper.getFor(DockComponent.class);
+    public static final ComponentMapper<MoveTargetComponent> moveTarget = ComponentMapper.getFor(MoveTargetComponent.class);
 }
