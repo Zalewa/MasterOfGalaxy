@@ -169,8 +169,14 @@ public class WorldUi implements Disposable {
         updateTurnLabel();
     }
 
-    private void updateTurnLabel() {
+    public void updateTurnLabel() {
         turnLabel.setText(I18N.resolve("$turnNo", worldScreen.getTurn()));
+    }
+
+    private void applyTranslation() {
+        updateTurnLabel();
+        nextTurnButton.setText(I18N.resolve("$nextTurn"));
+        mainMenuButton.setText(I18N.resolve("$mainMenu"));
     }
 
     private class EntitySelectionListener implements Listener<Entity> {
@@ -178,11 +184,5 @@ public class WorldUi implements Disposable {
         public void receive(Signal<Entity> signal, Entity object) {
             updateSelectionUi(object);
         }
-    }
-
-    private void applyTranslation() {
-        updateTurnLabel();
-        nextTurnButton.setText(I18N.resolve("$nextTurn"));
-        mainMenuButton.setText(I18N.resolve("$mainMenu"));
     }
 }

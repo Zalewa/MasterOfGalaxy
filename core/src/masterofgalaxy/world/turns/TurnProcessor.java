@@ -13,6 +13,7 @@ public class TurnProcessor implements Disposable {
     private boolean isProcessing = false;
     private boolean firstProcess = false;
 
+    public Signal<Object> turnChanged = new Signal<Object>();
     public Signal<Object> turnProcessingFinished = new Signal<Object>();
 
     public TurnProcessor(WorldScreen screen) {
@@ -66,5 +67,6 @@ public class TurnProcessor implements Disposable {
 
     public void setTurn(int turn) {
         this.turn = turn;
+        turnChanged.dispatch(null);
     }
 }

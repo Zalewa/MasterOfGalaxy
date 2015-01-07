@@ -234,6 +234,12 @@ public class WorldScreen extends ScreenAdapter {
                 startNextTurn();
             }
         });
+        turnProcessor.turnChanged.add(new Listener<Object>() {
+            @Override
+            public void receive(Signal<Object> signal, Object object) {
+                ui.updateTurnLabel();
+            }
+        });
     }
 
     public void pickEntity(float x, float y) {
