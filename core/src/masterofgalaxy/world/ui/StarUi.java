@@ -60,7 +60,6 @@ public class StarUi extends Table implements Localizable {
     private void setupStarInfo() {
         starLayout = new Table(skin);
         starLayout.setBackground("black");
-        //starLayout.setColor();
         add(starLayout).expandX().fillX().pad(5.0f);
         row();
 

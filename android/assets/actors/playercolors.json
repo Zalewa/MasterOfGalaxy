@@ -1,0 +1,31 @@
+{
+  "i18n": {
+    "bundle": "i18n/playercolors"
+  },
+  "colors": [
+    {
+      "name": "$red",
+      "color": "ff0000ff"
+    },
+    {
+      "name": "$white",
+      "color": "ffffffff"
+    },
+    {
+      "name": "$blue",
+      "color": "5ee9ffff"
+    },
+    {
+      "name": "$green",
+      "color": "00ff00ff"
+    },
+    {
+      "name": "$purple",
+      "color": "db14ffff"
+    },
+    {
+      "name": "$brown",
+      "color": "db7c23ff"
+    }
+  ]
+}

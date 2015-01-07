@@ -30,7 +30,7 @@ public class WorldBuilder {
     public World build() {
         world = new World(screen);
         world.setPlayField(new Rectangle(0.0f, 0.0f, 1200.0f, 1000.0f));
-        world.setPlayers(new PlayerBuilder(seed).randomizePlayers(4));
+        world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(4));
 
         createCorners();
         createStars(20);

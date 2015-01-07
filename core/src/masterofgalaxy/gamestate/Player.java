@@ -9,7 +9,7 @@ public class Player {
     static {
         nullPlayer = new Player();
         nullPlayer.setName("");
-        nullPlayer.setColor(Color.DARK_GRAY);
+        nullPlayer.setPlayerColor(PlayerColor.nullColor);
         nullPlayer.valid = false;
     }
 
@@ -26,12 +26,16 @@ public class Player {
     public Signal<Color> colorChanged = new Signal<Color>();
 
     public Color getColor() {
-        return state.getColor();
+        return state.getPlayerColor().getColor();
     }
 
-    public void setColor(Color color) {
-        state.setColor(color);
-        colorChanged.dispatch(state.getColor());
+    public PlayerColor getPlayerColor() {
+        return state.getPlayerColor();
+    }
+
+    public void setPlayerColor(PlayerColor color) {
+        state.setPlayerColor(color);
+        colorChanged.dispatch(state.getPlayerColor().getColor());
     }
 
     public String getName() {

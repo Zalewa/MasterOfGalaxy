@@ -1,21 +1,19 @@
 package masterofgalaxy.gamestate;
 
-import com.badlogic.gdx.graphics.Color;
-
 public class PlayerState {
     String name;
-    Color color;
+    PlayerColor playerColor = PlayerColor.nullColor;
 
     public PlayerState() {
-        this.color = Color.WHITE.cpy();
+
     }
 
-    public Color getColor() {
-        return color;
+    public PlayerColor getPlayerColor() {
+        return playerColor;
     }
 
-    public void setColor(Color color) {
-        this.color.set(color);
+    public void setPlayerColor(PlayerColor color) {
+        this.playerColor = color;
     }
 
     public String getName() {
@@ -28,6 +26,6 @@ public class PlayerState {
 
     public void set(PlayerState other) {
         setName(other.getName());
-        setColor(other.getColor());
+        setPlayerColor(other.getPlayerColor());
     }
 }
