@@ -5,7 +5,10 @@ import com.badlogic.ashley.core.PooledEngine;
 import com.badlogic.gdx.graphics.Color;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.Sprite;
-import masterofgalaxy.ecs.components.*;
+import masterofgalaxy.ecs.components.BodyComponent;
+import masterofgalaxy.ecs.components.NameComponent;
+import masterofgalaxy.ecs.components.RenderComponent;
+import masterofgalaxy.ecs.components.SelectionComponent;
 
 public class SelectionFactory {
     public static Entity build(MogGame game, PooledEngine entityEngine) {

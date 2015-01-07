@@ -1,7 +1,5 @@
 package masterofgalaxy;
 
-import com.badlogic.gdx.math.MathUtils;
-
 import java.util.Random;
 
 public class RandomUtil {

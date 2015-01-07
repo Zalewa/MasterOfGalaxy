@@ -1,7 +1,6 @@
 package masterofgalaxy.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class ActorRemoveEscapeKeyAdapter extends EscapeKeyAdapter {
     private Actor actor;

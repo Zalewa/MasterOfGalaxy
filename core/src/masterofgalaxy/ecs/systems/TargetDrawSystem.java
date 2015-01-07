@@ -7,18 +7,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import jdk.nashorn.internal.objects.Global;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.GlobalBody;
 import masterofgalaxy.ecs.components.BodyComponent;
 import masterofgalaxy.ecs.components.EntityTargetComponent;
 import masterofgalaxy.ecs.components.Mappers;
-
-import java.nio.FloatBuffer;
 
 public class TargetDrawSystem extends IteratingSystem {
     private static final int segments = 15;

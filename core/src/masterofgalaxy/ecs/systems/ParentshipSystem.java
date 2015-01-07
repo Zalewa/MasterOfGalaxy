@@ -2,7 +2,6 @@ package masterofgalaxy.ecs.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.ParentshipComponent;
 

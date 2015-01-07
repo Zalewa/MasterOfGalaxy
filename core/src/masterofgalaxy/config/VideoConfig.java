@@ -1,7 +1,6 @@
 package masterofgalaxy.config;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.Preferences;
 import masterofgalaxy.config.VideoDisplayMode.ScreenMode;

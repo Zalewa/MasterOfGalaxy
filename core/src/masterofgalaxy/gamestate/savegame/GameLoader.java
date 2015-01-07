@@ -1,7 +1,6 @@
 package masterofgalaxy.gamestate.savegame;
 
 import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.JsonReader;
 
 import java.io.FileReader;
 

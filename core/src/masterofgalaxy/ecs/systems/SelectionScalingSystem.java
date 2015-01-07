@@ -3,10 +3,12 @@ package masterofgalaxy.ecs.systems;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import masterofgalaxy.ecs.GlobalBody;
-import masterofgalaxy.ecs.components.*;
+import masterofgalaxy.ecs.components.BodyComponent;
+import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.components.RenderComponent;
+import masterofgalaxy.ecs.components.SelectionComponent;
 
 public class SelectionScalingSystem extends IteratingSystem {
     private Rectangle workRect = new Rectangle();

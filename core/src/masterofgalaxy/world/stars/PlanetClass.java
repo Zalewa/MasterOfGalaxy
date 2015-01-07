@@ -1,6 +1,5 @@
 package masterofgalaxy.world.stars;
 
-import com.badlogic.gdx.graphics.Texture;
 import masterofgalaxy.assets.i18n.I18N;
 
 import java.util.LinkedHashMap;

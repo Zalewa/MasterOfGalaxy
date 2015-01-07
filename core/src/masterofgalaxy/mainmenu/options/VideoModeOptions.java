@@ -9,7 +9,10 @@ import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Set;
 
 public class VideoModeOptions extends Table {
     private CheckBox fullscreenCheckbox;

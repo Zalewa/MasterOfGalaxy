@@ -6,10 +6,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import jdk.nashorn.internal.objects.Global;
 import masterofgalaxy.ecs.components.BodyComponent;
-import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.NameComponent;
 import masterofgalaxy.ecs.components.PickableComponent;
 
 public class EntityPicker {

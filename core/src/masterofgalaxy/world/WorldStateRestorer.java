@@ -1,7 +1,10 @@
 package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
-import masterofgalaxy.ecs.components.*;
+import masterofgalaxy.ecs.components.DockComponent;
+import masterofgalaxy.ecs.components.EntityTargetComponent;
+import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.components.RenderComponent;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.Player;

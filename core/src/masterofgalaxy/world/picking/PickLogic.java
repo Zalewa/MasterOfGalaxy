@@ -2,11 +2,11 @@ package masterofgalaxy.world.picking;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.signals.Listener;
-import com.sun.media.jfxmediaimpl.MediaDisposer;
+import com.badlogic.gdx.utils.Disposable;
 import masterofgalaxy.world.SelectionTracker;
 import masterofgalaxy.world.WorldScreen;
 
-public class PickLogic implements MediaDisposer.Disposable {
+public class PickLogic implements Disposable {
     private SelectionTracker selection;
     private WorldScreen screen;
 

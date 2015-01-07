@@ -1,18 +1,12 @@
 package masterofgalaxy.gamestate.savegame;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import masterofgalaxy.App;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.exceptions.SavedGameException;
-import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
-import masterofgalaxy.world.stars.StarClass;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 

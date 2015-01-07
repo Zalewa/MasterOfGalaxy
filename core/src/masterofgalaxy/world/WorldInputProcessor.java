@@ -3,14 +3,9 @@ package masterofgalaxy.world;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.math.collision.Ray;
 import masterofgalaxy.ecs.systems.MoveToTargetSystem;
 import masterofgalaxy.ecs.systems.RenderingSystem;
-
-import java.text.MessageFormat;
 
 public class WorldInputProcessor extends InputAdapter {
     private WorldScreen screen;

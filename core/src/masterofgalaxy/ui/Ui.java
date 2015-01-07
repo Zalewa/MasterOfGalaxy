@@ -1,7 +1,6 @@
 package masterofgalaxy.ui;
 
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 
 public class Ui {
     public static void centerWithinStage(Actor widget) {

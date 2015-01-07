@@ -1,8 +1,6 @@
 package masterofgalaxy.gamestate.savegame;
 
 import masterofgalaxy.ecs.components.BodyState;
-import masterofgalaxy.ecs.components.FleetComponent;
-import masterofgalaxy.ecs.components.StarComponent;
 
 public class FleetState {
     public String id;

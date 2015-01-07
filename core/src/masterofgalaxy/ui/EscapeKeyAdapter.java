@@ -1,7 +1,8 @@
 package masterofgalaxy.ui;
 
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 
 public abstract class EscapeKeyAdapter extends InputListener {
     @Override

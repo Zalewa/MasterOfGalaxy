@@ -8,7 +8,6 @@ import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
-import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
 import masterofgalaxy.ui.EscapeKeyAdapter;
 
 public class OptionsMenu extends Window implements Localizable {
