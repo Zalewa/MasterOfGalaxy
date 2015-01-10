@@ -9,6 +9,7 @@ public class Race {
     private float populationGrowthRate = 1.0f;
     private float productionRate = 1.0f;
     private float researchRate;
+    private Homeworld homeworld;
 
     public String getName() {
         return name;
@@ -60,5 +61,13 @@ public class Race {
 
     public float getResearchRate() {
         return researchRate;
+    }
+
+    public Homeworld getHomeworld() {
+        return homeworld;
+    }
+
+    public void setHomeworld(Homeworld homeworld) {
+        this.homeworld = homeworld;
     }
 }

@@ -9,6 +9,8 @@ import masterofgalaxy.RandomUtil;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
+import masterofgalaxy.gamestate.Homeworld;
+import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.Planet;
@@ -51,10 +53,22 @@ public class WorldBuilder {
         int position = random.nextInt(stars.size() + 1);
         position = Math.max(0, position - world.getPlayers().size);
         for (int i = 0; i < world.getPlayers().size; ++i) {
+            Player player = world.getPlayers().get(i);
             Entity star = stars.get(position + i);
 
+            NameComponent name = Mappers.name.get(star);
+            Homeworld homeworld = player.getRace().getHomeworld();
+            name.setName(homeworld.getName());
+
             PlayerOwnerComponent owner = Mappers.playerOwner.get(star);
-            owner.setOwner(world.getPlayers().get(i));
+            owner.setOwner(player);
+
+            StarComponent starComponent = Mappers.star.get(star);
+            starComponent.klass = screen.getGame().getActorAssets().starClasses.findByType(homeworld.getStarType());
+            starComponent.planet = new Planet(screen.getGame().getActorAssets()
+                    .planetClasses.findByType(homeworld.getPlanetType()));
+
+            Mappers.spriteRender.get(star).setColor(starComponent.klass.getColor());
 
             ColonyComponent colony = screen.getEntityEngine().createComponent(ColonyComponent.class);
             colony.entity = star;

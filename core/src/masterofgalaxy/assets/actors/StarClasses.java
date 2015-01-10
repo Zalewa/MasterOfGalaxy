@@ -54,4 +54,8 @@ public class StarClasses {
         StarClass[] klasses = stars.values().toArray(new StarClass[stars.size()]);
         return klasses[random.nextInt(klasses.length)];
     }
+
+    public StarClass findByType(String starType) {
+        return stars.get(starType);
+    }
 }

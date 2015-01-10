@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.JsonReader;
 import com.badlogic.gdx.utils.JsonValue;
 import masterofgalaxy.assets.i18n.I18NJsonReader;
 import masterofgalaxy.exceptions.InvalidInputTypeException;
+import masterofgalaxy.gamestate.Homeworld;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.PlanetClass;
 
@@ -41,8 +42,17 @@ public class Races {
             race.setPopulationGrowthRate(raceDef.getFloat("populationGrowthRate"));
             race.setProductionRate(raceDef.getFloat("productionRate"));
             race.setResearchRate(raceDef.getFloat("researchRate"));
+            race.setHomeworld(parseHomeworld(raceDef.get("homeworld")));
 
             this.races.add(race);
         }
+    }
+
+    private Homeworld parseHomeworld(JsonValue homeworldDef) {
+        Homeworld homeworld = new Homeworld();
+        homeworld.setName(homeworldDef.getString("name"));
+        homeworld.setPlanetType(homeworldDef.getString("planetType"));
+        homeworld.setStarType(homeworldDef.getString("starType"));
+        return homeworld;
     }
 }

@@ -101,4 +101,8 @@ public class PlanetClasses {
         }
         return chances.get(0).item;
     }
+
+    public PlanetClass findByType(String planetType) {
+        return planets.get(planetType);
+    }
 }
