@@ -4,11 +4,13 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.RandomUtil;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.PlayerBuilder;
+import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.PlanetClass;
 import masterofgalaxy.world.stars.StarClass;
 
@@ -30,6 +32,8 @@ public class WorldBuilder {
     public World build() {
         world = new World(screen);
         world.setPlayField(new Rectangle(0.0f, 0.0f, 1200.0f, 1000.0f));
+        Array<Race> array = new Array<Race>(screen.getGame().getActorAssets().races.races);
+        world.setRaces(array);
         world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(4));
 
         createCorners();

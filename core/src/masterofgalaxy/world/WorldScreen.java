@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
+import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.savegame.WorldState;
 import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.turns.TurnProcessor;
@@ -70,7 +71,7 @@ public class WorldScreen extends ScreenAdapter {
         postWorldBuildActions();
     }
 
-    public void restoreGame(WorldState state) {
+    public void restoreGame(WorldState state) throws SavedGameException {
         resetGame();
         new WorldStateRestorer(this).restore(state);
         postWorldBuildActions();

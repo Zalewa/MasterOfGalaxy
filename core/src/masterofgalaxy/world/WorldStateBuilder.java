@@ -23,6 +23,7 @@ public class WorldStateBuilder {
         state = new WorldState();
         state.turn = worldScreen.getTurn();
         state.playField = worldScreen.getWorld().getPlayField();
+        state.races = worldScreen.getGame().getActorAssets().races.races;
         state.players = getPlayers();
         state.stars = getStars();
         state.fleets = getFleets();

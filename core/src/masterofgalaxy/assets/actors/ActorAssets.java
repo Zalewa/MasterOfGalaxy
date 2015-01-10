@@ -6,6 +6,7 @@ public class ActorAssets {
     public PlanetClasses planetClasses = new PlanetClasses();
     public StarClasses starClasses = new StarClasses();
     public PlayerColors playerColors = new PlayerColors();
+    public Races races = new Races();
 
     public void loadAssets(AssetManager assetManager) {
         planetClasses.loadTextures(assetManager);

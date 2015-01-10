@@ -26,11 +26,8 @@ public class PlayerBuilder {
     }
 
     public Array<Player> randomizePlayers(int count) {
-        List<PlayerColor> colors = new LinkedList<PlayerColor>();
-        for (PlayerColor color : game.getActorAssets().playerColors.colors) {
-            colors.add(color);
-        }
-        Collections.shuffle(colors, random);
+        List<PlayerColor> colors = shufflePlayerColors();
+        List<Race> races = shuffleRaces();
 
         if (colors.size() < count) {
             throw new IllegalArgumentException("player count cannot be greater than available colors count");
@@ -41,9 +38,28 @@ public class PlayerBuilder {
             Player player = new Player();
             player.setName("Player-" + i);
             player.setPlayerColor(colors.get(i));
+            player.setRace(races.get(i % races.size()));
             result.add(player);
         }
 
         return result;
+    }
+
+    private List<Race> shuffleRaces() {
+        List<Race> races = new LinkedList<Race>();
+        for (Race race : game.getActorAssets().races.races) {
+            races.add(race);
+        }
+        Collections.shuffle(races, random);
+        return races;
+    }
+
+    private List<PlayerColor> shufflePlayerColors() {
+        List<PlayerColor> colors = new LinkedList<PlayerColor>();
+        for (PlayerColor color : game.getActorAssets().playerColors.colors) {
+            colors.add(color);
+        }
+        Collections.shuffle(colors, random);
+        return colors;
     }
 }

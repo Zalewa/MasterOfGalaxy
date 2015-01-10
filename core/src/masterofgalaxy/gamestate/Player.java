@@ -14,6 +14,7 @@ public class Player {
     }
 
     private final PlayerState state = new PlayerState();
+    private Race race;
     private boolean valid = true;
 
     public Player() {
@@ -44,6 +45,15 @@ public class Player {
 
     public void setName(String name) {
         state.setName(name);
+    }
+
+    public Race getRace() {
+        return race;
+    }
+
+    public void setRace(Race race) {
+        this.race = race;
+        state.setRaceName(race.getName());
     }
 
     public boolean isValid() {

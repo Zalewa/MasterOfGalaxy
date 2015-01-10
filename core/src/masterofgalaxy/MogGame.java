@@ -20,6 +20,7 @@ import masterofgalaxy.config.VideoDisplayMode;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
+import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.titlescreen.TitleScreen;
 import masterofgalaxy.world.WorldScreen;
@@ -69,7 +70,7 @@ public class MogGame extends Game {
 		}
 	}
 
-	public void restoreGame(GameState state) {
+	public void restoreGame(GameState state) throws SavedGameException {
 		makeSureWorldScreenIsInit();
 		StarFactory.lastId = state.getStarFactoryId();
 		FleetFactory.lastId = state.getFleetFactoryId();
@@ -122,6 +123,7 @@ public class MogGame extends Game {
 		actorAssets.planetClasses.load(Gdx.files.internal("actors/planets.json"));
 		actorAssets.starClasses.load(Gdx.files.internal("actors/stars.json"));
 		actorAssets.playerColors.load(Gdx.files.internal("actors/playercolors.json"));
+		actorAssets.races.load(Gdx.files.internal("actors/races.json"));
 		actorAssets.loadAssets(assetManager);
 
 		assetManager.finishLoading();

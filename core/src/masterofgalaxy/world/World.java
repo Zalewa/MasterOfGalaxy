@@ -8,12 +8,14 @@ import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.ecs.components.IdComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.gamestate.Player;
+import masterofgalaxy.gamestate.Race;
 
 public class World {
     private WorldScreen screen;
     private Array<Entity> entities = new Array<Entity>();
     private Array<Player> players = null;
     private Rectangle playField = new Rectangle();
+    private Array<Race> races;
 
     public World(WorldScreen screen) {
         this.screen = screen;
@@ -63,5 +65,13 @@ public class World {
 
     public float getUnitsPerParsec() {
         return 100.0f;
+    }
+
+    public Array<Race> getRaces() {
+        return races;
+    }
+
+    public void setRaces(Array<Race> races) {
+        this.races = races;
     }
 }

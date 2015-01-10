@@ -1,0 +1,13 @@
+{
+  "i18n": {
+    "bundle": "i18n/races"
+  },
+  "races": {
+    "human": {
+      "localizationBase": "$human"
+    },
+    "spacecows": {
+      "localizationBase": "$spacecow"
+    }
+  }
+}

@@ -1,14 +1,18 @@
 package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
+import masterofgalaxy.assets.actors.Races;
+import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.ecs.components.DockComponent;
 import masterofgalaxy.ecs.components.EntityTargetComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.RenderComponent;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
+import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
+import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
@@ -21,12 +25,17 @@ public class WorldStateRestorer {
         this.worldScreen = worldScreen;
     }
 
-    public void restore(WorldState state) {
+    public void restore(WorldState state) throws SavedGameException {
         this.worldState = state;
         restoreWorld();
+        restoreRaces();
         restorePlayers();
         restoreStars();
         restoreFleets();
+    }
+
+    private void restoreRaces() {
+        worldScreen.getWorld().setRaces(worldState.races);
     }
 
     private void restoreWorld() {
@@ -34,8 +43,16 @@ public class WorldStateRestorer {
         worldScreen.getWorld().setPlayField(worldState.playField);
     }
 
-    private void restorePlayers() {
+    private void restorePlayers() throws SavedGameException {
         worldScreen.getWorld().setPlayers(PlayerBuilder.fromStates(worldState.players));
+        for (Player player : worldScreen.getWorld().getPlayers()) {
+            Race race = Races.findRaceByName(worldScreen.getWorld().getRaces(), player.getState().getRaceName());
+            if (race == null) {
+                throw new SavedGameException(I18N.resolve("$raceCannotBeFoundInSaveGame",
+                        player.getState().getRaceName(), player.getName()));
+            }
+            player.setRace(race);
+        }
     }
 
     private void restoreStars() {
