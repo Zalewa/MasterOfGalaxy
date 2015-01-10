@@ -67,7 +67,7 @@ public class WorldCamera {
     }
 
     public float getMaxZoom() {
-        return 1.0f;
+        return 1.2f;
     }
 
     public void resetZoom() {
