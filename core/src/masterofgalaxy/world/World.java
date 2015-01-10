@@ -11,6 +11,8 @@ import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.Race;
 
 public class World {
+    public static final float unitsPerParsec = 100.0f;
+
     private WorldScreen screen;
     private Array<Entity> entities = new Array<Entity>();
     private Array<Player> players = null;
@@ -21,7 +23,7 @@ public class World {
         this.screen = screen;
     }
 
-    void addStar(Entity star) {
+    public void addStar(Entity star) {
     }
 
     public void dispose() {
@@ -47,7 +49,7 @@ public class World {
         return null;
     }
 
-    void setPlayField(Rectangle rectangle) {
+    public void setPlayField(Rectangle rectangle) {
         this.playField.set(rectangle);
     }
 
@@ -61,10 +63,6 @@ public class World {
 
     public void setPlayers(Array<Player> players) {
         this.players = players;
-    }
-
-    public float getUnitsPerParsec() {
-        return 100.0f;
     }
 
     public Array<Race> getRaces() {

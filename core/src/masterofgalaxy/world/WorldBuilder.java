@@ -9,66 +9,59 @@ import masterofgalaxy.RandomUtil;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
-import masterofgalaxy.gamestate.Homeworld;
-import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.Planet;
 import masterofgalaxy.world.stars.PlanetClass;
 import masterofgalaxy.world.stars.StarClass;
+import masterofgalaxy.world.worldbuild.RectangleWorldStarLayout;
 
 import java.text.MessageFormat;
 import java.util.Random;
 
 public class WorldBuilder {
+    private Rectangle playField;
     private WorldScreen screen;
     private World world;
     private Random random;
+    private RectangleWorldStarLayout layout;
     private long seed;
+    private int numPlayers;
+    private int numUnownedStars;
 
-    public WorldBuilder(WorldScreen screen, long seed) {
+    public WorldBuilder(WorldScreen screen, RectangleWorldStarLayout layout, long seed) {
         this.seed = seed;
+        this.layout = layout;
         this.random = new Random(seed);
         this.screen = screen;
     }
 
     public World build() {
         world = new World(screen);
-        world.setPlayField(new Rectangle(0.0f, 0.0f, 1200.0f, 1000.0f));
-        Array<Race> array = new Array<Race>(screen.getGame().getActorAssets().races.races);
-        world.setRaces(array);
-        world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(4));
 
-        createCorners();
-        createStars(20);
-        assignPlayersToStars();
+        world.setPlayField(playField);
+        world.setRaces(new Array<Race>(screen.getGame().getActorAssets().races.races));
+        world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(numPlayers));
+
+        layout.setNumUnownedStars(numUnownedStars);
+        layout.setSeed(seed);
+        layout.setWorld(world);
+        layout.buildStars();
+
+        populateOwnedStars();
         buildFleets();
 
         return world;
     }
 
-    private void assignPlayersToStars() {
-        Family family = Family.getFor(StarComponent.class);
+    private void populateOwnedStars() {
+        Family family = Family.getFor(PlayerOwnerComponent.class, StarComponent.class);
         ImmutableArray<Entity> stars = screen.getEntityEngine().getEntitiesFor(family);
-        int position = random.nextInt(stars.size() + 1);
-        position = Math.max(0, position - world.getPlayers().size);
         for (int i = 0; i < world.getPlayers().size; ++i) {
-            Player player = world.getPlayers().get(i);
-            Entity star = stars.get(position + i);
-
-            NameComponent name = Mappers.name.get(star);
-            Homeworld homeworld = player.getRace().getHomeworld();
-            name.setName(homeworld.getName());
-
-            PlayerOwnerComponent owner = Mappers.playerOwner.get(star);
-            owner.setOwner(player);
-
-            StarComponent starComponent = Mappers.star.get(star);
-            starComponent.klass = screen.getGame().getActorAssets().starClasses.findByType(homeworld.getStarType());
-            starComponent.planet = new Planet(screen.getGame().getActorAssets()
-                    .planetClasses.findByType(homeworld.getPlanetType()));
-
-            Mappers.spriteRender.get(star).setColor(starComponent.klass.getColor());
+            Entity star = stars.get(i);
+            if (Mappers.playerOwner.get(star).getOwner() == null) {
+                continue;
+            }
 
             ColonyComponent colony = screen.getEntityEngine().createComponent(ColonyComponent.class);
             colony.entity = star;
@@ -97,47 +90,27 @@ public class WorldBuilder {
         }
     }
 
-    private void createCorners() {
-        final float margin = 64.0f;
-
-        createStar("BottomLeft", world.getPlayField().getX() + margin, world.getPlayField().getY() + margin);
-        createStar("BottomRight", world.getPlayField().getX() + world.getPlayField().getWidth() - margin, world.getPlayField().getY() + margin);
-        createStar("TopLeft", world.getPlayField().getX() + margin, world.getPlayField().getY() + world.getPlayField().getHeight() - margin);
-        createStar("TopRight", world.getPlayField().getX() + world.getPlayField().getWidth() - margin, world.getPlayField().getY() + world.getPlayField().getHeight() - margin);
+    public int getNumPlayers() {
+        return numPlayers;
     }
 
-    private void createStars(int num) {
-        while (num > 0) {
-            float x = world.getPlayField().getX() + random.nextFloat() * world.getPlayField().getWidth();
-            float y = world.getPlayField().getY() + random.nextFloat() * world.getPlayField().getHeight();
-            createStar(MessageFormat.format("Star-{0}", num), x, y);
-            --num;
-        }
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
     }
 
-    private void createStar(String name, float x, float y) {
-        StarClass klass = screen.getGame().getActorAssets().starClasses.pickRandrom(random);
-        PlanetClass planetKlass = screen.getGame().getActorAssets().planetClasses.pickRandomClassForStarType(random, klass.getInternalName());
+    public Rectangle getPlayField() {
+        return playField;
+    }
 
-        float sizeScale = RandomUtil.nextFloat(random, klass.getMinSize(), klass.getMaxSize());
+    public void setPlayField(Rectangle playField) {
+        this.playField = playField;
+    }
 
-        Entity star = StarFactory.build(screen.getGame(), screen.getEntityEngine());
+    public int getNumUnownedStars() {
+        return numUnownedStars;
+    }
 
-        BodyComponent body = screen.getGame().getComponentMappers().body.get(star);
-        body.setPosition(x, y);
-        body.scale(sizeScale);
-
-        NameComponent nameComponent = screen.getGame().getComponentMappers().name.get(star);
-        nameComponent.setName(name);
-
-        RenderComponent render = Mappers.spriteRender.get(star);
-        render.setColor(klass.getColor());
-        render.scaleScale(sizeScale);
-
-        StarComponent starComponent = Mappers.star.get(star);
-        starComponent.klass = klass;
-        starComponent.planet = new Planet(planetKlass);
-
-        world.addStar(star);
+    public void setNumUnownedStars(int numUnownedStars) {
+        this.numUnownedStars = numUnownedStars;
     }
 }

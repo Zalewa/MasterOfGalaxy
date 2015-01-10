@@ -6,6 +6,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.systems.MoveToTargetSystem;
+import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
 class Slider {
@@ -49,7 +50,7 @@ class Slider {
             moveTarget = screen.getEntityEngine().createComponent(MoveTargetComponent.class);
             fleet.add(moveTarget);
         }
-        float fleetSpeed = fleetComponent.getSpeedInParsecsPerTurn() * screen.getWorld().getUnitsPerParsec();
+        float fleetSpeed = fleetComponent.getSpeedInParsecsPerTurn() * World.unitsPerParsec;
         moveSlice = moveTarget.getTarget();
         moveSlice.set(Mappers.body.get(entityTarget.target).getPosition())
                 .sub(body.getPosition())

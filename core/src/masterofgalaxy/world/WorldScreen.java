@@ -6,6 +6,7 @@ import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import masterofgalaxy.MogGame;
@@ -17,6 +18,7 @@ import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.turns.TurnProcessor;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
+import masterofgalaxy.world.worldbuild.RectangleWorldStarLayout;
 
 public class WorldScreen extends ScreenAdapter {
     private MogGame game;
@@ -78,7 +80,10 @@ public class WorldScreen extends ScreenAdapter {
     }
 
     private void createNewWorld() {
-        WorldBuilder builder = new WorldBuilder(this, System.currentTimeMillis());
+        WorldBuilder builder = new WorldBuilder(this, new RectangleWorldStarLayout(this), System.currentTimeMillis());
+        builder.setNumUnownedStars(20);
+        builder.setPlayField(new Rectangle(0.0f, 0.0f, 1200.0f, 1000.0f));
+        builder.setNumPlayers(4);
         world = builder.build();
     }
 
