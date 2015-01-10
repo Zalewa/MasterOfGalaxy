@@ -1,4 +1,4 @@
-package masterofgalaxy.world;
+package masterofgalaxy.world.worldbuild;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
@@ -11,6 +11,8 @@ import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
+import masterofgalaxy.world.World;
+import masterofgalaxy.world.WorldScreen;
 import masterofgalaxy.world.stars.Planet;
 import masterofgalaxy.world.stars.PlanetClass;
 import masterofgalaxy.world.stars.StarClass;
