@@ -3,22 +3,25 @@ package masterofgalaxy.world;
 import com.badlogic.ashley.core.Entity;
 import masterofgalaxy.assets.actors.Races;
 import masterofgalaxy.assets.i18n.I18N;
-import masterofgalaxy.ecs.components.DockComponent;
-import masterofgalaxy.ecs.components.EntityTargetComponent;
-import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.RenderComponent;
+import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
+import masterofgalaxy.gamestate.savegame.ColonyPersistence;
 import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
 
+import java.text.MessageFormat;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 public class WorldStateRestorer {
     private final WorldScreen worldScreen;
+    private Logger logger = Logger.getLogger(WorldStateRestorer.class.getName());
     private WorldState worldState;
 
     public WorldStateRestorer(WorldScreen worldScreen) {
@@ -31,6 +34,7 @@ public class WorldStateRestorer {
         restoreRaces();
         restorePlayers();
         restoreStars();
+        restoreColonies();
         restoreFleets();
     }
 
@@ -74,6 +78,24 @@ public class WorldStateRestorer {
         RenderComponent render = Mappers.spriteRender.get(star);
         render.setColor(starState.star.klass.getColor());
         render.setScaleToSize(starState.body.getSize());
+    }
+
+    private void restoreColonies() {
+        for (ColonyPersistence colony : worldState.colonies) {
+            restoreColony(colony);
+        }
+    }
+
+    private void restoreColony(ColonyPersistence colonyState) {
+        Entity star = worldScreen.getWorld().findEntityById(colonyState.entityId);
+        if (star != null) {
+            ColonyComponent colony = worldScreen.getEntityEngine().createComponent(ColonyComponent.class);
+            colony.entity = star;
+            colony.state.set(colonyState.state);
+            star.add(colony);
+        } else {
+            logger.log(Level.SEVERE, MessageFormat.format("parent entity '{0}' for colony not found", colonyState.entityId));
+        }
     }
 
     private void restoreFleets() {

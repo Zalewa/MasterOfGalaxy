@@ -38,6 +38,9 @@ public class Races {
             race.setName(name);
             race.setLocalizationBase(raceDef.getString("localizationBase"));
             race.setLocalizationBundleName(localizationBundleName);
+            race.setPopulationGrowthRate(raceDef.getFloat("populationGrowthRate"));
+            race.setProductionRate(raceDef.getFloat("productionRate"));
+            race.setResearchRate(raceDef.getFloat("researchRate"));
 
             this.races.add(race);
         }

@@ -9,6 +9,7 @@ public class TurnProcessor implements Disposable {
 
     private WorldScreen screen;
     private Slider slider;
+    private ColonyProgressor colonyProgressor;
     private int turn;
     private boolean isProcessing = false;
     private boolean firstProcess = false;
@@ -19,6 +20,7 @@ public class TurnProcessor implements Disposable {
     public TurnProcessor(WorldScreen screen) {
         this.screen = screen;
         slider = new Slider(screen);
+        colonyProgressor = new ColonyProgressor(screen);
     }
 
     public void startProcessing() {
@@ -45,6 +47,7 @@ public class TurnProcessor implements Disposable {
     }
 
     private void endProcessing() {
+        colonyProgressor.progress();
         isProcessing = false;
         slider.end();
 

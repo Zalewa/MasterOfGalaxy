@@ -11,6 +11,7 @@ import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.ecs.entities.StarFactory;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
+import masterofgalaxy.world.stars.Planet;
 import masterofgalaxy.world.stars.PlanetClass;
 import masterofgalaxy.world.stars.StarClass;
 
@@ -50,8 +51,16 @@ public class WorldBuilder {
         int position = random.nextInt(stars.size() + 1);
         position = Math.max(0, position - world.getPlayers().size);
         for (int i = 0; i < world.getPlayers().size; ++i) {
-            PlayerOwnerComponent owner = Mappers.playerOwner.get(stars.get(position + i));
+            Entity star = stars.get(position + i);
+
+            PlayerOwnerComponent owner = Mappers.playerOwner.get(star);
             owner.setOwner(world.getPlayers().get(i));
+
+            ColonyComponent colony = screen.getEntityEngine().createComponent(ColonyComponent.class);
+            colony.entity = star;
+            colony.state.population = 10.0f;
+            colony.state.factories = 1.0f;
+            star.add(colony);
         }
     }
 
@@ -113,7 +122,7 @@ public class WorldBuilder {
 
         StarComponent starComponent = Mappers.star.get(star);
         starComponent.klass = klass;
-        starComponent.planetKlass = planetKlass;
+        starComponent.planet = new Planet(planetKlass);
 
         world.addStar(star);
     }

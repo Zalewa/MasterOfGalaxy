@@ -4,10 +4,16 @@
   },
   "races": {
     "human": {
-      "localizationBase": "$human"
+      "localizationBase": "$human",
+      "populationGrowthRate": 1.0,
+      "productionRate": 1.0,
+      "researchRate": 1.0
     },
     "spacecows": {
-      "localizationBase": "$spacecow"
+      "localizationBase": "$spacecow",
+      "populationGrowthRate": 1.5,
+      "productionRate": 0.5,
+      "researchRate": 0.5
     }
   }
 }

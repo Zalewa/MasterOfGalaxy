@@ -3,10 +3,7 @@ package masterofgalaxy.world.ui;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import masterofgalaxy.MogGame;
@@ -17,6 +14,7 @@ import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.NameComponent;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
 import masterofgalaxy.ecs.components.StarComponent;
+import masterofgalaxy.ui.ContainerEx;
 
 public class StarUi extends Table implements Localizable {
     private Skin skin;
@@ -28,6 +26,8 @@ public class StarUi extends Table implements Localizable {
     private Table starInfoLayout;
     private Label planetLabel;
     private Image planetImage;
+    private ContainerEx<ColonyUi> colonyUiContainer;
+    private ColonyUi colonyUi;
     private MogGame game;
 
     public StarUi(MogGame game, Skin skin) {
@@ -38,9 +38,19 @@ public class StarUi extends Table implements Localizable {
 
         setupHeader();
         setupStarInfo();
+        setupColonyUi();
 
         setBackground("default-rect");
         setColor(1.0f, 1.0f, 1.0f, 1.0f);
+    }
+
+    private void setupColonyUi() {
+        colonyUi = new ColonyUi(game, skin);
+        colonyUiContainer = new ContainerEx<ColonyUi>();
+        colonyUiContainer.fillX();
+        colonyUiContainer.setActor(colonyUi);
+        add(colonyUiContainer).expandX().fillX();
+        row();
     }
 
     private void setupHeader() {
@@ -94,15 +104,20 @@ public class StarUi extends Table implements Localizable {
                 ownerLabel.setText("");
             }
             starLabel.setText(starComponent.klass.getLocalizedName());
-            planetLabel.setText(starComponent.planetKlass.getLocalizedName());
+            planetLabel.setText(starComponent.planet.klass.getLocalizedName());
             planetImage.setDrawable(getPlanetDrawable(starComponent));
+            colonyUiContainer.setActorVisible(Mappers.colony.has(entity));
+            colonyUi.setEntity(entity);
+        } else {
+            colonyUiContainer.setActorVisible(false);
         }
+        pack();
     }
 
     private TextureRegionDrawable getPlanetDrawable(StarComponent starComponent) {
         Texture texture;
         try {
-            texture = game.getAssetManager().get(starComponent.planetKlass.getTextureName(), Texture.class);
+            texture = game.getAssetManager().get(starComponent.planet.klass.getTextureName(), Texture.class);
         } catch (GdxRuntimeException e) {
             return null;
         }

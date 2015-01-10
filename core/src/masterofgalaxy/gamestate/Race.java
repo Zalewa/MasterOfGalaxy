@@ -6,6 +6,9 @@ public class Race {
     private String name;
     private String localizationBase;
     private String localizationBundleName;
+    private float populationGrowthRate = 1.0f;
+    private float productionRate = 1.0f;
+    private float researchRate;
 
     public String getName() {
         return name;
@@ -33,5 +36,29 @@ public class Race {
 
     public String getNameInLocalizedForm(I18NFormsResolver.Form form) {
         return I18NFormsResolver.resolve(localizationBase, localizationBundleName, form);
+    }
+
+    public float getPopulationGrowthRate() {
+        return populationGrowthRate;
+    }
+
+    public void setPopulationGrowthRate(float populationGrowthRate) {
+        this.populationGrowthRate = populationGrowthRate;
+    }
+
+    public float getProductionRate() {
+        return productionRate;
+    }
+
+    public void setProductionRate(float productionRate) {
+        this.productionRate = productionRate;
+    }
+
+    public void setResearchRate(float researchRate) {
+        this.researchRate = researchRate;
+    }
+
+    public float getResearchRate() {
+        return researchRate;
     }
 }

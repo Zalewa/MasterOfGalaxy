@@ -18,4 +18,5 @@ public class Mappers {
     public static final ComponentMapper<MoveTargetComponent> moveTarget = ComponentMapper.getFor(MoveTargetComponent.class);
     public static final ComponentMapper<IdComponent> id = ComponentMapper.getFor(IdComponent.class);
     public static final ComponentMapper<EntityTargetComponent> entityTarget = ComponentMapper.getFor(EntityTargetComponent.class);
+    public static final ComponentMapper<ColonyComponent> colony = ComponentMapper.getFor(ColonyComponent.class);
 }

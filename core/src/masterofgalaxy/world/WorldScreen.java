@@ -290,6 +290,7 @@ public class WorldScreen extends ScreenAdapter {
 
     private void startNextTurn() {
         ui.endTurnProcessing();
+        selectionChanged.dispatch(pickLogic.getSelectedEntity());
     }
 
     public int getTurn() {

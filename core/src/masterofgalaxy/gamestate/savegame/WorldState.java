@@ -12,4 +12,5 @@ public class WorldState {
     public Array<StarState> stars;
     public Array<FleetState> fleets;
     public Array<Race> races;
+    public Array<ColonyPersistence> colonies;
 }

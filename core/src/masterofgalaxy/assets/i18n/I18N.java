@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.JsonReader;
 
+import java.text.MessageFormat;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -30,6 +31,7 @@ public class I18N {
         currentLocalization = localization;
         I18N.locale = localization.getLocale();
         System.out.println("Loading locale: " + locale);
+        Locale.setDefault(locale);
         i18n = I18NBundle.createBundle(Gdx.files.internal("i18n/i18n"), locale);
 
         Signal<Object> suppressed = localeChanged;
@@ -64,6 +66,10 @@ public class I18N {
             }
         }
         return key;
+    }
+
+    public static String formatFloat(float f, String formatter) {
+        return MessageFormat.format(formatter, f);
     }
 
     private static void reloadBundles() {

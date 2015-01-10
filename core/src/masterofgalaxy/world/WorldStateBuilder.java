@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerState;
+import masterofgalaxy.gamestate.savegame.ColonyPersistence;
 import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
@@ -27,6 +28,7 @@ public class WorldStateBuilder {
         state.players = getPlayers();
         state.stars = getStars();
         state.fleets = getFleets();
+        state.colonies = getColonies();
         return state;
     }
 
@@ -82,6 +84,18 @@ public class WorldStateBuilder {
                 state.targetId = Mappers.id.get(target.target).id;
             }
             states.add(state);
+        }
+        return states;
+    }
+
+    private Array<ColonyPersistence> getColonies() {
+        Array<ColonyPersistence> states = new Array<ColonyPersistence>();
+        ImmutableArray<Entity> colonies = worldScreen.getEntityEngine().getEntitiesFor(Family.getFor(IdComponent.class, ColonyComponent.class));
+        for (int i = 0; i < colonies.size(); ++i) {
+            ColonyPersistence persistence = new ColonyPersistence();
+            persistence.entityId = Mappers.id.get(colonies.get(i)).id;
+            persistence.state = Mappers.colony.get(colonies.get(i)).state;
+            states.add(persistence);
         }
         return states;
     }
