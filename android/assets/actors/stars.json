@@ -23,7 +23,7 @@
     },
     "blue": {
       "typeName": "$blue",
-      "color": "0000dfff",
+      "color": "0aa5ffff",
       "minSize": 0.8,
       "maxSize": 1.2
     },
