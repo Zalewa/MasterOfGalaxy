@@ -90,6 +90,7 @@ public class WorldScreen extends ScreenAdapter {
     private void postWorldBuildActions() {
         resetActorPicker();
         resetCamera();
+        ui.updateTurnLabel();
     }
 
     private void resetActorPicker() {
