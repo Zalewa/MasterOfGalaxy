@@ -21,7 +21,6 @@ public class StarUi extends Table implements Localizable {
     private Entity entity;
     private Label nameLabel;
     private Label ownerLabel;
-    private Label starLabel;
     private Table starLayout;
     private Table starInfoLayout;
     private Label planetLabel;
@@ -79,9 +78,6 @@ public class StarUi extends Table implements Localizable {
         starInfoLayout = new Table(skin);
         starLayout.add(starInfoLayout).expand().fillX().top();
 
-        starLabel = new Label("", skin);
-        starInfoLayout.add(starLabel).expandX().left();
-
         starInfoLayout.row();
         planetLabel = new Label("", skin);
         starInfoLayout.add(planetLabel).expandX().left();
@@ -103,7 +99,6 @@ public class StarUi extends Table implements Localizable {
             } else {
                 ownerLabel.setText("");
             }
-            starLabel.setText(starComponent.klass.getLocalizedName());
             planetLabel.setText(starComponent.planet.klass.getLocalizedName());
             planetImage.setDrawable(getPlanetDrawable(starComponent));
             colonyUiContainer.setActorVisible(Mappers.colony.has(entity));
