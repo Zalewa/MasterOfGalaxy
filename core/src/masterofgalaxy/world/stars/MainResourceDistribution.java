@@ -102,6 +102,15 @@ public class MainResourceDistribution {
         normalizeDistribution(id, pool - getSum());
     }
 
+    public void clearAndDistributeElsewhere(ResourceId clearedId, ResourceId targetId) {
+        Resource source = distribution.get(clearedId);
+        Resource target = distribution.get(targetId);
+        float amount = source.amount;
+        source.setAmount(0.0f);
+        float delta = amount - source.amount;
+        target.setAmount(target.amount + delta);
+    }
+
     private void normalizeDistribution(ResourceId id, float delta) {
         int idx = indexOfResourceId(id);
         for (int i = 1; i <= ResourceId.values().length; ++i) {

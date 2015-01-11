@@ -6,6 +6,8 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import masterofgalaxy.ecs.components.ColonyComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.world.WorldScreen;
+import masterofgalaxy.world.stars.MainResourceDistribution;
+import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
 
 public class ColonyProgressor {
     private WorldScreen screen;
@@ -31,10 +33,16 @@ public class ColonyProgressor {
     private void growPopulation(ColonyComponent colony) {
         colony.state.population += colony.getPopulationGrowthRate();
         colony.state.population = Math.min(colony.getMaxPopulation(), colony.state.population);
+        if (colony.isMaxPopulation()) {
+            colony.state.mainResourceDistribution.clearAndDistributeElsewhere(ResourceId.Ecology, ResourceId.Research);
+        }
     }
 
     private void growFactories(ColonyComponent colony) {
         colony.state.factories += colony.getFactoriesGrowthRate();
         colony.state.factories = Math.min(colony.getMaxFactories(), colony.state.factories);
+        if (colony.isMaxFactories()) {
+            colony.state.mainResourceDistribution.clearAndDistributeElsewhere(ResourceId.Industry, ResourceId.Research);
+        }
     }
 }

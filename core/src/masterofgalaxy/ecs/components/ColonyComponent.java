@@ -125,11 +125,11 @@ public class ColonyComponent extends Component implements Pool.Poolable {
         }
     }
 
-    private boolean isMaxPopulation() {
+    public boolean isMaxPopulation() {
         return Float.compare(state.population, getMaxPopulation()) >= 0;
     }
 
-    private boolean isMaxFactories() {
+    public boolean isMaxFactories() {
         return Float.compare(state.factories, getMaxFactories()) >= 0;
     }
 }
