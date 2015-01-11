@@ -8,6 +8,6 @@ public class ColonyState {
     public void set(ColonyState other) {
         this.population = other.population;
         this.factories = other.factories;
-        this.mainResourceDistribution.set(mainResourceDistribution);
+        this.mainResourceDistribution.setValues(other.mainResourceDistribution);
     }
 }

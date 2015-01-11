@@ -11,6 +11,7 @@ import masterofgalaxy.gamestate.savegame.ColonyPersistence;
 import masterofgalaxy.gamestate.savegame.FleetState;
 import masterofgalaxy.gamestate.savegame.StarState;
 import masterofgalaxy.gamestate.savegame.WorldState;
+import masterofgalaxy.world.stars.ColonyState;
 
 public class WorldStateBuilder {
     private WorldScreen worldScreen;
@@ -94,7 +95,8 @@ public class WorldStateBuilder {
         for (int i = 0; i < colonies.size(); ++i) {
             ColonyPersistence persistence = new ColonyPersistence();
             persistence.entityId = Mappers.id.get(colonies.get(i)).id;
-            persistence.state = Mappers.colony.get(colonies.get(i)).state;
+            persistence.state = new ColonyState();
+            persistence.state.set(Mappers.colony.get(colonies.get(i)).state);
             states.add(persistence);
         }
         return states;

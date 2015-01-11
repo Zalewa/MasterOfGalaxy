@@ -1,8 +1,6 @@
 package masterofgalaxy.world.stars;
 
-import com.badlogic.gdx.math.MathUtils;
 import masterofgalaxy.AskForFloat;
-import masterofgalaxy.world.ui.ResourceDistributionSlider;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -22,19 +20,19 @@ public class MainResourceDistribution {
         }
     }
 
-    private final static float pool = 1.0f;
+    public final static float pool = 1.0f;
 
-    private Map<ResourceId, Resource> distribution = new LinkedHashMap<ResourceId, Resource>();
+    private Map<String, Resource> distribution = new LinkedHashMap<String, Resource>();
 
     public MainResourceDistribution() {
         for (ResourceId id : ResourceId.values()) {
-            distribution.put(id, new Resource());
+            distribution.put(id.name(), new Resource());
         }
     }
 
-    public void set(MainResourceDistribution other) {
+    public void setValues(MainResourceDistribution other) {
         for (ResourceId id : ResourceId.values()) {
-            distribution.get(id).set(other.distribution.get(id));
+            distribution.get(id.name()).setValues(other.distribution.get(id.name()));
         }
     }
 
@@ -79,49 +77,49 @@ public class MainResourceDistribution {
     }
 
     public void setLocked(ResourceId id, boolean locked) {
-        distribution.get(id).locked = locked;
+        distribution.get(id.name()).locked = locked;
     }
 
     public boolean isLocked(ResourceId id) {
-        return distribution.get(id).locked;
+        return distribution.get(id.name()).locked;
     }
 
     public void setMinAmountAsker(ResourceId resourceId, AskForFloat asker) {
-        distribution.get(resourceId).minAmountAsker = asker;
+        distribution.get(resourceId.name()).minAmountAsker = asker;
     }
 
     public float getAmount(ResourceId id) {
-        return distribution.get(id).amount;
+        return distribution.get(id.name()).getAmount();
     }
 
     public void setAmount(ResourceId id, float amount) {
-        Resource resource = distribution.get(id);
-        float oldValue = resource.amount;
+        Resource resource = distribution.get(id.name());
+        float oldValue = resource.getAmount();
         resource.setAmount(amount);
-        float newValue = resource.amount;
+        float newValue = resource.getAmount();
         normalizeDistribution(id, pool - getSum());
     }
 
     public void clearAndDistributeElsewhere(ResourceId clearedId, ResourceId targetId) {
-        Resource source = distribution.get(clearedId);
-        Resource target = distribution.get(targetId);
-        float amount = source.amount;
+        Resource source = distribution.get(clearedId.name());
+        Resource target = distribution.get(targetId.name());
+        float amount = source.getAmount();
         source.setAmount(0.0f);
-        float delta = amount - source.amount;
-        target.setAmount(target.amount + delta);
+        float delta = amount - source.getAmount();
+        target.setAmount(target.getAmount() + delta);
     }
 
     private void normalizeDistribution(ResourceId id, float delta) {
         int idx = indexOfResourceId(id);
         for (int i = 1; i <= ResourceId.values().length; ++i) {
             ResourceId nextId = ResourceId.values()[(idx + i) % ResourceId.values().length];
-            Resource resource = distribution.get(nextId);
+            Resource resource = distribution.get(nextId.name());
             if (resource.locked && nextId != id) {
                 continue;
             }
-            float oldValue = resource.amount;
+            float oldValue = resource.getAmount();
             resource.setAmount(oldValue + delta);
-            float newValue = resource.amount;
+            float newValue = resource.getAmount();
             delta -= newValue - oldValue;
             if (Float.compare(getSum(), pool) == 0) {
                 return;
@@ -141,29 +139,9 @@ public class MainResourceDistribution {
     private float getSum() {
         float sum = 0.0f;
         for (Resource resource : distribution.values()) {
-            sum += resource.amount;
+            sum += resource.getAmount();
         }
         return sum;
     }
 
-    private class Resource {
-        private float amount;
-
-        public boolean locked;
-        public AskForFloat minAmountAsker;
-
-        public void set(Resource other) {
-            locked = other.locked;
-            amount = other.amount;
-            minAmountAsker = other.minAmountAsker;
-        }
-
-        public void setAmount(float value) {
-            float minAmount = 0.0f;
-            if (minAmountAsker != null) {
-                minAmount = minAmountAsker.ask();
-            }
-            amount = MathUtils.clamp(value, minAmount, pool);
-        }
-    }
 }
