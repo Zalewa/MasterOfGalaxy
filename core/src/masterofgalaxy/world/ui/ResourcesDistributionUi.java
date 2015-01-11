@@ -120,6 +120,7 @@ public class ResourcesDistributionUi extends Table implements Localizable {
             ResourceDistributionSlider slider = mainResourceSliders.get(resourceId);
             slider.setSliderValue(colony.state.mainResourceDistribution.getAmount(resourceId));
             slider.setLocked(colony.state.mainResourceDistribution.isLocked(resourceId));
+            slider.setValueLabelText(colony.getResourceDistributionValueLabel(resourceId));
         }
         mainResourceSliderChangeAdapter.enabled = true;
     }

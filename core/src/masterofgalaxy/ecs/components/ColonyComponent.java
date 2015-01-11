@@ -4,9 +4,11 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.utils.Pool;
 import masterofgalaxy.AskForFloat;
+import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.ColonyState;
+import masterofgalaxy.world.stars.MainResourceDistribution;
 import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
 import masterofgalaxy.world.stars.Planet;
 
@@ -102,5 +104,32 @@ public class ColonyComponent extends Component implements Pool.Poolable {
 
     public float getMinimumEcologyPercentage() {
         return 0.3f;
+    }
+
+    public String getResourceDistributionValueLabel(ResourceId resourceId) {
+        switch (resourceId) {
+            case Industry:
+                if (!isMaxFactories()) {
+                    return I18N.formatFloat(getFactoriesGrowthRate(), "{0,number,0.0}");
+                } else {
+                    return I18N.resolve("$maxCapitalized");
+                }
+            case Ecology:
+                if (!isMaxPopulation()) {
+                    return I18N.formatFloat(getPopulationGrowthRate(), "{0,number,0.0}");
+                } else {
+                    return I18N.resolve("$maxCapitalized");
+                }
+            default:
+                return I18N.resolve("$n/a");
+        }
+    }
+
+    private boolean isMaxPopulation() {
+        return Float.compare(state.population, getMaxPopulation()) >= 0;
+    }
+
+    private boolean isMaxFactories() {
+        return Float.compare(state.factories, getMaxFactories()) >= 0;
     }
 }

@@ -73,4 +73,8 @@ public class ResourceDistributionSlider {
     public boolean isActorMine(Actor actor) {
         return actor == label || actor == slider || actor == valueLabel;
     }
+
+    public void setValueLabelText(String text) {
+        valueLabel.setText(text);
+    }
 }
