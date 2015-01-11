@@ -17,6 +17,7 @@ public class ColonyUi extends Table implements Localizable {
     private MogGame game;
     private Skin skin;
     private Entity entity;
+    private ResourcesDistributionUi resourcesDistributionUi;
     private Label populationLabel;
     private Label populationValueLabel;
     private Label factoriesLabel;
@@ -45,6 +46,7 @@ public class ColonyUi extends Table implements Localizable {
         ColonyComponent colony = Mappers.colony.get(entity);
         if (colony != null) {
             setColony(colony);
+            resourcesDistributionUi.setColony(colony);
         }
     }
 
@@ -58,6 +60,7 @@ public class ColonyUi extends Table implements Localizable {
         setupPopulation();
         setupFactoriesLabel();
         setupProductionLabel();
+        setupResourcesUi();
     }
 
     private void setupPopulation() {
@@ -81,6 +84,12 @@ public class ColonyUi extends Table implements Localizable {
         add(productionLabel).left();
         productionValueLabel = new Label("", skin);
         add(productionValueLabel).right();
+        row();
+    }
+
+    private void setupResourcesUi() {
+        resourcesDistributionUi = new ResourcesDistributionUi(skin);
+        add(resourcesDistributionUi).expandX().fillX().colspan(2);
         row();
     }
 

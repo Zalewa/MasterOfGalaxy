@@ -1,6 +1,6 @@
 package masterofgalaxy.gamestate.savegame;
 
-import masterofgalaxy.ecs.components.ColonyState;
+import masterofgalaxy.world.stars.ColonyState;
 
 public class ColonyPersistence {
     public String entityId;
