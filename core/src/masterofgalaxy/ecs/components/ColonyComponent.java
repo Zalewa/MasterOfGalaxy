@@ -32,12 +32,40 @@ public class ColonyComponent extends Component implements Pool.Poolable {
         state.mainResourceDistribution.setIndustry(1.0f);
     }
 
-    public float getGrowthRate() {
+    public float getPopulationGrowthRate() {
+        return getNaturalGrowthRate() + getEcologyGrowthBonus();
+    }
+
+    private float getNaturalGrowthRate() {
         return getPlanet().getGrowthRateMultiplier() * getRace().getPopulationGrowthRate();
     }
 
+    private float getEcologyGrowthBonus() {
+        return getEcologyRatioAboveMin() * getProduction() / getOwner().getProductionCostPerPopulationGrowth();
+    }
+
+    private float getEcologyRatioAboveMin() {
+        return state.mainResourceDistribution.getEcology() - getMinimumEcologyPercentage();
+    }
+
+    public float getFactoriesGrowthRate() {
+        return state.mainResourceDistribution.getIndustry() * getProduction() / getOwner().getProductionCostPerFactory();
+    }
+
     public float getProduction() {
-        return getMannedFactories() * getPlanet().getProductionMultiplier() * getRace().getProductionRate();
+        return getPlanet().getProductionMultiplier() * (getProductionFromMannedFactories() + getProductionFromJoblessPopulation());
+    }
+
+    private float getProductionFromJoblessPopulation() {
+        return getJoblessPopulation() * getOwner().getProductionPerJoblessPopulation();
+    }
+
+    private int getJoblessPopulation() {
+        return (int)Math.max(state.population - state.factories, 0.0f);
+    }
+
+    private float getProductionFromMannedFactories() {
+        return getMannedFactories() * getOwner().getProductionPerMannedFactory();
     }
 
     public int getMannedFactories() {
@@ -46,6 +74,14 @@ public class ColonyComponent extends Component implements Pool.Poolable {
 
     public float getMaxResearchPoints() {
         return getProduction() * getPlanet().getResearchMultiplier() * getRace().getResearchRate();
+    }
+
+    public float getMaxPopulation() {
+        return getPlanet().getMaxPopulation();
+    }
+
+    public float getMaxFactories() {
+        return getMaxPopulation() * getOwner().getFactoryPopulationCapacity();
     }
 
     private Race getRace() {

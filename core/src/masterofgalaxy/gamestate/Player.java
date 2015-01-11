@@ -63,4 +63,24 @@ public class Player {
     public PlayerState getState() {
         return state;
     }
+
+    public float getProductionCostPerPopulationGrowth() {
+        return 100.0f;
+    }
+
+    public float getFactoryPopulationCapacity() {
+        return 2.0f;
+    }
+
+    public float getProductionCostPerFactory() {
+        return 10.0f;
+    }
+
+    public float getProductionPerJoblessPopulation() {
+        return 1.0f * getRace().getProductionRate();
+    }
+
+    public float getProductionPerMannedFactory() {
+        return 5.0f * getRace().getProductionRate();
+    }
 }

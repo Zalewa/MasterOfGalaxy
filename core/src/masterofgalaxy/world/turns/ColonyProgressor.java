@@ -5,8 +5,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import masterofgalaxy.ecs.components.ColonyComponent;
 import masterofgalaxy.ecs.components.Mappers;
-import masterofgalaxy.ecs.components.PlayerOwnerComponent;
-import masterofgalaxy.ecs.components.StarComponent;
 import masterofgalaxy.world.WorldScreen;
 
 public class ColonyProgressor {
@@ -25,6 +23,18 @@ public class ColonyProgressor {
 
     private void progressColony(Entity entity) {
         ColonyComponent colony = Mappers.colony.get(entity);
-        colony.state.population += colony.getGrowthRate();
+
+        growPopulation(colony);
+        growFactories(colony);
+    }
+
+    private void growPopulation(ColonyComponent colony) {
+        colony.state.population += colony.getPopulationGrowthRate();
+        colony.state.population = Math.min(colony.getMaxPopulation(), colony.state.population);
+    }
+
+    private void growFactories(ColonyComponent colony) {
+        colony.state.factories += colony.getFactoriesGrowthRate();
+        colony.state.factories = Math.min(colony.getMaxFactories(), colony.state.factories);
     }
 }

@@ -30,6 +30,10 @@ public class Planet {
         return 1.0f;
     }
 
+    public float getMaxPopulation() {
+        return 80.0f;
+    }
+
     public boolean isValid() {
         return valid;
     }
