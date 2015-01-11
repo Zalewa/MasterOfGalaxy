@@ -53,7 +53,8 @@ public class ResourcesDistributionUi extends Table implements Localizable {
 
     private void setupSliders() {
         slidersTable = new Table(skin);
-        add(slidersTable).expandX().fillX();
+        slidersTable.defaults().space(3.0f);
+        add(slidersTable).expandX().fillX().width(this.getWidth());
         row();
 
         mkMainResourceSlider(ResourceId.Shipyard);
@@ -84,8 +85,8 @@ public class ResourcesDistributionUi extends Table implements Localizable {
 
     private void addResourceSliderToTable(Table table, ResourceDistributionSlider slider) {
         table.add(slider.getLabel()).left();
-        table.add(slider.getSlider()).expandX().fillX();
-        table.add(slider.getValueLabel()).right();
+        table.add(slider.getSlider()).maxWidth(100.0f).prefWidth(100.0f).width(100.0f).fillX();
+        table.add(slider.getValueLabel()).expandX().right();
         table.row();
     }
 

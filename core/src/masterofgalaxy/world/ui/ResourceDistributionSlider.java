@@ -18,7 +18,7 @@ public class ResourceDistributionSlider {
     public ResourceDistributionSlider(Skin skin) {
         this.label = new Label("", skin);
         label.setTouchable(Touchable.enabled);
-        this.valueLabel = new Label("", skin);
+        this.valueLabel = new Label("N/A", skin);
         this.slider = new Slider(0.0f, 1.0f, 0.01f, false, skin);
         this.skin = skin;
         updateLockedStyle();
