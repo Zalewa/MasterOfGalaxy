@@ -13,7 +13,7 @@ import masterofgalaxy.world.WorldScreen;
 import java.util.Random;
 
 public class RectangleWorldStarLayout {
-    private final float rectPadding = 16.0f;
+    private final float rectPadding = 32.0f;
 
     private WorldScreen screen;
     private World world;
