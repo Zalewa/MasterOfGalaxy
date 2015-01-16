@@ -20,6 +20,8 @@ public class ColonyUi extends Table implements Localizable {
     private ResourcesDistributionUi resourcesDistributionUi;
     private Label populationLabel;
     private Label populationValueLabel;
+    private Label defenseBasesLabel;
+    private Label defenseBasesValueLabel;
     private Label factoriesLabel;
     private Label factoriesValueLabel;
     private Label productionLabel;
@@ -53,12 +55,14 @@ public class ColonyUi extends Table implements Localizable {
     private void setColony(ColonyComponent colony) {
         populationValueLabel.setText(I18N.formatFloat(colony.state.population, "{0,number,0.0}"));
         factoriesValueLabel.setText(I18N.formatFloat(colony.state.factories, "{0,number,0}"));
+        defenseBasesValueLabel.setText(I18N.formatFloat(colony.state.defenseBases, "{0,number,0}"));
         productionValueLabel.setText(I18N.formatFloat(colony.getProduction(), "{0,number,0.0}"));
     }
 
     private void setupUi() {
         setupPopulation();
         setupFactoriesLabel();
+        setupDefenseBasesLabel();
         setupProductionLabel();
         setupResourcesUi();
     }
@@ -76,6 +80,14 @@ public class ColonyUi extends Table implements Localizable {
         add(factoriesLabel).left();
         factoriesValueLabel = new Label("", skin);
         add(factoriesValueLabel).right();
+        row();
+    }
+
+    private void setupDefenseBasesLabel() {
+        defenseBasesLabel = new Label("", skin);
+        add(defenseBasesLabel).left();
+        defenseBasesValueLabel = new Label("", skin);
+        add(defenseBasesValueLabel).right();
         row();
     }
 
@@ -97,6 +109,7 @@ public class ColonyUi extends Table implements Localizable {
     public void applyTranslation() {
         populationLabel.setText(I18N.resolve("$population_colon"));
         productionLabel.setText(I18N.resolve("$production_colon"));
+        defenseBasesLabel.setText(I18N.resolve("$bases_colon"));
         factoriesLabel.setText(I18N.resolve("$factories_colon"));
         setEntity(entity);
     }

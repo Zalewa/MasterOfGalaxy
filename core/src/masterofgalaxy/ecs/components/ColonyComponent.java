@@ -54,6 +54,10 @@ public class ColonyComponent extends Component implements Pool.Poolable {
         return state.mainResourceDistribution.getIndustry() * getProduction() / getOwner().getProductionCostPerFactory();
     }
 
+    public float getDefenseBasesGrowthRate() {
+        return state.mainResourceDistribution.getDefense() * getProduction() / getOwner().getProductionCostPerDefenseBase();
+    }
+
     public float getProduction() {
         return getPlanet().getProductionMultiplier() * (getProductionFromMannedFactories() + getProductionFromJoblessPopulation());
     }
@@ -108,6 +112,8 @@ public class ColonyComponent extends Component implements Pool.Poolable {
 
     public String getResourceDistributionValueLabel(ResourceId resourceId) {
         switch (resourceId) {
+            case Defense:
+                return I18N.formatFloat(getDefenseBasesGrowthRate(), "{0,number,0.0}");
             case Industry:
                 if (!isMaxFactories()) {
                     return I18N.formatFloat(getFactoriesGrowthRate(), "{0,number,0.0}");

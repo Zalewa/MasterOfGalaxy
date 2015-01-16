@@ -28,6 +28,7 @@ public class ColonyProgressor {
 
         growPopulation(colony);
         growFactories(colony);
+        growBases(colony);
     }
 
     private void growPopulation(ColonyComponent colony) {
@@ -44,5 +45,9 @@ public class ColonyProgressor {
         if (colony.isMaxFactories()) {
             colony.state.mainResourceDistribution.clearAndDistributeElsewhere(ResourceId.Industry, ResourceId.Research);
         }
+    }
+
+    private void growBases(ColonyComponent colony) {
+        colony.state.defenseBases += colony.getDefenseBasesGrowthRate();
     }
 }

@@ -76,6 +76,10 @@ public class Player {
         return 10.0f;
     }
 
+    public float getProductionCostPerDefenseBase() {
+        return 50.0f;
+    }
+
     public float getProductionPerJoblessPopulation() {
         return 1.0f * getRace().getProductionRate();
     }
