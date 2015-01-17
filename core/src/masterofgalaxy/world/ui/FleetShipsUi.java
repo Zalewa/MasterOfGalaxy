@@ -26,6 +26,7 @@ public class FleetShipsUi extends Table implements Localizable {
         pad(5.0f);
 
         setupUi();
+        applyTranslation();
     }
 
     private void setupUi() {

@@ -35,6 +35,8 @@ public class FleetUi extends Table implements Localizable {
 
         setBackground("default-rect");
         setColor(1.0f, 1.0f, 1.0f, 1.0f);
+
+        applyTranslation();
     }
 
     private void setupHeader() {
