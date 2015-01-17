@@ -61,6 +61,7 @@ public class WorldScreen extends ScreenAdapter {
         entityEngine.addSystem(new BlinkSystem());
         entityEngine.addSystem(new SelectionScalingSystem());
         entityEngine.addSystem(new DockPositioningSystem());
+        entityEngine.addSystem(new DockCleanupSystem());
         entityEngine.addSystem(new MoveToTargetSystem());
         entityEngine.addSystem(new ParentshipSystem());
         entityEngine.addSystem(new RenderingSystem(game));

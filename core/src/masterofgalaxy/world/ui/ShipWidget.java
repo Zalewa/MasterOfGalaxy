@@ -15,6 +15,7 @@ public class ShipWidget extends Table {
     private Slider amountSlider;
     private Label selectedAmountLabel;
     private Skin skin;
+    private FleetComponent.Ship ship;
 
     public ShipWidget(Skin skin) {
         super(skin);
@@ -44,11 +45,17 @@ public class ShipWidget extends Table {
     }
 
     public void setShip(FleetComponent.Ship ship) {
+        this.ship = ship;
+
         nameLabel.setText(ship.design.getName());
         countLabel.setText("" + ship.count);
 
         amountSlider.setRange(0.0f, (float) ship.count);
         amountSlider.setValue((float) ship.count);
+    }
+
+    public FleetComponent.Ship getShip() {
+        return ship;
     }
 
     public int getSelectedAmount() {

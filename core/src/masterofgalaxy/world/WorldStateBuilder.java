@@ -72,7 +72,7 @@ public class WorldStateBuilder {
                 state.owner = owner.getName();
             }
 
-            DockComponent dock = Mappers.dock.get(fleet);
+            DockableComponent dock = Mappers.dockable.get(fleet);
             if (dock != null) {
                 state.dockedAt = Mappers.id.get(dock.dockedAt).id;
             }

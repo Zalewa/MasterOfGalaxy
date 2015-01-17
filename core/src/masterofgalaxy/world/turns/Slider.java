@@ -6,6 +6,7 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.systems.MoveToTargetSystem;
+import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
@@ -38,10 +39,10 @@ class Slider {
         BodyComponent targetBody = Mappers.body.get(entityTarget.target);
         FleetComponent fleetComponent = Mappers.fleet.get(fleet);
         BodyComponent body = Mappers.body.get(fleet);
-        DockComponent dock = Mappers.dock.get(fleet);
+        DockableComponent dock = Mappers.dockable.get(fleet);
         if (dock != null) {
             Vector2 startingPos = new Vector2(Mappers.body.get(dock.dockedAt).getPosition());
-            fleet.remove(DockComponent.class);
+            Docker.undock(fleet);
             body.setPosition(startingPos);
         }
 
@@ -79,9 +80,7 @@ class Slider {
         BodyComponent targetBody = Mappers.body.get(entityTarget.target);
 
         if (targetBody.getPosition().epsilonEquals(fleetBody.getPosition(), positionEpsilon)) {
-            DockComponent dock = screen.getEntityEngine().createComponent(DockComponent.class);
-            dock.dockedAt = entityTarget.target;
-            fleet.add(dock);
+            Docker.dock(screen, fleet, entityTarget.target);
             fleet.remove(MoveTargetComponent.class);
             entityTarget.target = null;
         }

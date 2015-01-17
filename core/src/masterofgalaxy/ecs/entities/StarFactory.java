@@ -33,6 +33,7 @@ public class StarFactory {
         entity.add(entityEngine.createComponent(StarComponent.class));
         entity.add(entityEngine.createComponent(ParentshipComponent.class));
         entity.add(entityEngine.createComponent(PlayerOwnerComponent.class));
+        entity.add(entityEngine.createComponent(DockComponent.class));
 
         entityEngine.addEntity(entity);
 

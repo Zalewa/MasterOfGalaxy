@@ -41,6 +41,28 @@ public class FleetComponent extends Component implements Pool.Poolable {
         return ship;
     }
 
+    public int getAmountOfShips(ShipDesign design) {
+        for (Ship ship : ships) {
+            if (ship.design == design) {
+                return ship.count;
+            }
+        }
+        return 0;
+    }
+
+    public boolean hasAnyShips() {
+        for (Ship ship : ships) {
+            if (ship.count > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void addShips(ShipDesign design, int amount) {
+        getOrCreateShipOfDesign(design).count += amount;
+    }
+
     public static class Ship {
         public int count;
         public ShipDesign design;

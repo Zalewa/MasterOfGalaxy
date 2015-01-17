@@ -114,9 +114,7 @@ public class WorldStateRestorer {
         if (fleetState.dockedAt != null) {
             Entity entity = worldScreen.getWorld().findEntityById(fleetState.dockedAt);
             if (entity != null) {
-                DockComponent dockComponent = worldScreen.getEntityEngine().createComponent(DockComponent.class);
-                dockComponent.dockedAt = entity;
-                fleet.add(dockComponent);
+                Docker.dock(worldScreen, fleet, entity);
             }
         }
 

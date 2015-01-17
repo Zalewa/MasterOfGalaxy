@@ -10,10 +10,12 @@ import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.FleetComponent;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.world.FleetSplitter;
 
 public class FleetShipsUi extends Table implements Localizable {
     private Entity entity;
-    private Container<Table> shipWidgets;
+    private Container<Table> shipWidgetsLayout;
+    private Array<ShipWidget> shipWidgets = new Array<ShipWidget>();
     private Skin skin;
 
     public FleetShipsUi(Skin skin) {
@@ -27,25 +29,35 @@ public class FleetShipsUi extends Table implements Localizable {
     }
 
     private void setupUi() {
-        shipWidgets = new Container<Table>();
-        add(shipWidgets).expandX().fillX();
+        shipWidgetsLayout = new Container<Table>();
+        add(shipWidgetsLayout).expandX().fillX();
     }
 
     public void setEntity(Entity entity) {
+        shipWidgets.clear();
         this.entity = entity;
         if (entity == null) {
             return;
         }
 
         Table table = new Table();
-        shipWidgets.setActor(table);
-        shipWidgets.fillX();
+        shipWidgetsLayout.setActor(table);
+        shipWidgetsLayout.fillX();
         FleetComponent fleetComponent = Mappers.fleet.get(entity);
         for (FleetComponent.Ship ship : fleetComponent.ships) {
-            ShipWidget shipWidget = new ShipWidget(skin);
-            shipWidget.setShip(ship);
-            table.add(shipWidget).expandX().fillX();
-            table.row();
+            if (ship.count > 0) {
+                ShipWidget shipWidget = new ShipWidget(skin);
+                shipWidget.setShip(ship);
+                table.add(shipWidget).expandX().fillX();
+                table.row();
+                shipWidgets.add(shipWidget);
+            }
+        }
+    }
+
+    public void fillInSplitter(FleetSplitter splitter) {
+        for (ShipWidget widget : shipWidgets) {
+            splitter.setShipAmount(widget.getShip().design, widget.getSelectedAmount());
         }
     }
 

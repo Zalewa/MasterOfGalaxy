@@ -12,6 +12,7 @@ import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.gamestate.ships.ShipDesign;
+import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
@@ -78,9 +79,7 @@ public class WorldBuilder {
             if (player.isValid()) {
                 Entity fleet = FleetFactory.build(screen.getGame(), screen.getEntityEngine());
 
-                DockComponent dock = screen.getEntityEngine().createComponent(DockComponent.class);
-                dock.dockedAt = star;
-                fleet.add(dock);
+                Docker.dock(screen, fleet, star);
 
                 PlayerOwnerComponent fleetOwner = Mappers.playerOwner.get(fleet);
                 fleetOwner.setOwner(player);

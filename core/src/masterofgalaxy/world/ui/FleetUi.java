@@ -1,9 +1,12 @@
 package masterofgalaxy.world.ui;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
@@ -11,6 +14,7 @@ import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
 import masterofgalaxy.gamestate.savegame.FleetShipsState;
+import masterofgalaxy.world.FleetSplitter;
 
 public class FleetUi extends Table implements Localizable {
     private Skin skin;
@@ -18,6 +22,7 @@ public class FleetUi extends Table implements Localizable {
     private Label titleLabel;
     private Label ownerLabel;
     private FleetShipsUi shipsUi;
+    private TextButton splitButton;
     private MogGame game;
 
     public FleetUi(MogGame game, Skin skin) {
@@ -45,9 +50,26 @@ public class FleetUi extends Table implements Localizable {
 
         shipsUi = new FleetShipsUi(skin);
         table.add(shipsUi).expandX().fillX();
+        table.row();
+
+        setupSplitButton(table);
 
         add(table).expandX().fill();
         row();
+    }
+
+    private void setupSplitButton(Table table) {
+        splitButton = new TextButton("", skin);
+        splitButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                FleetSplitter splitter = new FleetSplitter(game.getWorldScreen(), entity);
+                shipsUi.fillInSplitter(splitter);
+                splitter.split();
+            }
+        });
+        table.add(splitButton).expandX().fillX();
+        table.row();
     }
 
     public void setEntity(Entity entity) {
@@ -65,5 +87,6 @@ public class FleetUi extends Table implements Localizable {
     @Override
     public void applyTranslation() {
         setEntity(entity);
+        splitButton.setText(I18N.resolve("$split"));
     }
 }
