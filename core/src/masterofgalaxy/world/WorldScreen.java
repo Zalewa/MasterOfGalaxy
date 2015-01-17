@@ -308,4 +308,8 @@ public class WorldScreen extends ScreenAdapter {
     public void setTurn(int turn) {
         turnProcessor.setTurn(turn);
     }
+
+    public PickLogic getPickLogic() {
+        return pickLogic;
+    }
 }

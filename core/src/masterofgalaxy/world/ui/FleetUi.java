@@ -67,7 +67,10 @@ public class FleetUi extends Table implements Localizable {
             public void changed(ChangeEvent event, Actor actor) {
                 FleetSplitter splitter = new FleetSplitter(game.getWorldScreen(), entity);
                 shipsUi.fillInSplitter(splitter);
-                splitter.split();
+                Entity newFleet = splitter.split();
+                if (newFleet != null) {
+                    game.getWorldScreen().getPickLogic().setSelection(newFleet);
+                }
             }
         });
         table.add(splitButton).expandX().fillX();
