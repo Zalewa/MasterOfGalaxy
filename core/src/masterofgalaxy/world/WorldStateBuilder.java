@@ -91,6 +91,9 @@ public class WorldStateBuilder {
     private Array<FleetShipsState> getFleetShips(FleetComponent fleetComponent) {
         Array<FleetShipsState> result = new Array<FleetShipsState>();
         for (FleetComponent.Ship ship : fleetComponent.ships) {
+            if (ship.count <= 0) {
+                continue;
+            }
             FleetShipsState shipsState = new FleetShipsState();
             shipsState.designName = ship.design.getName();
             shipsState.count = ship.count;
