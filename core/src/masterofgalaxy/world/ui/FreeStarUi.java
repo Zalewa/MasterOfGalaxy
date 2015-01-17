@@ -37,7 +37,8 @@ public class FreeStarUi extends Table implements Localizable {
         colonizeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                throw new RuntimeException("not implemented yet :(");
+                StarColonizer.colonize(game.getWorldScreen(), entity);
+                game.getWorldScreen().getPickLogic().setSelection(entity);
             }
         });
         add(colonizeButton).expandX().fillX();
