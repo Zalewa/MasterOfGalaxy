@@ -88,13 +88,15 @@ public class WorldStateBuilder {
         return states;
     }
 
-    private FleetShipsState getFleetShips(FleetComponent fleetComponent) {
-        FleetShipsState shipsState = new FleetShipsState();
+    private Array<FleetShipsState> getFleetShips(FleetComponent fleetComponent) {
+        Array<FleetShipsState> result = new Array<FleetShipsState>();
         for (FleetComponent.Ship ship : fleetComponent.ships) {
+            FleetShipsState shipsState = new FleetShipsState();
             shipsState.designName = ship.design.getName();
             shipsState.count = ship.count;
+            result.add(shipsState);
         }
-        return shipsState;
+        return result;
     }
 
     private Array<ColonyPersistence> getColonies() {

@@ -48,4 +48,13 @@ public class PlayerState {
     public Array<ShipDesign> getShipDesigns() {
         return shipDesigns;
     }
+
+    public ShipDesign findShipDesignByName(String name) {
+        for (ShipDesign design : shipDesigns) {
+            if (design.getName().equals(name)) {
+                return design;
+            }
+        }
+        return null;
+    }
 }

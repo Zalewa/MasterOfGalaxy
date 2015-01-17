@@ -1,6 +1,7 @@
 package masterofgalaxy.world;
 
 import com.badlogic.ashley.core.Entity;
+import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.assets.actors.Races;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.ecs.components.*;
@@ -10,10 +11,8 @@ import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
-import masterofgalaxy.gamestate.savegame.ColonyPersistence;
-import masterofgalaxy.gamestate.savegame.FleetState;
-import masterofgalaxy.gamestate.savegame.StarState;
-import masterofgalaxy.gamestate.savegame.WorldState;
+import masterofgalaxy.gamestate.savegame.*;
+import masterofgalaxy.gamestate.ships.ShipDesign;
 
 import java.text.MessageFormat;
 import java.util.logging.Level;
@@ -98,13 +97,13 @@ public class WorldStateRestorer {
         }
     }
 
-    private void restoreFleets() {
+    private void restoreFleets() throws SavedGameException {
         for (FleetState fleet : worldState.fleets) {
             restoreFleet(fleet);
         }
     }
 
-    private void restoreFleet(FleetState fleetState) {
+    private void restoreFleet(FleetState fleetState) throws SavedGameException {
         Player owner = worldScreen.getWorld().findPlayerByName(fleetState.owner);
         Entity fleet = FleetFactory.build(worldScreen.getGame(), worldScreen.getEntityEngine());
 
@@ -127,6 +126,22 @@ public class WorldStateRestorer {
                 EntityTargetComponent target = Mappers.entityTarget.get(fleet);
                 target.target = entity;
             }
+        }
+
+        restoreFleetShips(fleet, fleetState.ships);
+    }
+
+    private void restoreFleetShips(Entity fleet, Array<FleetShipsState> shipsStates) throws SavedGameException {
+        Player player = Mappers.playerOwner.get(fleet).getOwner();
+        FleetComponent fleetComponent = Mappers.fleet.get(fleet);
+        for (FleetShipsState shipsState : shipsStates) {
+            ShipDesign design = player.getState().findShipDesignByName(shipsState.designName);
+            if (design == null) {
+                throw new SavedGameException(I18N.resolve("$saveGamePlayerShipDesignMissing",
+                        player.getName(), shipsState.designName));
+            }
+            FleetComponent.Ship fleetShip = fleetComponent.getOrCreateShipOfDesign(design);
+            fleetShip.count = shipsState.count;
         }
     }
 }
