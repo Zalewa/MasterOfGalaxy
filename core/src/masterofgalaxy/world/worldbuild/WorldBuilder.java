@@ -5,20 +5,16 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Array;
-import masterofgalaxy.RandomUtil;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.ecs.entities.FleetFactory;
-import masterofgalaxy.ecs.entities.StarFactory;
+import masterofgalaxy.exceptions.NoDataException;
+import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.gamestate.Race;
+import masterofgalaxy.gamestate.ships.ShipDesign;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
-import masterofgalaxy.world.stars.Planet;
-import masterofgalaxy.world.stars.PlanetClass;
-import masterofgalaxy.world.stars.StarClass;
-import masterofgalaxy.world.worldbuild.RectangleWorldStarLayout;
 
-import java.text.MessageFormat;
 import java.util.Random;
 
 public class WorldBuilder {
@@ -78,8 +74,8 @@ public class WorldBuilder {
         ImmutableArray<Entity> stars = screen.getEntityEngine().getEntitiesFor(family);
         for (int i = 0; i < stars.size(); ++i) {
             Entity star = stars.get(i);
-            PlayerOwnerComponent starOwner = Mappers.playerOwner.get(star);
-            if (starOwner.getOwner().isValid()) {
+            Player player = Mappers.playerOwner.get(star).getOwner();
+            if (player.isValid()) {
                 Entity fleet = FleetFactory.build(screen.getGame(), screen.getEntityEngine());
 
                 DockComponent dock = screen.getEntityEngine().createComponent(DockComponent.class);
@@ -87,9 +83,40 @@ public class WorldBuilder {
                 fleet.add(dock);
 
                 PlayerOwnerComponent fleetOwner = Mappers.playerOwner.get(fleet);
-                fleetOwner.setOwner(starOwner.getOwner());
+                fleetOwner.setOwner(player);
+
+                addShipsToFleet(fleet);
             }
         }
+    }
+
+    private void addShipsToFleet(Entity fleet) {
+        Player player = Mappers.playerOwner.get(fleet).getOwner();
+        FleetComponent fleetComponent = Mappers.fleet.get(fleet);
+
+        FleetComponent.Ship colony = fleetComponent.getOrCreateShipOfDesign(getPlayersColonyShipDesign(player));
+        colony.count = 1;
+
+        FleetComponent.Ship scout = fleetComponent.getOrCreateShipOfDesign(getPlayersScoutShipDesign(player));
+        scout.count = 3;
+    }
+
+    private ShipDesign getPlayersColonyShipDesign(Player player) {
+        for (ShipDesign design : player.getState().getShipDesigns()) {
+            if (design.canColonize()) {
+                return design;
+            }
+        }
+        throw new NoDataException("no default colony ship for player " + player.getName());
+    }
+
+    private ShipDesign getPlayersScoutShipDesign(Player player) {
+        for (ShipDesign design : player.getState().getShipDesigns()) {
+            if (design.getTravelDistanceIncrease() > 0.0f) {
+                return design;
+            }
+        }
+        throw new NoDataException("no default scout ship for player " + player.getName());
     }
 
     public int getNumPlayers() {

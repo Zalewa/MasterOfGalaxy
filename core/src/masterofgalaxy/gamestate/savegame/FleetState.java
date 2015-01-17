@@ -8,4 +8,5 @@ public class FleetState {
     public String targetId;
     public String dockedAt;
     public BodyState body;
+    public FleetShipsState ships;
 }

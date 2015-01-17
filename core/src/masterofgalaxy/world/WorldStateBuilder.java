@@ -7,10 +7,7 @@ import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.PlayerState;
-import masterofgalaxy.gamestate.savegame.ColonyPersistence;
-import masterofgalaxy.gamestate.savegame.FleetState;
-import masterofgalaxy.gamestate.savegame.StarState;
-import masterofgalaxy.gamestate.savegame.WorldState;
+import masterofgalaxy.gamestate.savegame.*;
 import masterofgalaxy.world.stars.ColonyState;
 
 public class WorldStateBuilder {
@@ -84,9 +81,20 @@ public class WorldStateBuilder {
             if (target.target != null) {
                 state.targetId = Mappers.id.get(target.target).id;
             }
+
+            state.ships = getFleetShips(Mappers.fleet.get(fleet));
             states.add(state);
         }
         return states;
+    }
+
+    private FleetShipsState getFleetShips(FleetComponent fleetComponent) {
+        FleetShipsState shipsState = new FleetShipsState();
+        for (FleetComponent.Ship ship : fleetComponent.ships) {
+            shipsState.designName = ship.design.getName();
+            shipsState.count = ship.count;
+        }
+        return shipsState;
     }
 
     private Array<ColonyPersistence> getColonies() {

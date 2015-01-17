@@ -1,0 +1,46 @@
+{
+  "i18n": {
+    "bundle": "i18n/ships"
+  },
+  "hull": {
+    "tiny": {
+      "size": 10,
+      "cost": 1
+    },
+    "small": {
+      "size": 25,
+      "cost": 2
+    },
+    "medium": {
+      "size": 40,
+      "cost": 3
+    },
+    "large": {
+      "size": 55,
+      "cost": 4
+    },
+    "huge": {
+      "size": 70,
+      "cost": 5
+    }
+  },
+  "engine": {
+    "nuclear": {
+      "size": 1,
+      "cost": 1,
+      "speed": 1.0
+    }
+  },
+  "special": {
+    "colony": {
+      "size": 50,
+      "cost": 10,
+      "canColonize": true
+    },
+    "fuelTank": {
+      "size": 9,
+      "cost": 5,
+      "travelDistanceIncrease": 3.0
+    }
+  }
+}

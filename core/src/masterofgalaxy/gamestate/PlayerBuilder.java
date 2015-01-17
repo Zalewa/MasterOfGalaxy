@@ -2,6 +2,9 @@ package masterofgalaxy.gamestate;
 
 import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.MogGame;
+import masterofgalaxy.assets.actors.ShipModuleType;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.gamestate.ships.ShipDesign;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -39,10 +42,34 @@ public class PlayerBuilder {
             player.setName("Player-" + i);
             player.setPlayerColor(colors.get(i));
             player.setRace(races.get(i % races.size()));
+            createStartingShipDesigns(player);
             result.add(player);
         }
 
         return result;
+    }
+
+    private void createStartingShipDesigns(Player player) {
+        player.getState().getShipDesigns().add(createScout());
+        player.getState().getShipDesigns().add(createColonyShip());
+    }
+
+    private ShipDesign createScout() {
+        ShipDesign design = new ShipDesign();
+        design.setName(I18N.resolve("$scoutShip"));
+        design.setHull(game.getActorAssets().ships.findHull("tiny"));
+        design.addModule(game.getActorAssets().ships.findModule(ShipModuleType.Engine, "nuclear"));
+        design.addModule(game.getActorAssets().ships.findModule(ShipModuleType.Special, "fuelTank"));
+        return design;
+    }
+
+    private ShipDesign createColonyShip() {
+        ShipDesign design = new ShipDesign();
+        design.setName(I18N.resolve("$colonyShip"));
+        design.setHull(game.getActorAssets().ships.findHull("large"));
+        design.addModule(game.getActorAssets().ships.findModule(ShipModuleType.Engine, "nuclear"));
+        design.addModule(game.getActorAssets().ships.findModule(ShipModuleType.Special, "colony"));
+        return design;
     }
 
     private List<Race> shuffleRaces() {

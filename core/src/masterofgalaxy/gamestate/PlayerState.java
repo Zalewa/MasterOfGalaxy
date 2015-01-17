@@ -1,9 +1,13 @@
 package masterofgalaxy.gamestate;
 
+import com.badlogic.gdx.utils.Array;
+import masterofgalaxy.gamestate.ships.ShipDesign;
+
 public class PlayerState {
     String name;
     PlayerColor playerColor = PlayerColor.nullColor;
     private String raceName;
+    private Array<ShipDesign> shipDesigns = new Array<ShipDesign>();
 
     public PlayerState() {
 
@@ -37,5 +41,11 @@ public class PlayerState {
         setName(other.getName());
         setPlayerColor(other.getPlayerColor());
         setRaceName(other.getRaceName());
+        shipDesigns.clear();
+        shipDesigns.addAll(other.shipDesigns);
+    }
+
+    public Array<ShipDesign> getShipDesigns() {
+        return shipDesigns;
     }
 }

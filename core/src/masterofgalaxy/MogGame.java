@@ -124,6 +124,7 @@ public class MogGame extends Game {
 		actorAssets.starClasses.load(Gdx.files.internal("actors/stars.json"));
 		actorAssets.playerColors.load(Gdx.files.internal("actors/playercolors.json"));
 		actorAssets.races.load(Gdx.files.internal("actors/races.json"));
+		actorAssets.ships.load(Gdx.files.internal("actors/ships.json"));
 		actorAssets.loadAssets(assetManager);
 
 		assetManager.finishLoading();
