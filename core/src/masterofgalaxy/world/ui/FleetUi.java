@@ -10,12 +10,14 @@ import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
+import masterofgalaxy.gamestate.savegame.FleetShipsState;
 
 public class FleetUi extends Table implements Localizable {
     private Skin skin;
     private Entity entity;
     private Label titleLabel;
     private Label ownerLabel;
+    private FleetShipsUi shipsUi;
     private MogGame game;
 
     public FleetUi(MogGame game, Skin skin) {
@@ -39,6 +41,10 @@ public class FleetUi extends Table implements Localizable {
 
         ownerLabel = new Label("", skin);
         table.add(ownerLabel).expandX();
+        table.row();
+
+        shipsUi = new FleetShipsUi(skin);
+        table.add(shipsUi).expandX().fillX();
 
         add(table).expandX().fill();
         row();
@@ -53,6 +59,7 @@ public class FleetUi extends Table implements Localizable {
         titleLabel.setText(I18N.resolve("$fleet"));
         ownerLabel.setColor(owner.getOwner().getColor());
         ownerLabel.setText(owner.getOwner().getName());
+        shipsUi.setEntity(entity);
     }
 
     @Override
