@@ -12,4 +12,11 @@ public class ColonyState {
         this.defenseBases = other.defenseBases;
         this.mainResourceDistribution.setValues(other.mainResourceDistribution);
     }
+
+    public void reset() {
+        population = 0.0f;
+        factories = 0.0f;
+        defenseBases = 0.0f;
+        mainResourceDistribution.setIndustry(1.0f);
+    }
 }

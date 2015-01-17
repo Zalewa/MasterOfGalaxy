@@ -29,9 +29,7 @@ public class ColonyComponent extends Component implements Pool.Poolable {
     @Override
     public void reset() {
         entity = null;
-        state.population = 0.0f;
-        state.factories = 0.0f;
-        state.mainResourceDistribution.setIndustry(1.0f);
+        state.reset();
     }
 
     public float getPopulationGrowthRate() {
