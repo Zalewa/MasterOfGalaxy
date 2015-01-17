@@ -41,6 +41,7 @@ public class WorldBuilder {
         world.setPlayField(playField);
         world.setRaces(new Array<Race>(screen.getGame().getActorAssets().races.races));
         world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(numPlayers));
+        screen.setCurrentPlayer(world.getPlayers().get(0));
 
         layout.setNumUnownedStars(numUnownedStars);
         layout.setSeed(seed);

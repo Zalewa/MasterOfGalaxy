@@ -13,6 +13,7 @@ import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
 import masterofgalaxy.exceptions.SavedGameException;
+import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.savegame.WorldState;
 import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.turns.TurnProcessor;
@@ -35,6 +36,7 @@ public class WorldScreen extends ScreenAdapter {
     private ExtendViewport viewport;
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
+    private Player currentPlayer;
 
     public Signal<Entity> selectionChanged = new Signal<Entity>();
 
@@ -311,5 +313,13 @@ public class WorldScreen extends ScreenAdapter {
 
     public PickLogic getPickLogic() {
         return pickLogic;
+    }
+
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }

@@ -27,6 +27,8 @@ public class StarUi extends Table implements Localizable {
     private Image planetImage;
     private ContainerEx<ColonyUi> colonyUiContainer;
     private ColonyUi colonyUi;
+    private ContainerEx<FreeStarUi> freeStarUiContainer;
+    private FreeStarUi freeStarUi;
     private MogGame game;
 
     public StarUi(MogGame game, Skin skin) {
@@ -38,6 +40,7 @@ public class StarUi extends Table implements Localizable {
         setupHeader();
         setupStarInfo();
         setupColonyUi();
+        setupFreeStartUi();
 
         setBackground("default-rect");
         setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -49,6 +52,15 @@ public class StarUi extends Table implements Localizable {
         colonyUiContainer.fillX();
         colonyUiContainer.setActor(colonyUi);
         add(colonyUiContainer).expandX().fillX();
+        row();
+    }
+
+    private void setupFreeStartUi() {
+        freeStarUi = new FreeStarUi(game, skin);
+        freeStarUiContainer = new ContainerEx<FreeStarUi>();
+        freeStarUiContainer.fillX();
+        freeStarUiContainer.setActor(freeStarUi);
+        add(freeStarUiContainer).expandX().fillX();
         row();
     }
 
@@ -103,6 +115,8 @@ public class StarUi extends Table implements Localizable {
             planetImage.setDrawable(getPlanetDrawable(starComponent));
             colonyUiContainer.setActorVisible(Mappers.colony.has(entity));
             colonyUi.setEntity(entity);
+            freeStarUiContainer.setActorVisible(!Mappers.colony.has(entity));
+            freeStarUi.setEntity(entity);
         } else {
             colonyUiContainer.setActorVisible(false);
         }

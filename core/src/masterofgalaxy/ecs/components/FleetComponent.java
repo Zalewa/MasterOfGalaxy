@@ -71,6 +71,26 @@ public class FleetComponent extends Component implements Pool.Poolable {
         return total;
     }
 
+    public boolean canColonize() {
+        return findColonizer() != null;
+    }
+
+    private Ship findColonizer() {
+        for (Ship ship : ships) {
+            if (ship.design.canColonize() && ship.count > 0) {
+                return ship;
+            }
+        }
+        return null;
+    }
+
+    public void destroyOneColonizer() {
+        Ship ship = findColonizer();
+        if (ship != null) {
+            ship.count -= 1;
+        }
+    }
+
     public static class Ship {
         public int count;
         public ShipDesign design;
