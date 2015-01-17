@@ -13,6 +13,10 @@ public class FleetSplitter {
     private Array<FleetComponent.Ship> shipsInNewFleet = new Array<FleetComponent.Ship>();
     private WorldScreen screen;
 
+    public static boolean canSplitFleet(Entity fleet) {
+        return Mappers.dockable.has(fleet) && Mappers.fleet.get(fleet).getTotalAmountOfShips() > 1;
+    }
+
     public FleetSplitter(WorldScreen screen, Entity fleet) {
         this.screen = screen;
         this.fleet = fleet;

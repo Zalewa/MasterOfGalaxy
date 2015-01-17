@@ -63,6 +63,14 @@ public class FleetComponent extends Component implements Pool.Poolable {
         getOrCreateShipOfDesign(design).count += amount;
     }
 
+    public int getTotalAmountOfShips() {
+        int total = 0;
+        for (Ship ship : ships) {
+            total += ship.count;
+        }
+        return total;
+    }
+
     public static class Ship {
         public int count;
         public ShipDesign design;

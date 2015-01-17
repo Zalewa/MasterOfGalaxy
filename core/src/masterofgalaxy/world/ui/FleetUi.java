@@ -11,6 +11,7 @@ import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
+import masterofgalaxy.ecs.components.FleetComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
 import masterofgalaxy.gamestate.savegame.FleetShipsState;
@@ -87,6 +88,11 @@ public class FleetUi extends Table implements Localizable {
         ownerLabel.setColor(owner.getOwner().getColor());
         ownerLabel.setText(owner.getOwner().getName());
         shipsUi.setEntity(entity);
+        splitButton.setVisible(canSplit());
+    }
+
+    private boolean canSplit() {
+        return FleetSplitter.canSplitFleet(entity);
     }
 
     @Override
