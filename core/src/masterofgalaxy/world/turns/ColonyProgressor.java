@@ -3,8 +3,13 @@ package masterofgalaxy.world.turns;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.MathUtils;
 import masterofgalaxy.ecs.components.ColonyComponent;
+import masterofgalaxy.ecs.components.FleetComponent;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.entities.FleetFactory;
+import masterofgalaxy.gamestate.Player;
+import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.WorldScreen;
 import masterofgalaxy.world.stars.MainResourceDistribution;
 import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
@@ -30,6 +35,8 @@ public class ColonyProgressor {
         growFactories(colony);
         growBases(colony);
         growShipyardBuild(colony);
+
+        buildShips(entity);
     }
 
     private void growPopulation(ColonyComponent colony) {
@@ -51,6 +58,26 @@ public class ColonyProgressor {
     private void growShipyardBuild(ColonyComponent colony) {
         colony.shipyard.investment += colony.getShipProduction();
     }
+
+    private void buildShips(Entity colonyEntity) {
+        ColonyComponent colony = Mappers.colony.get(colonyEntity);
+        if (colony.shipyard.constructedShip == null) {
+            return;
+        }
+
+        Player owner = Mappers.playerOwner.get(colonyEntity).getOwner();
+
+        int builtShips = MathUtils.floor(colony.shipyard.investment / colony.shipyard.constructedShip.getCost());
+        if (builtShips > 0) {
+            Entity fleet = FleetFactory.build(screen.getGame(), screen.getEntityEngine());
+            Docker.dock(screen, fleet, colonyEntity);
+            Mappers.playerOwner.get(fleet).setOwner(owner);
+            FleetComponent fleetComponent = Mappers.fleet.get(fleet);
+            fleetComponent.addShips(colony.shipyard.constructedShip, builtShips);
+            colony.shipyard.investment -= builtShips * colony.shipyard.constructedShip.getCost();
+        }
+    }
+
 
     private void growBases(ColonyComponent colony) {
         colony.state.defenseBases += colony.getDefenseBasesGrowthRate();

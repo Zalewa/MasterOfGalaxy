@@ -117,6 +117,12 @@ public class ColonyComponent extends Component implements Pool.Poolable {
 
     public String getResourceDistributionValueLabel(ResourceId resourceId) {
         switch (resourceId) {
+            case Shipyard:
+                if (shipyard.constructedShip != null) {
+                    return I18N.formatFloat(getShipProduction() / shipyard.constructedShip.getCost(), "{0,number,0.0}");
+                } else {
+                    return I18N.resolve("$n/a");
+                }
             case Defense:
                 return I18N.formatFloat(getDefenseBasesGrowthRate(), "{0,number,0.0}");
             case Industry:
