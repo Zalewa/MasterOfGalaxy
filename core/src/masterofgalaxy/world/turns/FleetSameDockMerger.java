@@ -18,31 +18,41 @@ public class FleetSameDockMerger {
     }
 
     public void execute() {
-        ImmutableArray<Entity> dockedFleets = screen.getEntityEngine().getEntitiesFor(
-                Family.getFor(FleetComponent.class, DockableComponent.class));
-        for (int i = 0; i < dockedFleets.size(); ++i) {
-            Entity fleet = dockedFleets.get(i);
-            DockableComponent dockable = Mappers.dockable.get(fleet);
-            Entity dockEntity = dockable.dockedAt;
-            DockComponent dockComponent = Mappers.dock.get(dockEntity);
+        ImmutableArray<Entity> docks = screen.getEntityEngine().getEntitiesFor(
+                Family.getFor(DockComponent.class));
+        for (int i = 0; i < docks.size(); ++i) {
+            DockComponent dock = Mappers.dock.get(docks.get(i));
+            mergeDock(dock);
+        }
+    }
 
-            for (Entity otherDocked : dockComponent.dockedEntities) {
+    private void mergeDock(DockComponent dock) {
+        for (int i = 0; i < dock.dockedEntities.size; ++i) {
+            Entity fleet = dock.dockedEntities.get(i);
+            if (!Mappers.fleet.has(fleet)) {
+                continue;
+            }
+            for (int j = dock.dockedEntities.size - 1; j >= i; --j) {
+                Entity otherDocked = dock.dockedEntities.get(j);
                 tryMerge(fleet, otherDocked);
             }
         }
     }
 
-    private void tryMerge(Entity fleet, Entity otherDocked) {
-        if (fleet == otherDocked) {
+    private void tryMerge(Entity targetFleet, Entity otherDocked) {
+        if (targetFleet == otherDocked) {
             return;
         }
         if (!Mappers.fleet.has(otherDocked)) {
             return;
         }
-        if (Mappers.playerOwner.get(fleet).getOwner() != Mappers.playerOwner.get(otherDocked).getOwner()) {
+        if (Mappers.playerOwner.get(targetFleet).getOwner() != Mappers.playerOwner.get(otherDocked).getOwner()) {
             return;
         }
-        FleetMerger merger = new FleetMerger(screen, otherDocked, fleet);
+        FleetMerger merger = new FleetMerger(screen, targetFleet, otherDocked);
         merger.merge();
+        if (screen.getPickLogic().getSelectedEntity() == otherDocked) {
+            screen.getPickLogic().setSelection(targetFleet);
+        }
     }
 }
