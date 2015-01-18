@@ -13,7 +13,8 @@ public class StarColonizer {
 
     public static void colonize(WorldScreen worldScreen, Entity star) {
         Entity fleet = getColonizationFleetForCurrentPlayer(worldScreen, star);
-        Mappers.fleet.get(fleet).destroyOneColonizer();
+        FleetComponent fleetComponent = Mappers.fleet.get(fleet);
+        fleetComponent.destroyOneColonizer();
 
         ColonyComponent colony = worldScreen.getEntityEngine().createComponent(ColonyComponent.class);
         colony.entity = star;
@@ -21,6 +22,10 @@ public class StarColonizer {
         star.add(colony);
 
         Mappers.playerOwner.get(star).setOwner(worldScreen.getCurrentPlayer());
+
+        if (!fleetComponent.hasAnyShips()) {
+            worldScreen.getEntityEngine().removeEntity(fleet);
+        }
     }
 
     private static Entity getColonizationFleetForCurrentPlayer(WorldScreen worldScreen, Entity star) {
