@@ -107,10 +107,18 @@ public class FleetUi extends Table implements Localizable {
         ownerLabel.setText(owner.getOwner().getName());
         shipsUi.setEntity(entity);
         splitButton.setVisible(canSplit());
+        mergeButton.setVisible(canMerge());
     }
 
     private boolean canSplit() {
         return FleetSplitter.canSplitFleet(entity);
+    }
+
+    private boolean canMerge() {
+        if (Mappers.dockable.has(entity)) {
+            return FleetSameDockMerger.canMerge(Mappers.dock.get(Mappers.dockable.get(entity).dockedAt));
+        }
+        return false;
     }
 
     @Override

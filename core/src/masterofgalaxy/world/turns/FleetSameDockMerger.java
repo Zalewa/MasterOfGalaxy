@@ -26,11 +26,11 @@ public class FleetSameDockMerger {
         }
     }
 
-    public boolean canMerge(DockComponent dock) {
+    public static boolean canMerge(DockComponent dock) {
         for (int i = 0; i < dock.dockedEntities.size; ++i) {
             Entity entity = dock.dockedEntities.get(i);
             if (isMergable(entity)) {
-                for (int j = i; j < dock.dockedEntities.size; ++j) {
+                for (int j = i + 1; j < dock.dockedEntities.size; ++j) {
                     Entity other = dock.dockedEntities.get(j);
                     if (isMergable(other)) {
                         if (Mappers.playerOwner.get(entity).getOwner() == Mappers.playerOwner.get(other).getOwner()) {
@@ -73,7 +73,7 @@ public class FleetSameDockMerger {
         }
     }
 
-    private boolean isMergable(Entity entity) {
+    private static boolean isMergable(Entity entity) {
         return Mappers.fleet.has(entity);
     }
 }
