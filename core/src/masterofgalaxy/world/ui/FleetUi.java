@@ -44,28 +44,23 @@ public class FleetUi extends Table implements Localizable {
     }
 
     private void setupHeader() {
-        Table table = new Table(skin);
-
         titleLabel = new Label("", skin);
-        table.add(titleLabel).expandX();
-        table.row();
+        add(titleLabel).expandX();
+        row();
 
         ownerLabel = new Label("", skin);
-        table.add(ownerLabel).expandX();
-        table.row();
+        add(ownerLabel).expandX();
+        row();
 
         shipsUi = new FleetShipsUi(skin);
-        table.add(shipsUi).expandX().fillX();
-        table.row();
-
-        setupSplitButton(table);
-        setupMergeButton(table);
-
-        add(table).expandX().fill();
+        add(shipsUi).expandX().fillX();
         row();
+
+        setupSplitButton();
+        setupMergeButton();
     }
 
-    private void setupSplitButton(Table table) {
+    private void setupSplitButton() {
         splitButton = new TextButton("", skin);
         splitButton.addListener(new ChangeListener() {
             @Override
@@ -78,11 +73,11 @@ public class FleetUi extends Table implements Localizable {
                 }
             }
         });
-        table.add(splitButton).expandX().fillX();
-        table.row();
+        add(splitButton).expandX().fillX();
+        row();
     }
 
-    private void setupMergeButton(Table table) {
+    private void setupMergeButton() {
         mergeButton = new TextButton("", skin);
         mergeButton.addListener(new ChangeListener() {
             @Override
@@ -97,8 +92,8 @@ public class FleetUi extends Table implements Localizable {
                         PlayerOwnerComponent.pickFirstWherePlayerMatches(dock.dockedEntities, owner));
             }
         });
-        table.add(mergeButton).expandX().fillX();
-        table.row();
+        add(mergeButton).expandX().fillX();
+        row();
     }
 
     public void setEntity(Entity entity) {
