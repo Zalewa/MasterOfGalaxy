@@ -11,11 +11,13 @@ import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
-import masterofgalaxy.ecs.components.FleetComponent;
+import masterofgalaxy.ecs.components.DockComponent;
+import masterofgalaxy.ecs.components.DockableComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
-import masterofgalaxy.gamestate.savegame.FleetShipsState;
+import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.world.FleetSplitter;
+import masterofgalaxy.world.turns.FleetSameDockMerger;
 
 public class FleetUi extends Table implements Localizable {
     private Skin skin;
@@ -24,6 +26,7 @@ public class FleetUi extends Table implements Localizable {
     private Label ownerLabel;
     private FleetShipsUi shipsUi;
     private TextButton splitButton;
+    private TextButton mergeButton;
     private MogGame game;
 
     public FleetUi(MogGame game, Skin skin) {
@@ -56,6 +59,7 @@ public class FleetUi extends Table implements Localizable {
         table.row();
 
         setupSplitButton(table);
+        setupMergeButton(table);
 
         add(table).expandX().fill();
         row();
@@ -75,6 +79,25 @@ public class FleetUi extends Table implements Localizable {
             }
         });
         table.add(splitButton).expandX().fillX();
+        table.row();
+    }
+
+    private void setupMergeButton(Table table) {
+        mergeButton = new TextButton("", skin);
+        mergeButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                DockableComponent dockable = Mappers.dockable.get(entity);
+                Player owner = Mappers.playerOwner.get(entity).getOwner();
+                game.getWorldScreen().getPickLogic().setSelection(null);
+                FleetSameDockMerger merger = new FleetSameDockMerger(game.getWorldScreen());
+                DockComponent dock = Mappers.dock.get(dockable.dockedAt);
+                merger.mergeDock(dock);
+                game.getWorldScreen().getPickLogic().setSelection(
+                        PlayerOwnerComponent.pickFirstWherePlayerMatches(dock.dockedEntities, owner));
+            }
+        });
+        table.add(mergeButton).expandX().fillX();
         table.row();
     }
 
@@ -99,5 +122,6 @@ public class FleetUi extends Table implements Localizable {
     public void applyTranslation() {
         setEntity(entity);
         splitButton.setText(I18N.resolve("$split"));
+        mergeButton.setText(I18N.resolve("$merge"));
     }
 }

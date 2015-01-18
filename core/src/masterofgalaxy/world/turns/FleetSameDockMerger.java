@@ -26,7 +26,24 @@ public class FleetSameDockMerger {
         }
     }
 
-    private void mergeDock(DockComponent dock) {
+    public boolean canMerge(DockComponent dock) {
+        for (int i = 0; i < dock.dockedEntities.size; ++i) {
+            Entity entity = dock.dockedEntities.get(i);
+            if (isMergable(entity)) {
+                for (int j = i; j < dock.dockedEntities.size; ++j) {
+                    Entity other = dock.dockedEntities.get(j);
+                    if (isMergable(other)) {
+                        if (Mappers.playerOwner.get(entity).getOwner() == Mappers.playerOwner.get(other).getOwner()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    public void mergeDock(DockComponent dock) {
         for (int i = 0; i < dock.dockedEntities.size; ++i) {
             Entity fleet = dock.dockedEntities.get(i);
             if (!Mappers.fleet.has(fleet)) {
@@ -54,5 +71,9 @@ public class FleetSameDockMerger {
         if (screen.getPickLogic().getSelectedEntity() == otherDocked) {
             screen.getPickLogic().setSelection(targetFleet);
         }
+    }
+
+    private boolean isMergable(Entity entity) {
+        return Mappers.fleet.has(entity);
     }
 }
