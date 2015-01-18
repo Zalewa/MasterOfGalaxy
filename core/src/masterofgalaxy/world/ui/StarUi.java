@@ -133,6 +133,10 @@ public class StarUi extends Table implements Localizable {
         return new TextureRegionDrawable(new TextureRegion(texture));
     }
 
+    public ColonyUi getColonyUi() {
+        return colonyUi;
+    }
+
     @Override
     public void applyTranslation() {
         setEntity(entity);

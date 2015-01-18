@@ -11,9 +11,11 @@ import masterofgalaxy.world.stars.ColonyState;
 import masterofgalaxy.world.stars.MainResourceDistribution;
 import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
 import masterofgalaxy.world.stars.Planet;
+import masterofgalaxy.world.stars.Shipyard;
 
 public class ColonyComponent extends Component implements Pool.Poolable {
     public final ColonyState state = new ColonyState();
+    public Shipyard shipyard = new Shipyard();
     public Entity entity;
 
     public ColonyComponent() {
@@ -29,6 +31,7 @@ public class ColonyComponent extends Component implements Pool.Poolable {
     @Override
     public void reset() {
         entity = null;
+        shipyard.reset();
         state.reset();
     }
 
@@ -54,6 +57,10 @@ public class ColonyComponent extends Component implements Pool.Poolable {
 
     public float getDefenseBasesGrowthRate() {
         return state.mainResourceDistribution.getDefense() * getProduction() / getOwner().getProductionCostPerDefenseBase();
+    }
+
+    public float getShipProduction() {
+        return state.mainResourceDistribution.getShipyard() * getProduction();
     }
 
     public float getProduction() {

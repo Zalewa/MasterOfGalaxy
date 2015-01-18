@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.gamestate.ships.ShipDesign;
 import masterofgalaxy.ui.ConsumeTouchAdapter;
 import masterofgalaxy.world.WorldScreen;
 
@@ -25,6 +26,7 @@ public class WorldUi implements Disposable {
     private Container<Actor> infoUiContainer;
     private StarUi starUi;
     private FleetUi fleetUi;
+    private ShipyardProductionUi shipyardProductionUi;
     private Table mainLayout;
     private Table bottomLayout;
     private Label turnLabel;
@@ -40,6 +42,7 @@ public class WorldUi implements Disposable {
         setupInfoUi();
         setupStarUi();
         setupFleetUi();
+        setupShipyardProductionUi();
         setupBottomLayout();
         setupTurnLabel();
         setupButtons();
@@ -64,8 +67,40 @@ public class WorldUi implements Disposable {
         mainLayout.row();
     }
 
+    private void setupShipyardProductionUi() {
+        shipyardProductionUi = new ShipyardProductionUi(worldScreen.getGame(), skin);
+        shipyardProductionUi.closeRequested.add(new Listener<Object>() {
+            @Override
+            public void receive(Signal<Object> signal, Object object) {
+                showSelectionUiForCurrentlySelectedEntity();
+            }
+        });
+        shipyardProductionUi.designPicked.add(new Listener<ShipDesign>() {
+            @Override
+            public void receive(Signal<ShipDesign> signal, ShipDesign design) {
+                showSelectionUiForCurrentlySelectedEntity();
+            }
+        });
+    }
+
+    private void showSelectionUiForCurrentlySelectedEntity() {
+        updateSelectionUi(worldScreen.getPickLogic().getSelectedEntity());
+    }
+
     private void setupStarUi() {
         starUi = new StarUi(worldScreen.getGame(), skin);
+        starUi.getColonyUi().getShipyardUi().shipyardProductionMenuRequested.add(new Listener<Object>() {
+            @Override
+            public void receive(Signal<Object> signal, Object object) {
+                showShipyardProductionForCurrentlySelectedEntity();
+            }
+        });
+    }
+
+    private void showShipyardProductionForCurrentlySelectedEntity() {
+        infoUiContainer.removeActor(infoUiContainer.getActor());
+        infoUiContainer.setActor(shipyardProductionUi);
+        shipyardProductionUi.setEntity(worldScreen.getPickLogic().getSelectedEntity());
     }
 
     private void setupFleetUi() {

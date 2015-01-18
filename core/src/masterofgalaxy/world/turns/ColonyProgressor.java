@@ -29,6 +29,7 @@ public class ColonyProgressor {
         growPopulation(colony);
         growFactories(colony);
         growBases(colony);
+        growShipyardBuild(colony);
     }
 
     private void growPopulation(ColonyComponent colony) {
@@ -45,6 +46,10 @@ public class ColonyProgressor {
         if (colony.isMaxFactories()) {
             colony.state.mainResourceDistribution.clearAndDistributeElsewhere(ResourceId.Industry, ResourceId.Research);
         }
+    }
+
+    private void growShipyardBuild(ColonyComponent colony) {
+        colony.shipyard.investment += colony.getShipProduction();
     }
 
     private void growBases(ColonyComponent colony) {

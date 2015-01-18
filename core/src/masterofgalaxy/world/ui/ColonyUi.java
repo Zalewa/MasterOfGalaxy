@@ -11,8 +11,6 @@ import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.ColonyComponent;
 import masterofgalaxy.ecs.components.Mappers;
 
-import java.text.MessageFormat;
-
 public class ColonyUi extends Table implements Localizable {
     private MogGame game;
     private Skin skin;
@@ -26,6 +24,7 @@ public class ColonyUi extends Table implements Localizable {
     private Label factoriesValueLabel;
     private Label productionLabel;
     private Label productionValueLabel;
+    private ShipyardUi shipyardUi;
 
     public ColonyUi(MogGame game, Skin skin) {
         super(skin);
@@ -49,6 +48,7 @@ public class ColonyUi extends Table implements Localizable {
         if (colony != null) {
             setColony(colony);
             resourcesDistributionUi.setColony(colony);
+            shipyardUi.setColonyEntity(entity);
         }
     }
 
@@ -65,6 +65,7 @@ public class ColonyUi extends Table implements Localizable {
         setupDefenseBasesLabel();
         setupProductionLabel();
         setupResourcesUi();
+        setupShipyardUi();
     }
 
     private void setupPopulation() {
@@ -103,6 +104,16 @@ public class ColonyUi extends Table implements Localizable {
         resourcesDistributionUi = new ResourcesDistributionUi(skin);
         add(resourcesDistributionUi).expandX().fillX().colspan(2);
         row();
+    }
+
+    private void setupShipyardUi() {
+        shipyardUi = new ShipyardUi(skin);
+        add(shipyardUi).colspan(2).expandX().fill();
+        row();
+    }
+
+    public ShipyardUi getShipyardUi() {
+        return shipyardUi;
     }
 
     @Override
