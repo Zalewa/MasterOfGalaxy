@@ -3,15 +3,20 @@ package masterofgalaxy.world.ui;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.draw.Pixel;
+import masterofgalaxy.draw.PrimitiveRectangleDraw;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.gamestate.ships.ShipDesign;
 import masterofgalaxy.ui.ConsumeTouchAdapter;
@@ -30,6 +35,7 @@ public class WorldUi implements Disposable {
     private Table mainLayout;
     private Table bottomLayout;
     private Label turnLabel;
+    private Image playerIndicator;
     private TextButton nextTurnButton;
     private TextButton mainMenuButton;
 
@@ -113,8 +119,19 @@ public class WorldUi implements Disposable {
     }
 
     private void setupTurnLabel() {
+        TextureRegionDrawable drawable = new TextureRegionDrawable(new TextureRegion(Pixel.getPixel()));
+        playerIndicator = new Image(drawable, Scaling.fill);
+        playerIndicator.setColor(1.0f, 0.0f, 0.0f, 1.0f);
+
         turnLabel = new Label("$turnNo", skin);
-        bottomLayout.add(turnLabel).expandX().fillX();
+
+        Table row = new Table(skin);
+        row.defaults().space(5.0f);
+        row.pad(5.0f);
+        row.add(playerIndicator).width(16.0f).height(16.0f).center();
+        row.add(turnLabel).expandX().fillX();
+
+        bottomLayout.add(row).expandX().fillX();
         bottomLayout.row();
     }
 
@@ -207,7 +224,12 @@ public class WorldUi implements Disposable {
         updateTurnLabel();
     }
 
-    public void updateTurnLabel() {
+    public void updateTurnIndicators() {
+        playerIndicator.setColor(worldScreen.getCurrentPlayer().getColor());
+        updateTurnLabel();
+    }
+
+    private void updateTurnLabel() {
         turnLabel.setText(I18N.resolve("$turnNo", worldScreen.getTurn()));
     }
 

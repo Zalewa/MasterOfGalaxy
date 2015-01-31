@@ -24,6 +24,7 @@ public class WorldStateBuilder {
         state.playField = worldScreen.getWorld().getPlayField();
         state.races = worldScreen.getGame().getActorAssets().races.races;
         state.players = getPlayers();
+        state.currentPlayer = worldScreen.getCurrentPlayer().getName();
         state.stars = getStars();
         state.fleets = getFleets();
         state.colonies = getColonies();

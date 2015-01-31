@@ -4,10 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 
-class Pixel {
+public class Pixel {
     private static Texture pixel = null;
 
-    static Texture getPixel() {
+    public static Texture getPixel() {
         if (pixel == null) {
             pixel = spawn();
         }

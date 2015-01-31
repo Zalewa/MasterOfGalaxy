@@ -9,6 +9,7 @@ public class WorldState {
     public int turn;
     public Rectangle playField;
     public Array<PlayerState> players;
+    public String currentPlayer;
     public Array<StarState> stars;
     public Array<FleetState> fleets;
     public Array<Race> races;

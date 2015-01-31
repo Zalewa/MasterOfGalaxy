@@ -48,6 +48,7 @@ public class WorldStateRestorer {
 
     private void restorePlayers() throws SavedGameException {
         worldScreen.getWorld().setPlayers(PlayerBuilder.fromStates(worldState.players));
+        Player currentPlayer = null;
         for (Player player : worldScreen.getWorld().getPlayers()) {
             Race race = Races.findRaceByName(worldScreen.getWorld().getRaces(), player.getState().getRaceName());
             if (race == null) {
@@ -55,7 +56,14 @@ public class WorldStateRestorer {
                         player.getState().getRaceName(), player.getName()));
             }
             player.setRace(race);
+            if (player.getName().equals(worldState.currentPlayer)) {
+                currentPlayer = player;
+            }
         }
+        if (currentPlayer == null) {
+            throw new SavedGameException(I18N.resolve("$savedCurrentPlayerNotFoundOnPlayersList"));
+        }
+        worldScreen.setCurrentPlayer(currentPlayer);
     }
 
     private void restoreStars() {

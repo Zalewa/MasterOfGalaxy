@@ -94,7 +94,7 @@ public class WorldScreen extends ScreenAdapter {
     private void postWorldBuildActions() {
         resetActorPicker();
         resetCamera();
-        ui.updateTurnLabel();
+        ui.updateTurnIndicators();
     }
 
     private void resetActorPicker() {
@@ -248,7 +248,7 @@ public class WorldScreen extends ScreenAdapter {
         turnProcessor.turnChanged.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {
-                ui.updateTurnLabel();
+                ui.updateTurnIndicators();
             }
         });
     }
