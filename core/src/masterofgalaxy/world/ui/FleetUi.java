@@ -52,7 +52,7 @@ public class FleetUi extends Table implements Localizable {
         add(ownerLabel).expandX();
         row();
 
-        shipsUi = new FleetShipsUi(skin);
+        shipsUi = new FleetShipsUi(game, skin);
         add(shipsUi).expandX().fillX();
         row();
 
@@ -110,11 +110,18 @@ public class FleetUi extends Table implements Localizable {
         mergeButton.setVisible(canMerge());
     }
 
+    private boolean isOwnedByCurrentPlayer() {
+        return Mappers.playerOwner.get(entity).getOwner() == game.getWorldScreen().getCurrentPlayer();
+    }
+
     private boolean canSplit() {
-        return FleetSplitter.canSplitFleet(entity);
+        return FleetSplitter.canSplitFleet(entity) && isOwnedByCurrentPlayer();
     }
 
     private boolean canMerge() {
+        if (!isOwnedByCurrentPlayer()) {
+            return false;
+        }
         if (Mappers.dockable.has(entity)) {
             return FleetSameDockMerger.canMerge(Mappers.dock.get(Mappers.dockable.get(entity).dockedAt));
         }

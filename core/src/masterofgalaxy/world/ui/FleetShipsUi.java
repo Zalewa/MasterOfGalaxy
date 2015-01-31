@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
+import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
@@ -17,10 +18,12 @@ public class FleetShipsUi extends Table implements Localizable {
     private Container<Table> shipWidgetsLayout;
     private Array<ShipWidget> shipWidgets = new Array<ShipWidget>();
     private Skin skin;
+    private MogGame game;
 
-    public FleetShipsUi(Skin skin) {
+    public FleetShipsUi(MogGame game, Skin skin) {
         super(skin);
         this.skin = skin;
+        this.game = game;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         pad(5.0f);
@@ -47,13 +50,25 @@ public class FleetShipsUi extends Table implements Localizable {
         FleetComponent fleetComponent = Mappers.fleet.get(entity);
         for (FleetComponent.Ship ship : fleetComponent.ships) {
             if (ship.count > 0) {
-                ShipWidget shipWidget = new ShipWidget(skin);
+                ShipWidget shipWidget = mkShipWidget();
                 shipWidget.setShip(ship);
                 table.add(shipWidget).expandX().fillX();
                 table.row();
                 shipWidgets.add(shipWidget);
             }
         }
+    }
+
+    private ShipWidget mkShipWidget() {
+        if (isOwnedByCurrentPlayer()) {
+            return new ShipSplittableWidget(skin);
+        } else {
+            return new ShipWidget(skin);
+        }
+    }
+
+    private boolean isOwnedByCurrentPlayer() {
+        return Mappers.playerOwner.get(entity).getOwner() == game.getWorldScreen().getCurrentPlayer();
     }
 
     public void fillInSplitter(FleetSplitter splitter) {

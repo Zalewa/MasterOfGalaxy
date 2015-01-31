@@ -12,8 +12,6 @@ import masterofgalaxy.ecs.components.FleetComponent;
 public class ShipWidget extends Table {
     private Label nameLabel;
     private Label countLabel;
-    private Slider amountSlider;
-    private Label selectedAmountLabel;
     private Skin skin;
     private FleetComponent.Ship ship;
 
@@ -30,18 +28,6 @@ public class ShipWidget extends Table {
         countLabel = new Label("", skin);
         add(countLabel).expandX().right();
         row();
-
-        amountSlider = new Slider(0.0f, 0.0f, 1.0f, false, skin);
-        amountSlider.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                selectedAmountLabel.setText("" + getSelectedAmount());
-            }
-        });
-        add(amountSlider).expandX().center();
-
-        selectedAmountLabel = new Label("", skin);
-        add(selectedAmountLabel).right();
     }
 
     public void setShip(FleetComponent.Ship ship) {
@@ -49,9 +35,6 @@ public class ShipWidget extends Table {
 
         nameLabel.setText(ship.design.getName());
         countLabel.setText("" + ship.count);
-
-        amountSlider.setRange(0.0f, (float) ship.count);
-        amountSlider.setValue((float) ship.count);
     }
 
     public FleetComponent.Ship getShip() {
@@ -59,6 +42,6 @@ public class ShipWidget extends Table {
     }
 
     public int getSelectedAmount() {
-        return MathUtils.round(amountSlider.getValue());
+        return ship.count;
     }
 }

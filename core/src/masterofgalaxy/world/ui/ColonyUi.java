@@ -49,7 +49,15 @@ public class ColonyUi extends Table implements Localizable {
             setColony(colony);
             resourcesDistributionUi.setColony(colony);
             shipyardUi.setColonyEntity(entity);
+
+            resourcesDistributionUi.setVisible(isOwnedByCurrentPlayer());
+            shipyardUi.setVisible(isOwnedByCurrentPlayer());
         }
+
+    }
+
+    private boolean isOwnedByCurrentPlayer() {
+        return Mappers.playerOwner.get(entity).getOwner() == game.getWorldScreen().getCurrentPlayer();
     }
 
     private void setColony(ColonyComponent colony) {
