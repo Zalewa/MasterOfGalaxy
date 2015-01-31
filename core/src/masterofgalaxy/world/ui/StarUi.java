@@ -40,7 +40,7 @@ public class StarUi extends Table implements Localizable {
         setupHeader();
         setupStarInfo();
         setupColonyUi();
-        setupFreeStartUi();
+        setupFreeStarUi();
 
         setBackground("default-rect");
         setColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -55,7 +55,7 @@ public class StarUi extends Table implements Localizable {
         row();
     }
 
-    private void setupFreeStartUi() {
+    private void setupFreeStarUi() {
         freeStarUi = new FreeStarUi(game, skin);
         freeStarUiContainer = new ContainerEx<FreeStarUi>();
         freeStarUiContainer.fillX();
