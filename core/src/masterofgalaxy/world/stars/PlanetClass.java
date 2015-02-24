@@ -18,6 +18,7 @@ public class PlanetClass {
     private String textureName = "";
     private float defaultStarChance = 0.0f;
     private Map<String, Float> starChances = new LinkedHashMap<String, Float>();
+    private boolean colonizable;
     private boolean valid = true;
     private String localizationBundleName;
 
@@ -59,6 +60,14 @@ public class PlanetClass {
 
     public void setDefaultStarChance(float defaultStarChance) {
         this.defaultStarChance = defaultStarChance;
+    }
+
+    public boolean isColonizable() {
+        return colonizable;
+    }
+
+    public void setColonizable(boolean colonizable) {
+        this.colonizable = colonizable;
     }
 
     public Map<String, Float> getStarChances() {

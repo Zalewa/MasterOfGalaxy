@@ -8,7 +8,8 @@
       "textureName": "sprite/star.png",
       "starChance": {
         "default": 0.1
-      }
+      },
+      "colonizable": "false"
     },
     "terran": {
       "typeName": "$terran",

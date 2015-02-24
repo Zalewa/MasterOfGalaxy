@@ -8,6 +8,9 @@ public class StarColonizer {
         if (Mappers.colony.has(star)) {
             return false;
         }
+        if (!Mappers.star.get(star).planet.klass.isColonizable()) {
+            return false;
+        }
         return getColonizationFleetForCurrentPlayer(worldScreen, star) != null;
     }
 

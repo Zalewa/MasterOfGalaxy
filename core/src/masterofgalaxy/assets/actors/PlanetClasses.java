@@ -39,6 +39,7 @@ public class PlanetClasses {
             PlanetClass klass = new PlanetClass();
             klass.setName(planet.getString("typeName"));
             klass.setInternalName(name);
+            klass.setColonizable(planet.getBoolean("colonizable", true));
             klass.setLocalizationBundleName(localizationBundleName);
             klass.setTextureName(planet.getString("textureName"));
 
