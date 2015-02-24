@@ -1,15 +1,17 @@
 package masterofgalaxy.world.picking;
 
 import com.badlogic.ashley.core.Entity;
+
 import masterofgalaxy.ecs.components.DockableComponent;
 import masterofgalaxy.ecs.components.EntityTargetComponent;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.world.PlayerOwnerControl;
 
 class PickFleetToStar implements PickStrategy {
     @Override
     public void pick(final PickLogic pickLogic, Entity picked) {
         Entity fleet = pickLogic.getSelectedEntity();
-        if (Mappers.playerOwner.get(fleet).getOwner() != pickLogic.getScreen().getCurrentPlayer()) {
+        if (!canControlThisFleet(pickLogic, fleet)) {
             pickLogic.setSelection(picked);
             return;
         }
@@ -28,5 +30,9 @@ class PickFleetToStar implements PickStrategy {
             }
         }
         entityTarget.target = picked;
+    }
+
+    private boolean canControlThisFleet(PickLogic pickLogic, Entity fleet) {
+        return PlayerOwnerControl.canControl(pickLogic.getScreen(), fleet);
     }
 }

@@ -37,6 +37,7 @@ public class WorldScreen extends ScreenAdapter {
     private InputMultiplexer inputMultiplexer = null;
     private Listener<Entity> selectionChangedListener;
     private Player currentPlayer;
+    private DebugMode debugMode = new DebugMode();
 
     public Signal<Entity> selectionChanged = new Signal<Entity>();
 
@@ -321,5 +322,9 @@ public class WorldScreen extends ScreenAdapter {
 
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
+    }
+
+    public DebugMode getDebugMode() {
+        return debugMode;
     }
 }

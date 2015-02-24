@@ -4,12 +4,14 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.ColonyComponent;
 import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.world.PlayerOwnerControl;
 
 public class ColonyUi extends Table implements Localizable {
     private MogGame game;
@@ -50,14 +52,13 @@ public class ColonyUi extends Table implements Localizable {
             resourcesDistributionUi.setColony(colony);
             shipyardUi.setColonyEntity(entity);
 
-            resourcesDistributionUi.setVisible(isOwnedByCurrentPlayer());
-            shipyardUi.setVisible(isOwnedByCurrentPlayer());
+            resourcesDistributionUi.setVisible(canControl());
+            shipyardUi.setVisible(canControl());
         }
-
     }
 
-    private boolean isOwnedByCurrentPlayer() {
-        return Mappers.playerOwner.get(entity).getOwner() == game.getWorldScreen().getCurrentPlayer();
+    private boolean canControl() {
+        return PlayerOwnerControl.canControl(game.getWorldScreen(), entity);
     }
 
     private void setColony(ColonyComponent colony) {

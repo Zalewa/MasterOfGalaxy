@@ -28,6 +28,8 @@ public class WorldInputProcessor extends InputAdapter {
         } else if (keycode == Input.Keys.M) {
             MoveToTargetSystem system = screen.getEntityEngine().getSystem(MoveToTargetSystem.class);
             system.setProcessing(!system.checkProcessing());
+        } else if (keycode == Input.Keys.O) {
+            screen.getDebugMode().setControlOtherPlayers(!screen.getDebugMode().isControlOtherPlayers());
         } else if (keycode == Input.Keys.ESCAPE) {
             screen.escape();
         }

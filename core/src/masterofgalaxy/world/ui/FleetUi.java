@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
@@ -17,6 +18,7 @@ import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.ecs.components.PlayerOwnerComponent;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.world.FleetSplitter;
+import masterofgalaxy.world.PlayerOwnerControl;
 import masterofgalaxy.world.turns.FleetSameDockMerger;
 
 public class FleetUi extends Table implements Localizable {
@@ -110,16 +112,16 @@ public class FleetUi extends Table implements Localizable {
         mergeButton.setVisible(canMerge());
     }
 
-    private boolean isOwnedByCurrentPlayer() {
-        return Mappers.playerOwner.get(entity).getOwner() == game.getWorldScreen().getCurrentPlayer();
+    private boolean canControl() {
+        return PlayerOwnerControl.canControl(game.getWorldScreen(), entity);
     }
 
     private boolean canSplit() {
-        return FleetSplitter.canSplitFleet(entity) && isOwnedByCurrentPlayer();
+        return FleetSplitter.canSplitFleet(entity) && canControl();
     }
 
     private boolean canMerge() {
-        if (!isOwnedByCurrentPlayer()) {
+        if (!canControl()) {
             return false;
         }
         if (Mappers.dockable.has(entity)) {
