@@ -4,8 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import masterofgalaxy.ecs.components.DockComponent;
-import masterofgalaxy.ecs.components.DockableComponent;
-import masterofgalaxy.ecs.components.FleetComponent;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.world.FleetMerger;
 import masterofgalaxy.world.WorldScreen;

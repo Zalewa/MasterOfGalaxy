@@ -8,10 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ecs.components.ColonyComponent;
 import masterofgalaxy.ecs.components.Mappers;
 
-public class ShipyardUi extends Table {
+public class ShipyardUi extends Table implements Localizable {
     private Label nameLabel;
     private ProgressBar progressBar;
     private Skin skin;
@@ -22,7 +25,7 @@ public class ShipyardUi extends Table {
     public ShipyardUi(Skin skin) {
         super(skin);
         this.skin = skin;
-
+        I18N.localeChanged.add(new LocalizationChangedListener(this));
         setupUi();
     }
 
@@ -35,7 +38,7 @@ public class ShipyardUi extends Table {
         if (colony.shipyard.constructedShip != null) {
             nameLabel.setText(colony.shipyard.getConstructedShipName());
         } else {
-            nameLabel.setText("N/A");
+            nameLabel.setText(I18N.resolve("$n/a"));
         }
         progressBar.setValue(colony.shipyard.getConstructedShipProgress());
     }
@@ -61,5 +64,10 @@ public class ShipyardUi extends Table {
         progressBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, skin);
         add(progressBar).expandX().fillX();
         row();
+    }
+
+    @Override
+    public void applyTranslation() {
+        setColonyEntity(entity);
     }
 }

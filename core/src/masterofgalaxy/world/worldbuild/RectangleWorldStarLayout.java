@@ -1,12 +1,10 @@
 package masterofgalaxy.world.worldbuild;
 
-import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import masterofgalaxy.gamestate.Player;
-import masterofgalaxy.gamestate.PlayerBuilder;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
@@ -110,11 +108,11 @@ public class RectangleWorldStarLayout {
     }
 
     private int getNumRows() {
-        return MathUtils.ceil((float)Math.sqrt((double)getTotalNumberOfStars()));
+        return MathUtils.ceil((float)Math.sqrt(getTotalNumberOfStars()));
     }
 
     private int getNumCols() {
-        return MathUtils.ceil((float)Math.sqrt((double)getTotalNumberOfStars()));
+        return MathUtils.ceil((float)Math.sqrt(getTotalNumberOfStars()));
     }
 
     private int getTotalNumberOfStars() {
@@ -146,7 +144,6 @@ public class RectangleWorldStarLayout {
     }
 
     private class FreeRect {
-        public boolean free = true;
         public Rectangle rect;
 
         public FreeRect(Rectangle rect) {

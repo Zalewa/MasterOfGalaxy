@@ -8,7 +8,6 @@ import masterofgalaxy.assets.i18n.I18NJsonReader;
 import masterofgalaxy.exceptions.InvalidInputTypeException;
 import masterofgalaxy.gamestate.Homeworld;
 import masterofgalaxy.gamestate.Race;
-import masterofgalaxy.world.stars.PlanetClass;
 
 public class Races {
     public static Race findRaceByName(Array<Race> races, String name) {

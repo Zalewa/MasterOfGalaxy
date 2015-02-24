@@ -16,13 +16,10 @@ import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
-import java.util.Random;
-
 public class WorldBuilder {
     private Rectangle playField;
     private WorldScreen screen;
     private World world;
-    private Random random;
     private RectangleWorldStarLayout layout;
     private long seed;
     private int numPlayers;
@@ -31,7 +28,6 @@ public class WorldBuilder {
     public WorldBuilder(WorldScreen screen, RectangleWorldStarLayout layout, long seed) {
         this.seed = seed;
         this.layout = layout;
-        this.random = new Random(seed);
         this.screen = screen;
     }
 

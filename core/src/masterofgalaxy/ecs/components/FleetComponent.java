@@ -1,13 +1,10 @@
 package masterofgalaxy.ecs.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Pool;
 import masterofgalaxy.exceptions.InvalidArgumentException;
 import masterofgalaxy.gamestate.ships.ShipDesign;
-
-import java.text.MessageFormat;
 
 public class FleetComponent extends Component implements Pool.Poolable {
     public Array<Ship> ships = new Array<Ship>();

@@ -37,8 +37,8 @@ public class ShipSplittableWidget extends ShipWidget {
     public void setShip(FleetComponent.Ship ship) {
         super.setShip(ship);
 
-        amountSlider.setRange(0.0f, (float) ship.count);
-        amountSlider.setValue((float) ship.count);
+        amountSlider.setRange(0.0f, ship.count);
+        amountSlider.setValue(ship.count);
     }
 
     @Override

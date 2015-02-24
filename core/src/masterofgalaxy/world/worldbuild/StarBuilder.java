@@ -68,7 +68,7 @@ public class StarBuilder {
     }
 
     private void applyBodyAndAppearance(Entity star, StarClass starKlass, float x, float y, float sizeScale) {
-        BodyComponent body = game.getComponentMappers().body.get(star);
+        BodyComponent body = Mappers.body.get(star);
         body.setPosition(x, y);
         body.scale(sizeScale);
 

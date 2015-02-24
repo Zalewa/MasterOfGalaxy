@@ -5,9 +5,6 @@ import com.badlogic.gdx.utils.Disposable;
 import masterofgalaxy.world.WorldScreen;
 
 public class TurnProcessor implements Disposable {
-    private static final float positionEpsilon = 0.1f;
-
-    private WorldScreen screen;
     private Slider slider;
     private ColonyProgressor colonyProgressor;
     private FleetSameDockMerger fleetSameDockMerger;
@@ -19,7 +16,6 @@ public class TurnProcessor implements Disposable {
     public Signal<Object> turnProcessingFinished = new Signal<Object>();
 
     public TurnProcessor(WorldScreen screen) {
-        this.screen = screen;
         slider = new Slider(screen);
         colonyProgressor = new ColonyProgressor(screen);
         fleetSameDockMerger = new FleetSameDockMerger(screen);
@@ -56,10 +52,6 @@ public class TurnProcessor implements Disposable {
 
         ++turn;
         turnProcessingFinished.dispatch(null);
-    }
-
-    private float getFleetSlideTime() {
-        return 0.2f;
     }
 
     @Override

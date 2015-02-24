@@ -17,7 +17,7 @@ import java.util.Set;
 public class VideoModeOptions extends Table {
     private CheckBox fullscreenCheckbox;
     private Label resolutionsLabel;
-    private SelectBox resolutionsSelectBox;
+    private SelectBox<Resolution> resolutionsSelectBox;
 
     public VideoModeOptions(Skin skin) {
         super(skin);
@@ -40,7 +40,7 @@ public class VideoModeOptions extends Table {
 
         resolutionsLabel = new Label("resolutions", skin);
         add(resolutionsLabel);
-        resolutionsSelectBox = new SelectBox(skin);
+        resolutionsSelectBox = new SelectBox<Resolution>(skin);
         add(resolutionsSelectBox);
         row();
 
@@ -57,7 +57,7 @@ public class VideoModeOptions extends Table {
                 return o2.area() - o1.area();
             }
         });
-        resolutionsSelectBox.setItems((Object[])modes);
+        resolutionsSelectBox.setItems(modes);
     }
 
     private Resolution[] getUniqueDisplayModes() {
@@ -82,7 +82,7 @@ public class VideoModeOptions extends Table {
     }
 
     private Resolution getSelectedResolution() {
-        return (Resolution) resolutionsSelectBox.getSelected();
+        return resolutionsSelectBox.getSelected();
     }
 
     private Resolution getCurrentResolution() {
@@ -116,9 +116,6 @@ public class VideoModeOptions extends Table {
 
         public int area() {
             return width * height;
-        }
-
-        public Resolution() {
         }
 
         public Resolution(int width, int height) {

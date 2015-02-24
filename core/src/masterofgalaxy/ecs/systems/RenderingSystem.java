@@ -35,7 +35,6 @@ public class RenderingSystem extends IteratingSystem {
     public void update(float deltaTime) {
         super.update(deltaTime);
 
-        Mappers mappers = game.getComponentMappers();
         viewport.apply();
         camera.update();
         SpriteBatch batch = game.getSpriteBatch();
@@ -44,7 +43,7 @@ public class RenderingSystem extends IteratingSystem {
         batch.begin();
 
         for (Entity entity : queue) {
-            RenderComponent render = mappers.spriteRender.get(entity);
+            RenderComponent render = Mappers.spriteRender.get(entity);
 
             if (render.getTexture() == null) {
                 continue;

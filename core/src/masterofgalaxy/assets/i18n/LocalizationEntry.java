@@ -117,8 +117,4 @@ public class LocalizationEntry {
     public void setExtraChars(String extraChars) {
         this.extraChars = extraChars;
     }
-
-    private static String emptyStrIfNull(String s) {
-        return s != null ? s : "";
-    }
 }

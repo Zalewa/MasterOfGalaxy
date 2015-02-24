@@ -94,9 +94,7 @@ public class MainResourceDistribution {
 
     public void setAmount(ResourceId id, float amount) {
         Resource resource = distribution.get(id.name());
-        float oldValue = resource.getAmount();
         resource.setAmount(amount);
-        float newValue = resource.getAmount();
         normalizeDistribution(id, pool - getSum());
     }
 

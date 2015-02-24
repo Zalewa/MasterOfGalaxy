@@ -11,7 +11,6 @@ import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.WorldScreen;
-import masterofgalaxy.world.stars.MainResourceDistribution;
 import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
 
 public class ColonyProgressor {

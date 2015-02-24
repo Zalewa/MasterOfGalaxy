@@ -8,7 +8,6 @@ import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.Race;
 import masterofgalaxy.world.stars.ColonyState;
-import masterofgalaxy.world.stars.MainResourceDistribution;
 import masterofgalaxy.world.stars.MainResourceDistribution.ResourceId;
 import masterofgalaxy.world.stars.Planet;
 import masterofgalaxy.world.stars.Shipyard;

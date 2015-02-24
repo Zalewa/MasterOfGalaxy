@@ -31,7 +31,7 @@ public class SelectionScalingSystem extends IteratingSystem {
             float y2 = selectedBounds.y + selectedBounds.height;
 
             for (Entity selected : selection.selection) {
-                selectedBounds = GlobalBody.calculateGlobalBounds(workRect, selection.selection.first());
+                selectedBounds = GlobalBody.calculateGlobalBounds(workRect, selected);
 
                 x1 = Math.min(x1, selectedBounds.x);
                 x2 = Math.max(x2, selectedBounds.x + selectedBounds.width);

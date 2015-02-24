@@ -2,7 +2,6 @@ package masterofgalaxy.gamestate;
 
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Color;
-import masterofgalaxy.gamestate.ships.ShipDesign;
 
 public class Player {
     public static final Player nullPlayer;

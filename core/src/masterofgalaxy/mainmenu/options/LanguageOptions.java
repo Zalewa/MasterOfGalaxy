@@ -13,13 +13,11 @@ import masterofgalaxy.config.GeneralConfig;
 import java.util.Locale;
 
 public class LanguageOptions extends Table {
-    private Skin skin;
     private Label label;
     private SelectBox<LocalizationEntry> languageSelectBox;
 
     public LanguageOptions(Skin skin) {
         super(skin);
-        this.skin = skin;
         I18N.localeChanged.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {

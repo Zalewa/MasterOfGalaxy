@@ -23,7 +23,6 @@ public class EntityPicker {
     public Entity pickNextEntity(Entity current, float x, float y) {
         ImmutableArray<Entity> entities = engine.getEntitiesFor(Family.getFor(BodyComponent.class, PickableComponent.class));
         Entity first = null;
-        Entity candidate = null;
         boolean currentFound = false;
         Rectangle bounds = new Rectangle();
         for (int i = 0; i < entities.size(); ++i) {

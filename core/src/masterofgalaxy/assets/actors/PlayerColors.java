@@ -22,7 +22,6 @@ public class PlayerColors {
         }
         for (int i = 0; i < jsonColors.size; ++i) {
             JsonValue jsonColor = jsonColors.get(i);
-            String name = jsonColor.name();
 
             PlayerColor color = new PlayerColor();
             color.setName(jsonColor.getString("name"));

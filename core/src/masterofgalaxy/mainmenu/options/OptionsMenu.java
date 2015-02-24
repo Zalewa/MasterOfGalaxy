@@ -19,13 +19,11 @@ public class OptionsMenu extends Window implements Localizable {
     private Table buttonRow = new Table();
     private Button xButton;
     private Table mainLayout;
-    private MogGame game;
-    private LocalizationChangedListener translationListener = new LocalizationChangedListener(this);;
+    private LocalizationChangedListener translationListener = new LocalizationChangedListener(this);
 
     public OptionsMenu(MogGame game, Skin skin) {
         super("options", skin);
         I18N.localeChanged.add(translationListener);
-        this.game = game;
         this.skin = skin;
         setModal(true);
         addListener(new EscapeKeyAdapter() {

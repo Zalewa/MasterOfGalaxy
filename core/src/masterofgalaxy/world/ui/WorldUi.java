@@ -16,7 +16,6 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.draw.Pixel;
-import masterofgalaxy.draw.PrimitiveRectangleDraw;
 import masterofgalaxy.ecs.components.Mappers;
 import masterofgalaxy.gamestate.ships.ShipDesign;
 import masterofgalaxy.ui.ConsumeTouchAdapter;
@@ -203,6 +202,7 @@ public class WorldUi implements Disposable {
         }
     }
 
+    @Override
     public void dispose() {
         worldScreen.selectionChanged.remove(entitySelectionListener);
     }

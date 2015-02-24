@@ -10,9 +10,7 @@ import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.i18n.LocalizationChangedListener;
-import masterofgalaxy.ecs.components.*;
 import masterofgalaxy.world.StarColonizer;
-import masterofgalaxy.world.WorldScreen;
 
 public class FreeStarUi extends Table implements Localizable {
     private Entity entity;

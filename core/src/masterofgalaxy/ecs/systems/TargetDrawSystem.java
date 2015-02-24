@@ -29,7 +29,6 @@ public class TargetDrawSystem extends IteratingSystem {
     private Vector2 drawedEndPos = new Vector2();
     private Vector2 drawedIntermediateStartPos = new Vector2();
     private Vector2 drawedIntermediateEndPos = new Vector2();
-    private Vector2 segment = new Vector2();
     private Vector2 segmentShift = new Vector2();
     private Color colorStart = new Color(0.0f, 0.5f, 0.0f, 1.0f);
     private Color colorEnd = new Color(0.0f, 1.0f, 0.0f, 1.0f);
@@ -93,7 +92,7 @@ public class TargetDrawSystem extends IteratingSystem {
         if (segmentNr >= segments - 1) {
             drawedIntermediateEndPos.set(drawedEndPos);
         } else {
-            drawedIntermediateEndPos.set(drawedEndPos).sub(drawedStartPos).scl((segmentNr + 1.0f) / (float)segments).add(drawedStartPos);
+            drawedIntermediateEndPos.set(drawedEndPos).sub(drawedStartPos).scl((segmentNr + 1.0f) / segments).add(drawedStartPos);
             drawedIntermediateEndPos.add(segmentShift);
         }
 

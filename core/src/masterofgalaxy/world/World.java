@@ -14,7 +14,6 @@ public class World {
     public static final float unitsPerParsec = 100.0f;
 
     private WorldScreen screen;
-    private Array<Entity> entities = new Array<Entity>();
     private Array<Player> players = null;
     private Rectangle playField = new Rectangle();
     private Array<Race> races;

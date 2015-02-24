@@ -4,7 +4,6 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -58,7 +57,6 @@ public class TextRenderingSystem extends IteratingSystem {
             float originX = bounds.width * 0.5f;
             float originY = bounds.height * 0.5f;
 
-            Color oldColor = game.getSpriteBatch().getColor();
             render.font.setColor(render.tint);
             render.font.draw(game.getSpriteBatch(), render.text, projectedPos.x - originX, projectedPos.y - originY);
         }
