@@ -1,0 +1,17 @@
+{
+  "i18n": {
+    "bundle": "i18n/tech_propulsion"
+  },
+  "id": "$propulsion",
+  "tech": [
+    {
+      "id": "$sublightDrive",
+      "cost": 500
+    },
+    {
+      "id": "$ionDrive",
+      "cost": 1000,
+      "requires": "$sublightDrive"
+    }
+  ]
+}
