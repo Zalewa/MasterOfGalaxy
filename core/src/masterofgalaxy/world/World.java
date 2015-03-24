@@ -56,6 +56,15 @@ public class World {
         return playField;
     }
 
+    public Rectangle getPlayFieldExpanded(float expansion) {
+        Rectangle rect = new Rectangle(playField);
+        rect.x -= expansion;
+        rect.y -= expansion;
+        rect.width += expansion * 2;
+        rect.height += expansion * 2;
+        return rect;
+    }
+
     public Array<Player> getPlayers() {
         return players;
     }

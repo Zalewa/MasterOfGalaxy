@@ -54,7 +54,7 @@ public class WorldScreen extends ScreenAdapter {
         ui = new WorldUi(this);
         globalUi = new GlobalUi(game);
         globalUi.setCanResumeGame(false);
-        camera = new WorldCamera(this);
+        camera = new WorldCamera();
         viewport = new ExtendViewport(1000.0f, 1000.0f, camera.getCamera());
         pickLogic = new PickLogic(this);
         background = new WorldBackground(this);
@@ -105,8 +105,10 @@ public class WorldScreen extends ScreenAdapter {
     }
 
     private void resetCamera() {
-        viewport.setMinWorldWidth(world.getPlayField().getWidth());
-        viewport.setMinWorldHeight(world.getPlayField().getHeight());
+        Rectangle viewField = world.getPlayFieldExpanded(100.0f);
+        camera.setViewField(viewField);
+        viewport.setMinWorldWidth(viewField.getWidth());
+        viewport.setMinWorldHeight(viewField.getHeight());
         camera.resetZoom();
         camera.centerCamera();
     }
