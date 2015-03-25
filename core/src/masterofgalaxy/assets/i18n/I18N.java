@@ -1,17 +1,21 @@
 package masterofgalaxy.assets.i18n;
 
+import java.text.MessageFormat;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.MissingResourceException;
+
+import masterofgalaxy.exceptions.DuplicateException;
+
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.I18NBundle;
 import com.badlogic.gdx.utils.JsonReader;
-
-import java.text.MessageFormat;
-import java.util.LinkedHashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.MissingResourceException;
 
 public class I18N {
     private static Map<String, L10NSource> namedBundles = new LinkedHashMap<String, L10NSource>();
@@ -21,6 +25,32 @@ public class I18N {
 
     public static I18NBundle i18n;
     public static Signal<Object> localeChanged = new Signal<Object>();
+
+    private static List<LocalizableRegistry> localizables
+        = new LinkedList<LocalizableRegistry>();
+
+    public static void addLocalizable(Localizable localizable) {
+        if (findLocalizable(localizable) != null) {
+            throw new DuplicateException("tried to register localizable twice");
+        }
+        LocalizationChangedListener listener = new LocalizationChangedListener(localizable);
+        localizables.add(new LocalizableRegistry(localizable, listener));
+        localeChanged.add(listener);
+    }
+
+    public static void removeLocalizable(Localizable localizable) {
+        localeChanged.remove(findLocalizable(localizable).listener);
+        localizables.remove(findLocalizable(localizable));
+    }
+
+    private static LocalizableRegistry findLocalizable(Localizable localizable) {
+        for (LocalizableRegistry registry : localizables) {
+            if (registry.localizable == localizable) {
+                return registry;
+            }
+        }
+        return null;
+    }
 
     public static void loadLocalizations(FileHandle file) {
         JsonReader reader = new JsonReader();
@@ -106,5 +136,17 @@ public class I18N {
 
     public static LocalizationEntry getCurrentLocalization() {
         return currentLocalization;
+    }
+
+    private static class LocalizableRegistry {
+        public Localizable localizable;
+        public LocalizationChangedListener listener;
+
+        public LocalizableRegistry(Localizable localizable,
+                LocalizationChangedListener listener) {
+            this.localizable = localizable;
+            this.listener = listener;
+        }
+
     }
 }

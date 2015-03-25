@@ -35,6 +35,7 @@ public class WorldUi implements Disposable {
     private Table bottomLayout;
     private Label turnLabel;
     private Image playerIndicator;
+    private TextButton researchButton;
     private TextButton nextTurnButton;
     private TextButton mainMenuButton;
 
@@ -135,8 +136,21 @@ public class WorldUi implements Disposable {
     }
 
     private void setupButtons() {
+        setupResearchButton();
         setupNextTurnButton();
         setupMainMenuButton();
+    }
+
+    private void setupResearchButton() {
+        researchButton = new TextButton("$research", skin);
+        researchButton.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                worldScreen.getGlobalUi().openResearchScreen();
+            }
+        });
+        bottomLayout.add(researchButton).expandX().fillX();
+        bottomLayout.row();
     }
 
     private void setupNextTurnButton() {
@@ -235,6 +249,7 @@ public class WorldUi implements Disposable {
 
     private void applyTranslation() {
         updateTurnLabel();
+        researchButton.setText(I18N.resolve("$research"));
         nextTurnButton.setText(I18N.resolve("$nextTurn"));
         mainMenuButton.setText(I18N.resolve("$mainMenu"));
     }

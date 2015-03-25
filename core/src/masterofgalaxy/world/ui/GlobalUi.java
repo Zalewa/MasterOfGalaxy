@@ -1,22 +1,28 @@
 package masterofgalaxy.world.ui;
 
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.UiSkin;
 import masterofgalaxy.mainmenu.MainMenu;
 import masterofgalaxy.ui.Ui;
+import masterofgalaxy.world.ui.research.ResearchWindow;
+
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
 public class GlobalUi implements Disposable {
     private MogGame game;
     private Stage stage;
     private MainMenu mainMenu;
+    private ResearchWindow researchWindow;
     private boolean debug = false;
 
     public GlobalUi(MogGame game) {
@@ -101,5 +107,25 @@ public class GlobalUi implements Disposable {
 
     public void packMainMenu() {
         mainMenu.pack();
+    }
+
+    public void openResearchScreen() {
+        researchWindow = new ResearchWindow(UiSkin.skin);
+        researchWindow.addListener(new EventListener() {
+            @Override
+            public boolean handle(Event event) {
+                System.out.println("event: " + event);
+                return false;
+            }
+        });
+        researchWindow.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                System.out.println("changed: " + event);
+            }
+        });
+        stage.addActor(researchWindow);
+        researchWindow.setVisible(true);
+        Ui.centerWithinStage(researchWindow);
     }
 }
