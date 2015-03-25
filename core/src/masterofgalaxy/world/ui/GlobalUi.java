@@ -110,18 +110,12 @@ public class GlobalUi implements Disposable {
     }
 
     public void openResearchScreen() {
-        researchWindow = new ResearchWindow(UiSkin.skin);
-        researchWindow.addListener(new EventListener() {
+        researchWindow = new ResearchWindow(game, UiSkin.skin);
+        researchWindow.addListener(new InputListener() {
             @Override
-            public boolean handle(Event event) {
-                System.out.println("event: " + event);
-                return false;
-            }
-        });
-        researchWindow.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                System.out.println("changed: " + event);
+            public void exit(InputEvent event, float x, float y, int pointer,
+                    Actor toActor) {
+                researchWindow = null;
             }
         });
         stage.addActor(researchWindow);

@@ -1,5 +1,6 @@
 package masterofgalaxy.assets.tech;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -11,5 +12,9 @@ public class TechTree {
 
     public void appendBranch(TechBranch branch) {
         branches.put(branch.getId(), branch);
+    }
+
+    public Collection<TechBranch> getBranches() {
+        return branches.values();
     }
 }

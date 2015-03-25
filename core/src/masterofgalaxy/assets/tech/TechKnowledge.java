@@ -3,10 +3,13 @@ package masterofgalaxy.assets.tech;
 import java.io.Serializable;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import masterofgalaxy.Strings;
+
 
 public class TechKnowledge implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -51,5 +54,19 @@ public class TechKnowledge implements Serializable {
             techs.put(branchName, branch);
             return branch;
         }
+    }
+
+    public List<String> getTechs(String branchName) {
+        return new LinkedList<String>(getOrCreateBranch(branchName));
+    }
+
+    public void clear() {
+        // TODO Auto-generated method stub
+
+    }
+
+    public void copyFrom(TechKnowledge techKnowledge) {
+        // TODO Auto-generated method stub
+
     }
 }

@@ -1,5 +1,7 @@
 package masterofgalaxy.gamestate;
 
+import masterofgalaxy.assets.tech.TechKnowledge;
+
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Color;
 
@@ -54,6 +56,10 @@ public class Player {
     public void setRace(Race race) {
         this.race = race;
         state.setRaceName(race.getName());
+    }
+
+    public TechKnowledge getTechKnowledge() {
+        return state.getTechKnowledge();
     }
 
     public boolean isValid() {
