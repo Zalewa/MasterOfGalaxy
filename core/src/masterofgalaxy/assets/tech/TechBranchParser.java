@@ -36,7 +36,7 @@ public class TechBranchParser {
         tech.setId(techDef.getString("id"));
         tech.setLocalizationBundleName(localizationBundleName);
         tech.setCost(techDef.getInt("cost"));
-        tech.setParentId(techDef.getString("requires"));
+        tech.setParentId(techDef.getString("requires", ""));
         return tech;
     }
 }

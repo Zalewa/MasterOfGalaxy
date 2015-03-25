@@ -1,6 +1,8 @@
 package masterofgalaxy.assets.tech;
 
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 public class TechBranch {
@@ -13,6 +15,16 @@ public class TechBranch {
 
     public void appendTech(Tech tech) {
         techs.put(tech.getId(), tech);
+    }
+
+    public List<Tech> getResearchableTechs(TechKnowledge knowledge) {
+        List<Tech> result = new LinkedList<Tech>();
+        for (Tech tech : techs.values()) {
+            if (!knowledge.isResearchable(this, tech)) {
+                result.add(tech);
+            }
+        }
+        return result;
     }
 
     public String getId() {

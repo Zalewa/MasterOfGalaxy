@@ -1,0 +1,16 @@
+{
+  "i18n": {
+    "bundle": "i18n/tech/planetology"
+  },
+  "id": "$planetology",
+  "tech": [
+    {
+      "id": "$infernoColony",
+      "cost": 1000
+    },
+    {
+      "id": "$toxicColony",
+      "cost": 500,
+    }
+  ]
+}

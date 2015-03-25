@@ -1,6 +1,6 @@
 {
   "i18n": {
-    "bundle": "i18n/tech_propulsion"
+    "bundle": "i18n/tech/propulsion"
   },
   "id": "$propulsion",
   "tech": [
