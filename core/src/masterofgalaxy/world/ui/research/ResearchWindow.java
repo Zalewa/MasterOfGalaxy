@@ -11,6 +11,7 @@ import masterofgalaxy.assets.tech.TechKnowledge;
 import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
 import masterofgalaxy.ui.Windows;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
@@ -19,6 +20,7 @@ public class ResearchWindow extends Window implements Localizable {
     private MogGame game;
     private Skin skin;
     private List<TechBox> techBoxes = new LinkedList<TechBox>();
+    private Container<Table> techBoxesContainer;
 
     public ResearchWindow(MogGame game, Skin skin) {
         super("$research", skin);
@@ -30,14 +32,8 @@ public class ResearchWindow extends Window implements Localizable {
         setModal(true);
         Windows.addXButton(this, skin);
 
-        Table table = new Table(skin);
-        for (TechBranch branch : game.getActorAssets().tech.getBranches()) {
-            table.add(mkTechBox(branch)).width(200.0f).height(200.0f).fill();
-            table.row();
-        }
-        add(table).expand().fill();
-
-        applyTranslation();
+        techBoxesContainer = new Container<Table>(null);
+        add(techBoxesContainer).expand().fill();
     }
 
     private TechBox mkTechBox(TechBranch branch) {
@@ -48,9 +44,19 @@ public class ResearchWindow extends Window implements Localizable {
     }
 
     public void refreshData() {
+        Table table = new Table(skin);
+        for (TechBranch branch : game.getActorAssets().tech.getBranches()) {
+            table.add(mkTechBox(branch)).width(200.0f).height(200.0f).fill();
+            table.row();
+        }
+        add(table).expand().fill();
+        techBoxesContainer.setActor(table);
+
         for (TechBox box : techBoxes) {
             box.refreshData();
         }
+
+        applyTranslation();
     }
 
     @Override
