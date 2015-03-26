@@ -8,13 +8,10 @@ import masterofgalaxy.world.ui.research.ResearchWindow;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 
@@ -110,16 +107,17 @@ public class GlobalUi implements Disposable {
     }
 
     public void openResearchScreen() {
-        researchWindow = new ResearchWindow(game, UiSkin.skin);
-        researchWindow.addListener(new InputListener() {
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer,
-                    Actor toActor) {
-                researchWindow = null;
-            }
-        });
+        lazyInitResearchWindow();
+        researchWindow.refreshData();
         stage.addActor(researchWindow);
+        researchWindow.pack();
         researchWindow.setVisible(true);
         Ui.centerWithinStage(researchWindow);
+    }
+
+    private void lazyInitResearchWindow() {
+        if (researchWindow == null) {
+            researchWindow = new ResearchWindow(game, UiSkin.skin);
+        }
     }
 }

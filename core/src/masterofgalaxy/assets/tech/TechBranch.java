@@ -1,5 +1,6 @@
 package masterofgalaxy.assets.tech;
 
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +21,7 @@ public class TechBranch {
     public List<Tech> getResearchableTechs(TechKnowledge knowledge) {
         List<Tech> result = new LinkedList<Tech>();
         for (Tech tech : techs.values()) {
-            if (!knowledge.isResearchable(this, tech)) {
+            if (knowledge.isResearchable(this, tech)) {
                 result.add(tech);
             }
         }
@@ -41,5 +42,9 @@ public class TechBranch {
 
     public void setLocalizationBundleName(String localizationBundleName) {
         this.localizationBundleName = localizationBundleName;
+    }
+
+    public Collection<Tech> getTechs() {
+        return techs.values();
     }
 }

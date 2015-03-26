@@ -1,5 +1,7 @@
 package masterofgalaxy.assets.tech;
 
+import masterofgalaxy.assets.i18n.I18N;
+
 public class Tech {
     private String id;
     private int cost;
@@ -39,5 +41,14 @@ public class Tech {
 
     public void setLocalizationBundleName(String localizationBundleName) {
         this.localizationBundleName = localizationBundleName;
+    }
+
+    @Override
+    public String toString() {
+        return I18N.resolveNamed(localizationBundleName, id);
+    }
+
+    public String getDescription() {
+        return I18N.resolveNamed(localizationBundleName, id + "_description");
     }
 }

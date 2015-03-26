@@ -50,8 +50,7 @@ public class PlayerState {
         setRaceName(other.getRaceName());
         shipDesigns.clear();
         shipDesigns.addAll(other.shipDesigns);
-        techKnowledge.clear();
-        techKnowledge.copyFrom(other.techKnowledge);
+        techKnowledge = other.techKnowledge;
     }
 
     public Array<ShipDesign> getShipDesigns() {

@@ -14,9 +14,15 @@ import masterofgalaxy.Strings;
 public class TechKnowledge implements Serializable {
     private static final long serialVersionUID = 1L;
     private Map<String, Set<String>> techs = new LinkedHashMap<String, Set<String>>();
+    private List<ResearchProgress> researchProgress = new LinkedList<ResearchProgress>();
+    private Map<String, String> currentResearch = new LinkedHashMap<String, String>();
 
     public void addTech(TechBranch branch, Tech tech) {
         getOrCreateBranch(branch.getId()).add(tech.getId());
+    }
+
+    public String getCurrentResearchOnBranch(TechBranch branch) {
+        return currentResearch.get(branch.getId());
     }
 
     public boolean hasTech(String techPath) {
@@ -60,13 +66,19 @@ public class TechKnowledge implements Serializable {
         return new LinkedList<String>(getOrCreateBranch(branchName));
     }
 
-    public void clear() {
-        // TODO Auto-generated method stub
-
+    public void startResearch(TechBranch branch, Tech tech) {
+        createOrGetResearchProgress(branch, tech);
+        currentResearch.put(branch.getId(), tech.getId());
     }
 
-    public void copyFrom(TechKnowledge techKnowledge) {
-        // TODO Auto-generated method stub
-
+    private ResearchProgress createOrGetResearchProgress(TechBranch branch, Tech tech) {
+        for (ResearchProgress candidate : researchProgress) {
+            if (candidate.isEqual(branch, tech)) {
+                return candidate;
+            }
+        }
+        ResearchProgress progress = new ResearchProgress(branch, tech);
+        researchProgress.add(progress);
+        return progress;
     }
 }

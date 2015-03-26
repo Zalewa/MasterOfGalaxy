@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.utils.Array;
 
 public class ListBox<T> extends Table {
     private Skin skin;
@@ -26,7 +27,7 @@ public class ListBox<T> extends Table {
         list = new List<T>(skin);
 
         scrollPane = new ScrollPane(list, skin);
-        add(scrollPane).expand().row();
+        add(scrollPane).expand().fill().row();
     }
 
     public void setLabel(String label) {
@@ -35,5 +36,21 @@ public class ListBox<T> extends Table {
 
     public List<T> getList() {
         return list;
+    }
+
+    public Array<T> getItems() {
+        return list.getItems();
+    }
+
+    public void setItems(T[] array) {
+        list.setItems(array);
+    }
+
+    public void setSelected(T item) {
+        list.setSelected(item);
+    }
+
+    public T getSelected() {
+        return list.getSelected();
     }
 }
