@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 
 public class I18NFormsResolver {
     public enum Form {
+        Genitive("genitive"),
         Plural("plural");
 
         String name;

@@ -1,6 +1,7 @@
 package masterofgalaxy.world.ui.research;
 
 import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.I18NFormsResolver;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.tech.Tech;
 import masterofgalaxy.assets.tech.TechBranch;
@@ -114,6 +115,10 @@ public class ResearchPickWindow extends Window implements Localizable {
     @Override
     public void applyTranslation() {
         setTitle(I18N.resolve("$research"));
-        titleLabel.setText(I18N.resolve("$pickResearch"));
+
+        String branchName = I18NFormsResolver.resolve(branch.getId(),
+                branch.getLocalizationBundleName(),
+                I18NFormsResolver.Form.Genitive);
+        titleLabel.setText(I18N.resolve("$pickResearch", branchName));
     }
 }
