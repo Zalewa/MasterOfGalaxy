@@ -1,7 +1,9 @@
-package masterofgalaxy.world.stars;
+package masterofgalaxy.gamestate.resources;
 
 import com.badlogic.gdx.math.MathUtils;
+
 import masterofgalaxy.AskForFloat;
+import masterofgalaxy.world.stars.MainResourceDistribution;
 
 class Resource {
     private float amount;
