@@ -10,25 +10,34 @@ public class TechBranchParser {
     private String localizationBundleName;
 
     public TechBranch load(FileHandle file) {
-        TechBranch techTree = new TechBranch();
+        TechBranch techBranch = new TechBranch();
 
         JsonReader reader = new JsonReader();
         JsonValue jsonRoot = reader.parse(file);
 
         localizationBundleName = I18NJsonReader.loadNamedBundle(jsonRoot, file.type());
 
-        techTree.setId(jsonRoot.getString("id"));
-        techTree.setLocalizationBundleName(localizationBundleName);
+        techBranch.setId(jsonRoot.getString("id"));
+        techBranch.setLocalizationBundleName(localizationBundleName);
 
-        JsonValue techs = jsonRoot.get("tech");
+        JsonValue tierDefs = jsonRoot.get("tiers");
 
-        for (int i = 0; i < techs.size; ++i) {
-            JsonValue techDef = techs.get(i);
-            Tech tech = parseTech(techDef);
-            techTree.appendTech(tech);
+        for (int i = 0; i < tierDefs.size; ++i) {
+            JsonValue techTierDef = tierDefs.get(i);
+            TechTier techTier = parseTechTier(techTierDef);
+            techBranch.appendTechTier(techTier);
         }
 
-        return techTree;
+        return techBranch;
+    }
+
+    private TechTier parseTechTier(JsonValue techTierDef) {
+        TechTier tier = new TechTier();
+        JsonValue techDefs = techTierDef.get("techs");
+        for (int i = 0; i < techDefs.size; ++i) {
+            tier.appendTech(parseTech(techDefs.get(i)));
+        }
+        return tier;
     }
 
     private Tech parseTech(JsonValue techDef) {

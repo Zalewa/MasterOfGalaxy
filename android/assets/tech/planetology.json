@@ -3,14 +3,18 @@
     "bundle": "i18n/tech/planetology"
   },
   "id": "$planetology",
-  "tech": [
+  "tiers": [
     {
-      "id": "$infernoColony",
-      "cost": 1000
-    },
-    {
-      "id": "$toxicColony",
-      "cost": 500,
+      "techs": [
+        {
+          "id": "$infernoColony",
+          "cost": 1000
+        },
+        {
+          "id": "$toxicColony",
+          "cost": 500,
+        }
+      ]
     }
   ]
 }

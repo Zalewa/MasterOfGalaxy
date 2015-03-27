@@ -3,6 +3,7 @@ package masterofgalaxy.assets.tech;
 import java.util.List;
 
 import static org.junit.Assert.*;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class TechBranchTest {
         TechBranch branch = mkTechBranch();
 
         TechKnowledge knowledge = new TechKnowledge();
-        knowledge.addTech(branch, getTechWithDescendant());
+        knowledge.addTech(branch, getTech2());
         List<Tech> techs = branch.getResearchableTechs(knowledge);
 
         assertEquals(2, techs.size());
@@ -56,26 +57,38 @@ public class TechBranchTest {
     }
 
     private TechBranch mkTechBranch() {
-        Tech tech1 = new Tech();
-        tech1.setId("1");
+        Tech tech1 = getTech1();
+        Tech tech2 = getTech2();
+        Tech tech3 = getTech3();
 
-        Tech tech2 = getTechWithDescendant();
+        TechTier tier1 = new TechTier();
+        tier1.appendTech(tech1);
+        tier1.appendTech(tech2);
 
-        Tech tech3 = new Tech();
-        tech3.setId("3");
-        tech3.setParentId("2");
+        TechTier tier2 = new TechTier();
+        tier2.appendTech(tech3);
 
         TechBranch branch = new TechBranch();
-        branch.appendTech(tech1);
-        branch.appendTech(tech2);
-        branch.appendTech(tech3);
+        branch.appendTechTier(tier1);
+        branch.appendTechTier(tier2);
         return branch;
     }
 
-    private Tech getTechWithDescendant() {
+    private Tech getTech3() {
+        Tech tech3 = new Tech();
+        tech3.setId("3");
+        return tech3;
+    }
+
+    private Tech getTech2() {
         Tech tech2 = new Tech();
         tech2.setId("2");
         return tech2;
     }
 
+    private Tech getTech1() {
+        Tech tech1 = new Tech();
+        tech1.setId("1");
+        return tech1;
+    }
 }

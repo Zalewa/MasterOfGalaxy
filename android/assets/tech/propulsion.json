@@ -3,15 +3,22 @@
     "bundle": "i18n/tech/propulsion"
   },
   "id": "$propulsion",
-  "tech": [
+  "tiers": [
     {
-      "id": "$sublightDrive",
-      "cost": 500
+      "techs": [
+        {
+          "id": "$sublightDrive",
+          "cost": 500
+        }
+      ]
     },
     {
-      "id": "$ionDrive",
-      "cost": 1000,
-      "requires": "$sublightDrive"
+      "techs": [
+        {
+          "id": "$ionDrive",
+          "cost": 1000,
+        }
+      ]
     }
   ]
 }
