@@ -1,9 +1,7 @@
 package masterofgalaxy.world.stars;
 
 import masterofgalaxy.AskForFloat;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
+import masterofgalaxy.gamestate.resources.ResourceDistribution;
 
 public class MainResourceDistribution {
     public enum ResourceId {
@@ -22,18 +20,16 @@ public class MainResourceDistribution {
 
     public final static float pool = 1.0f;
 
-    private Map<String, Resource> distribution = new LinkedHashMap<String, Resource>();
+    ResourceDistribution distribution = new ResourceDistribution();
 
     public MainResourceDistribution() {
         for (ResourceId id : ResourceId.values()) {
-            distribution.put(id.name(), new Resource());
+            distribution.addResource(id.name());
         }
     }
 
     public void setValues(MainResourceDistribution other) {
-        for (ResourceId id : ResourceId.values()) {
-            distribution.get(id.name()).setValues(other.distribution.get(id.name()));
-        }
+        distribution.setValues(other.distribution);
     }
 
     public float getDefense() {
@@ -77,69 +73,26 @@ public class MainResourceDistribution {
     }
 
     public void setLocked(ResourceId id, boolean locked) {
-        distribution.get(id.name()).locked = locked;
+        distribution.setLocked(id.name(), locked);
     }
 
     public boolean isLocked(ResourceId id) {
-        return distribution.get(id.name()).locked;
+        return distribution.isLocked(id.name());
     }
 
     public void setMinAmountAsker(ResourceId resourceId, AskForFloat asker) {
-        distribution.get(resourceId.name()).minAmountAsker = asker;
+        distribution.setMinAmountAsker(resourceId.name(), asker);
     }
 
     public float getAmount(ResourceId id) {
-        return distribution.get(id.name()).getAmount();
+        return distribution.getAmount(id.name());
     }
 
     public void setAmount(ResourceId id, float amount) {
-        Resource resource = distribution.get(id.name());
-        resource.setAmount(amount);
-        normalizeDistribution(id, pool - getSum());
+        distribution.setAmount(id.name(), amount);
     }
 
     public void clearAndDistributeElsewhere(ResourceId clearedId, ResourceId targetId) {
-        Resource source = distribution.get(clearedId.name());
-        Resource target = distribution.get(targetId.name());
-        float amount = source.getAmount();
-        source.setAmount(0.0f);
-        float delta = amount - source.getAmount();
-        target.setAmount(target.getAmount() + delta);
+        distribution.clearAndDistributeElsewhere(clearedId.name(), targetId.name());
     }
-
-    private void normalizeDistribution(ResourceId id, float delta) {
-        int idx = indexOfResourceId(id);
-        for (int i = 1; i <= ResourceId.values().length; ++i) {
-            ResourceId nextId = ResourceId.values()[(idx + i) % ResourceId.values().length];
-            Resource resource = distribution.get(nextId.name());
-            if (resource.locked && nextId != id) {
-                continue;
-            }
-            float oldValue = resource.getAmount();
-            resource.setAmount(oldValue + delta);
-            float newValue = resource.getAmount();
-            delta -= newValue - oldValue;
-            if (Float.compare(getSum(), pool) == 0) {
-                return;
-            }
-        }
-    }
-
-    private int indexOfResourceId(ResourceId id) {
-        for (int i = 0; i < ResourceId.values().length; ++i) {
-            if (ResourceId.values()[i] == id) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    private float getSum() {
-        float sum = 0.0f;
-        for (Resource resource : distribution.values()) {
-            sum += resource.getAmount();
-        }
-        return sum;
-    }
-
 }
