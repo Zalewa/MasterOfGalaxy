@@ -27,6 +27,24 @@ public class TechKnowledge implements Serializable {
         return currentResearch.get(branch.getId());
     }
 
+    public float getCurrentResearchCostProgressOnBranch(TechBranch branch) {
+        Tech tech = branch.getTech(getCurrentResearchOnBranch(branch));
+        if (tech != null) {
+            ResearchProgress progress = getTechProgress(branch, tech);
+            return (float)progress.progress / (float)tech.getCost();
+        }
+        return 0.0f;
+    }
+
+    private ResearchProgress getTechProgress(TechBranch branch, Tech tech) {
+        for (ResearchProgress progress : researchProgress) {
+            if (progress.isEqual(branch, tech)) {
+                return progress;
+            }
+        }
+        return null;
+    }
+
     public float getBranchResourceDistribution(TechBranch branch) {
         return researchDistribution.getAmount(branch.getId());
     }
@@ -82,8 +100,8 @@ public class TechKnowledge implements Serializable {
         }
     }
 
-    public List<String> getTechs(String branchName) {
-        return new LinkedList<String>(getOrCreateBranch(branchName));
+    public List<String> getTechs(TechBranch branch) {
+        return new LinkedList<String>(getOrCreateBranch(branch.getId()));
     }
 
     public void startResearch(TechBranch branch, Tech tech) {

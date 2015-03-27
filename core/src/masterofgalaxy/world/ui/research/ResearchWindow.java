@@ -51,7 +51,7 @@ public class ResearchWindow extends Window implements Localizable {
         deregisterTechBoxes();
         Table table = new Table(skin);
         for (TechBranch branch : game.getActorAssets().tech.getBranches()) {
-            table.add(mkTechBox(branch)).width(200.0f).height(200.0f).fill();
+            table.add(mkTechBox(branch)).width(300.0f).height(200.0f).fill();
             table.row();
         }
         add(table).expand().fill();

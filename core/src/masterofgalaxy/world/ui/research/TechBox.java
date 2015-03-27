@@ -16,10 +16,12 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Slider;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -35,6 +37,7 @@ public class TechBox extends Table {
     private TextButton currentResearchButton;
     private Table resourceTable;
     private Slider resourceSlider;
+    private Label progressLabel;
     private ImageButton lockButton;
     private MogGame game;
 
@@ -67,6 +70,7 @@ public class TechBox extends Table {
 
         setupResourceLockedButton();
         setupResourceSlider();
+        setupProgressLabel();
 
         add(resourceTable).expandX().fill().row();
     }
@@ -105,7 +109,13 @@ public class TechBox extends Table {
                 distributionChangedSignal.dispatch(TechBox.this);
             }
         });
-        resourceTable.add(resourceSlider).expandX().fillX().row();
+        resourceTable.add(resourceSlider).expandX().fillX();
+    }
+
+    private void setupProgressLabel() {
+        progressLabel = new Label("", skin);
+        progressLabel.setAlignment(Align.right);
+        resourceTable.add(progressLabel).width(40.0f);
     }
 
     private void openPickResearchBox() {
@@ -125,10 +135,16 @@ public class TechBox extends Table {
     }
 
     public void refreshData() {
-        list.getList().setItems(knowledge.getTechs(techBranch.getId()).toArray(new String[0]));
+        list.getList().setItems(knowledge.getTechs(techBranch).toArray(new String[0]));
         currentResearchButton.setText(getCurrentResearch());
         resourceSlider.setValue(knowledge.getBranchResourceDistribution(techBranch));
         lockButton.setChecked(knowledge.isBranchResourceLocked(techBranch));
+        if (knowledge.getCurrentResearchOnBranch(techBranch) != null) {
+            progressLabel.setText(I18N.formatFloat(
+                knowledge.getCurrentResearchCostProgressOnBranch(techBranch), "{0,number,0}%"));
+        } else {
+            progressLabel.setText(I18N.resolve("$n/a"));
+        }
     }
 
     private String getCurrentResearch() {

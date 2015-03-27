@@ -67,6 +67,15 @@ public class TechBranch {
         this.localizationBundleName = localizationBundleName;
     }
 
+    public Tech getTech(String name) {
+        for (Tech tech : getTechs()) {
+            if (tech.getId().equals(name)) {
+                return tech;
+            }
+        }
+        return null;
+    }
+
     public Collection<Tech> getTechs() {
         List<Tech> result = new LinkedList<Tech>();
         for (TechTier tier : tiers) {
