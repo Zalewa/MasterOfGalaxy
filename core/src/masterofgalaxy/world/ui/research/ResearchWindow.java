@@ -11,6 +11,8 @@ import masterofgalaxy.assets.tech.TechKnowledge;
 import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
 import masterofgalaxy.ui.Windows;
 
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -21,6 +23,7 @@ public class ResearchWindow extends Window implements Localizable {
     private Skin skin;
     private List<TechBox> techBoxes = new LinkedList<TechBox>();
     private Container<Table> techBoxesContainer;
+    private Listener<TechBox> distributionChangeListener;
 
     public ResearchWindow(MogGame game, Skin skin) {
         super("$research", skin);
@@ -38,12 +41,14 @@ public class ResearchWindow extends Window implements Localizable {
 
     private TechBox mkTechBox(TechBranch branch) {
         TechKnowledge knowledge = game.getWorldScreen().getCurrentPlayer().getTechKnowledge();
-        TechBox box = new TechBox(branch, knowledge, skin);
+        TechBox box = new TechBox(branch, knowledge, game, skin);
+        box.distributionChangedSignal.add(getDistributionChangeListener());
         techBoxes.add(box);
         return box;
     }
 
     public void refreshData() {
+        deregisterTechBoxes();
         Table table = new Table(skin);
         for (TechBranch branch : game.getActorAssets().tech.getBranches()) {
             table.add(mkTechBox(branch)).width(200.0f).height(200.0f).fill();
@@ -51,12 +56,36 @@ public class ResearchWindow extends Window implements Localizable {
         }
         add(table).expand().fill();
         techBoxesContainer.setActor(table);
-
         for (TechBox box : techBoxes) {
             box.refreshData();
         }
 
         applyTranslation();
+    }
+
+    private Listener<TechBox> getDistributionChangeListener() {
+        if (distributionChangeListener == null) {
+            distributionChangeListener = new Listener<TechBox>() {
+                @Override
+                public void receive(Signal<TechBox> signal, TechBox object) {
+                    updateTechBoxes();
+                }
+            };
+        }
+        return distributionChangeListener;
+    }
+
+    private void updateTechBoxes() {
+        for (TechBox box : techBoxes) {
+            box.refreshData();
+        }
+    }
+
+    private void deregisterTechBoxes() {
+        for (TechBox box : techBoxes) {
+            box.distributionChangedSignal.remove(getDistributionChangeListener());
+        }
+        techBoxes.clear();
     }
 
     @Override

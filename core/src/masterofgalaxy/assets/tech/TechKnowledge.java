@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import masterofgalaxy.Strings;
+import masterofgalaxy.gamestate.resources.ResourceDistribution;
 
 
 public class TechKnowledge implements Serializable {
@@ -16,6 +17,7 @@ public class TechKnowledge implements Serializable {
     private Map<String, Set<String>> techs = new LinkedHashMap<String, Set<String>>();
     private List<ResearchProgress> researchProgress = new LinkedList<ResearchProgress>();
     private Map<String, String> currentResearch = new LinkedHashMap<String, String>();
+    private ResourceDistribution researchDistribution = new ResourceDistribution();
 
     public void addTech(TechBranch branch, Tech tech) {
         getOrCreateBranch(branch.getId()).add(tech.getId());
@@ -23,6 +25,22 @@ public class TechKnowledge implements Serializable {
 
     public String getCurrentResearchOnBranch(TechBranch branch) {
         return currentResearch.get(branch.getId());
+    }
+
+    public float getBranchResourceDistribution(TechBranch branch) {
+        return researchDistribution.getAmount(branch.getId());
+    }
+
+    public void setBranchResourceDistribution(TechBranch branch, float amount) {
+        researchDistribution.setAmount(branch.getId(), amount);
+    }
+
+    public void setBranchResourceLocked(TechBranch branch, boolean locked) {
+        researchDistribution.setLocked(branch.getId(), locked);
+    }
+
+    public boolean isBranchResourceLocked(TechBranch branch) {
+        return researchDistribution.isLocked(branch.getId());
     }
 
     public boolean hasTech(String techPath) {
@@ -58,6 +76,8 @@ public class TechKnowledge implements Serializable {
         } else {
             Set<String> branch = new LinkedHashSet<String>();
             techs.put(branchName, branch);
+            researchDistribution.addResource(branchName);
+            researchDistribution.equalize();
             return branch;
         }
     }

@@ -47,6 +47,10 @@ public class ResourceDistribution {
         normalizeDistribution(id);
     }
 
+    public int size() {
+        return distribution.size();
+    }
+
     public void clearAndDistributeElsewhere(String clearedId, String targetId) {
         Resource source = distribution.get(clearedId);
         Resource target = distribution.get(targetId);
@@ -100,4 +104,13 @@ public class ResourceDistribution {
         return sum;
     }
 
+    public void equalize() {
+        if (size() == 0) {
+            return;
+        }
+        for (Resource resource : distribution.values()) {
+            resource.setAmount(pool / size());
+        }
+        normalizeDistribution(distribution.keySet().iterator().next());
+    }
 }

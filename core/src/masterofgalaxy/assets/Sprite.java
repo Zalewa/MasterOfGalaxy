@@ -9,6 +9,8 @@ public class Sprite {
     public final static AssetDescriptor<Texture> fleet;
     public final static AssetDescriptor<Texture> star;
     public final static AssetDescriptor<Texture> selection;
+    public final static AssetDescriptor<Texture> padlockOpen;
+    public final static AssetDescriptor<Texture> padlockClosed;
 
     static {
         TextureLoader.TextureParameter param = new TextureLoader.TextureParameter();
@@ -18,11 +20,15 @@ public class Sprite {
         fleet = new AssetDescriptor<Texture>("sprite/fleet.png", Texture.class, param);
         star = new AssetDescriptor<Texture>("sprite/star.png", Texture.class, param);
         selection = new AssetDescriptor<Texture>("sprite/selection.png", Texture.class, param);
+        padlockOpen = new AssetDescriptor<Texture>("sprite/padlock_open.png", Texture.class, param);
+        padlockClosed = new AssetDescriptor<Texture>("sprite/padlock_closed.png", Texture.class, param);
     }
 
     public static void loadAll(AssetManager manager) {
         manager.load(fleet);
         manager.load(star);
         manager.load(selection);
+        manager.load(padlockOpen);
+        manager.load(padlockClosed);
     }
 }
