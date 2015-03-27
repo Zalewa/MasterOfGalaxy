@@ -17,4 +17,8 @@ public class TechTree {
     public Collection<TechBranch> getBranches() {
         return branches.values();
     }
+
+    public TechBranch getTechBranch(String name) {
+        return branches.get(name);
+    }
 }

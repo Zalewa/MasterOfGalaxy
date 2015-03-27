@@ -86,7 +86,9 @@ public class ResearchPickWindow extends Window implements Localizable {
     }
 
     private void pickTech() {
-        knowledge.startResearch(branch, techList.getSelected());
+        if (techList.getSelected() != null) {
+            knowledge.startResearch(branch, techList.getSelected());
+        }
         techPickedSignal.dispatch(this);
         remove();
     }

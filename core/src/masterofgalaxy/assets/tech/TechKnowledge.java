@@ -31,7 +31,9 @@ public class TechKnowledge implements Serializable {
         Tech tech = branch.getTech(getCurrentResearchOnBranch(branch));
         if (tech != null) {
             ResearchProgress progress = getTechProgress(branch, tech);
-            return (float)progress.progress / (float)tech.getCost();
+            if (progress != null) {
+                return (float)progress.progress / (float)tech.getCost();
+            }
         }
         return 0.0f;
     }
@@ -100,8 +102,13 @@ public class TechKnowledge implements Serializable {
         }
     }
 
-    public List<String> getTechs(TechBranch branch) {
-        return new LinkedList<String>(getOrCreateBranch(branch.getId()));
+    public List<Tech> getTechs(TechBranch branch) {
+        Set<String> ids = getOrCreateBranch(branch.getId());
+        List<Tech> result = new LinkedList<Tech>();
+        for (String id : ids) {
+            result.add(branch.getTech(id));
+        }
+        return result;
     }
 
     public void startResearch(TechBranch branch, Tech tech) {
@@ -118,5 +125,38 @@ public class TechKnowledge implements Serializable {
         ResearchProgress progress = new ResearchProgress(branch, tech);
         researchProgress.add(progress);
         return progress;
+    }
+
+    public int progressResearch(TechTree techTree, int researchPoints) {
+        int excessive = 0;
+        float pointsPool = researchPoints;
+        List<String> completedBranches = new LinkedList<String>();
+        for (String branchName : currentResearch.keySet()) {
+            TechBranch branch = techTree.getTechBranch(branchName);
+            Tech tech = branch.getTech(currentResearch.get(branchName));
+            ResearchProgress progress = getTechProgress(branch, tech);
+            float distributedPoints = researchPoints * getBranchResourceDistribution(branch);
+            progress.progress += distributedPoints;
+            pointsPool -= distributedPoints;
+            if (progress.progress >= tech.getCost()) {
+                completeResearch(branch, tech);
+                completedBranches.add(branchName);
+                excessive += tech.getCost() - progress.progress;
+            }
+        }
+        excessive += (int)pointsPool;
+        for (String branchName : completedBranches) {
+            currentResearch.remove(branchName);
+        }
+        return excessive;
+    }
+
+    private void completeResearch(TechBranch branch, Tech tech) {
+        addTech(branch, tech);
+        removeTechProgress(branch, tech);
+    }
+
+    private void removeTechProgress(TechBranch branch, Tech tech) {
+        researchProgress.remove(getTechProgress(branch, tech));
     }
 }

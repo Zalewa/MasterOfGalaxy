@@ -3,7 +3,7 @@ package masterofgalaxy.assets.tech;
 public class ResearchProgress {
     public String branch;
     public String tech;
-    public int progress;
+    public float progress;
 
     public ResearchProgress() {}
 

@@ -3,6 +3,7 @@ package masterofgalaxy.world.ui.research;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.tech.Tech;
 import masterofgalaxy.assets.tech.TechBranch;
 import masterofgalaxy.assets.tech.TechKnowledge;
 import masterofgalaxy.ui.ListBox;
@@ -33,7 +34,7 @@ public class TechBox extends Table {
     private Skin skin;
     private TechBranch techBranch;
     private TechKnowledge knowledge;
-    private ListBox<String> list;
+    private ListBox<Tech> list;
     private TextButton currentResearchButton;
     private Table resourceTable;
     private Slider resourceSlider;
@@ -49,7 +50,7 @@ public class TechBox extends Table {
 
         defaults().space(5.0f);
 
-        list = new ListBox<String>(skin);
+        list = new ListBox<Tech>(skin);
         add(list).expand().fill().row();
 
         currentResearchButton = new TextButton("", skin);
@@ -135,13 +136,13 @@ public class TechBox extends Table {
     }
 
     public void refreshData() {
-        list.getList().setItems(knowledge.getTechs(techBranch).toArray(new String[0]));
+        list.getList().setItems(knowledge.getTechs(techBranch).toArray(new Tech[0]));
         currentResearchButton.setText(getCurrentResearch());
         resourceSlider.setValue(knowledge.getBranchResourceDistribution(techBranch));
         lockButton.setChecked(knowledge.isBranchResourceLocked(techBranch));
         if (knowledge.getCurrentResearchOnBranch(techBranch) != null) {
             progressLabel.setText(I18N.formatFloat(
-                knowledge.getCurrentResearchCostProgressOnBranch(techBranch), "{0,number,0}%"));
+                knowledge.getCurrentResearchCostProgressOnBranch(techBranch) * 100.0f, "{0,number,0}%"));
         } else {
             progressLabel.setText(I18N.resolve("$n/a"));
         }

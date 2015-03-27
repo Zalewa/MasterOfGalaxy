@@ -43,6 +43,7 @@ public class PlayerBuilder {
             player.setPlayerColor(colors.get(i));
             player.setRace(races.get(i % races.size()));
             createStartingShipDesigns(player);
+            player.getState().setTechTree(game.getActorAssets().tech);
             result.add(player);
         }
 

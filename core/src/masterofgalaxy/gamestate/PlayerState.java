@@ -1,9 +1,10 @@
 package masterofgalaxy.gamestate;
 
-import com.badlogic.gdx.utils.Array;
-
 import masterofgalaxy.assets.tech.TechKnowledge;
+import masterofgalaxy.assets.tech.TechTree;
 import masterofgalaxy.gamestate.ships.ShipDesign;
+
+import com.badlogic.gdx.utils.Array;
 
 public class PlayerState {
     String name;
@@ -11,6 +12,7 @@ public class PlayerState {
     private String raceName;
     private Array<ShipDesign> shipDesigns = new Array<ShipDesign>();
     private TechKnowledge techKnowledge = new TechKnowledge();
+    private TechTree techTree;
 
     public PlayerState() {
 
@@ -44,6 +46,14 @@ public class PlayerState {
         return techKnowledge;
     }
 
+    public TechTree getTechTree() {
+        return techTree;
+    }
+
+    public void setTechTree(TechTree techTree) {
+        this.techTree = techTree;
+    }
+
     public void set(PlayerState other) {
         setName(other.getName());
         setPlayerColor(other.getPlayerColor());
@@ -51,6 +61,7 @@ public class PlayerState {
         shipDesigns.clear();
         shipDesigns.addAll(other.shipDesigns);
         techKnowledge = other.techKnowledge;
+        techTree = other.techTree;
     }
 
     public Array<ShipDesign> getShipDesigns() {
