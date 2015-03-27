@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import masterofgalaxy.MogGame;
-import masterofgalaxy.assets.tech.TechTree;
 import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
 import masterofgalaxy.exceptions.SavedGameException;

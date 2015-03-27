@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import masterofgalaxy.Strings;
 import masterofgalaxy.gamestate.resources.ResourceDistribution;
 
 
@@ -81,13 +80,6 @@ public class TechKnowledge implements Serializable {
             return techs.get(branch).contains(tech);
         }
         return false;
-    }
-
-    public boolean isResearchable(TechBranch branch, Tech tech) {
-        if (hasTech(branch, tech)) {
-            return false;
-        }
-        return Strings.isNullOrEmpty(tech.getParentId()) || hasTech(branch, tech.getParentId());
     }
 
     private Set<String> getOrCreateBranch(String branchName) {

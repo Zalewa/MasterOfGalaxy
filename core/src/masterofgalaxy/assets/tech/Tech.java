@@ -5,7 +5,6 @@ import masterofgalaxy.assets.i18n.I18N;
 public class Tech {
     private String id;
     private int cost;
-    private String parentId;
     private String localizationBundleName;
 
     public Tech() {
@@ -25,14 +24,6 @@ public class Tech {
 
     public void setCost(int cost) {
         this.cost = cost;
-    }
-
-    public String getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(String parentId) {
-        this.parentId = parentId;
     }
 
     public String getLocalizationBundleName() {
