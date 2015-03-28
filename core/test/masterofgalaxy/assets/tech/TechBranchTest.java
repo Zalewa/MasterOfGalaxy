@@ -69,6 +69,7 @@ public class TechBranchTest {
         tier2.appendTech(tech3);
 
         TechBranch branch = new TechBranch();
+        branch.setId("branch");
         branch.appendTechTier(tier1);
         branch.appendTechTier(tier2);
         return branch;
