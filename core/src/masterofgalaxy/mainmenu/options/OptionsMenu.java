@@ -126,5 +126,8 @@ public class OptionsMenu extends Window implements Localizable {
         getTitleLabel().setText(I18N.i18n.format("$options"));
         applyButton.setText(I18N.i18n.format("$apply"));
         closeButton.setText(I18N.i18n.format("$close"));
+
+        videoModeOptions.applyTranslation();
+        languageOptions.applyTranslation();
     }
 }

@@ -1,11 +1,11 @@
 package masterofgalaxy.mainmenu.options;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+
 import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.config.VideoConfig;
 import masterofgalaxy.config.VideoDisplayMode;
 
@@ -14,19 +14,13 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VideoModeOptions extends Table {
+public class VideoModeOptions extends Table implements Localizable {
     private CheckBox fullscreenCheckbox;
     private Label resolutionsLabel;
     private SelectBox<Resolution> resolutionsSelectBox;
 
     public VideoModeOptions(Skin skin) {
         super(skin);
-        I18N.localeChanged.add(new Listener<Object>() {
-            @Override
-            public void receive(Signal<Object> signal, Object object) {
-                applyTranslation();
-            }
-        });
 
         setupUi(skin);
         loadResolutions();
@@ -105,7 +99,8 @@ public class VideoModeOptions extends Table {
         config.flush();
     }
 
-    private void applyTranslation() {
+    @Override
+    public void applyTranslation() {
         resolutionsLabel.setText(I18N.i18n.format("$resolution_colon"));
         fullscreenCheckbox.setText(I18N.i18n.format("$fullscreen"));
     }

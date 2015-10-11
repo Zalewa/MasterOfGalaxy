@@ -1,29 +1,23 @@
 package masterofgalaxy.mainmenu.options;
 
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
+import java.util.Locale;
+
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.assets.i18n.LocalizationEntry;
+import masterofgalaxy.config.GeneralConfig;
+
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import masterofgalaxy.assets.i18n.I18N;
-import masterofgalaxy.assets.i18n.LocalizationEntry;
-import masterofgalaxy.config.GeneralConfig;
 
-import java.util.Locale;
-
-public class LanguageOptions extends Table {
+public class LanguageOptions extends Table implements Localizable {
     private Label label;
     private SelectBox<LocalizationEntry> languageSelectBox;
 
     public LanguageOptions(Skin skin) {
         super(skin);
-        I18N.localeChanged.add(new Listener<Object>() {
-            @Override
-            public void receive(Signal<Object> signal, Object object) {
-                applyTranslation();
-            }
-        });
 
         defaults().left().space(10.0f);
 
@@ -70,7 +64,8 @@ public class LanguageOptions extends Table {
         return languageSelectBox.getSelected();
     }
 
-    private void applyTranslation() {
+    @Override
+    public void applyTranslation() {
         label.setText(I18N.i18n.format("$language_colon"));
     }
 }
