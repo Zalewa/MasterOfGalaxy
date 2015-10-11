@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -24,7 +25,7 @@ public class TextRenderingSystem extends IteratingSystem {
     private Viewport uiViewport;
     private Vector3 projectedPos = new Vector3();
     private Vector2 drawedPos = new Vector2();
-    private BitmapFont.TextBounds drawedBounds = new BitmapFont.TextBounds();
+    private GlyphLayout glyphLayout = new GlyphLayout();
 
     public TextRenderingSystem(MogGame game) {
         super(Family.getFor(BodyComponent.class, TextRenderComponent.class));
@@ -53,9 +54,9 @@ public class TextRenderingSystem extends IteratingSystem {
             projectedPos.set(pos.x, pos.y, 0.0f);
             projectedPos = gameViewport.project(projectedPos);
 
-            BitmapFont.TextBounds bounds = render.font.getBounds(render.text, drawedBounds);
-            float originX = bounds.width * 0.5f;
-            float originY = bounds.height * 0.5f;
+            glyphLayout.setText(render.font, render.text);
+            float originX = glyphLayout.width * 0.5f;
+            float originY = glyphLayout.height * 0.5f;
 
             render.font.setColor(render.tint);
             render.font.draw(game.getSpriteBatch(), render.text, projectedPos.x - originX, projectedPos.y - originY);

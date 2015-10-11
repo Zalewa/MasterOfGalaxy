@@ -109,7 +109,7 @@ public class OptionsMenu extends Window implements Localizable {
             }
         });
 
-        getButtonTable().add(xButton).height(getPadTop());
+        getTitleTable().add(xButton).height(getPadTop());
     }
 
     private void apply() {
@@ -125,7 +125,7 @@ public class OptionsMenu extends Window implements Localizable {
 
     @Override
     public void applyTranslation() {
-        setTitle(I18N.i18n.format("$options"));
+        getTitleLabel().setText(I18N.i18n.format("$options"));
         applyButton.setText(I18N.i18n.format("$apply"));
         closeButton.setText(I18N.i18n.format("$close"));
     }

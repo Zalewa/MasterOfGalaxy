@@ -69,7 +69,7 @@ public class MainMenu extends Window implements Localizable {
             }
         });
 
-        getButtonTable().add(xButton).height(getPadTop());
+        getTitleTable().add(xButton).height(getPadTop());
     }
 
     private void setupResumeGameButton() {
@@ -244,7 +244,7 @@ public class MainMenu extends Window implements Localizable {
 
     @Override
     public void applyTranslation() {
-        setTitle(I18N.resolve("$mainMenu"));
+        getTitleLabel().setText(I18N.resolve("$mainMenu"));
         resumeGameButton.setText(I18N.resolve("$resumeGame"));
         newGameButton.setText(I18N.resolve("$newGame"));
         saveGameButton.setText(I18N.resolve("$saveGame"));
