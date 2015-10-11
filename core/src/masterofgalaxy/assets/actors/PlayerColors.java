@@ -12,6 +12,15 @@ import masterofgalaxy.gamestate.PlayerColor;
 public class PlayerColors {
     public Array<PlayerColor> colors = new Array<PlayerColor>();
 
+    public PlayerColor findColor(Color color) {
+        for (PlayerColor playerColor : colors) {
+            if (playerColor.getColor().equals(color)) {
+                return playerColor;
+            }
+        }
+        return PlayerColor.nullColor;
+    }
+
     public void load(FileHandle file) {
         JsonReader reader = new JsonReader();
         JsonValue jsonRoot = reader.parse(file);

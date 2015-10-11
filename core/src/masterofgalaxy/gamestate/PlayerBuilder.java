@@ -1,10 +1,12 @@
 package masterofgalaxy.gamestate;
 
 import com.badlogic.gdx.utils.Array;
+
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.actors.ShipModuleType;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.gamestate.ships.ShipDesign;
+import masterofgalaxy.world.worldbuild.PlayerSetup;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -22,32 +24,58 @@ public class PlayerBuilder {
 
     private Random random;
     private MogGame game;
+    private Array<PlayerSetup> predefinedPlayers;
+    private int numRandomPlayers;
 
     public PlayerBuilder(MogGame game, long seed) {
         this.game = game;
         random = new Random(seed);
     }
 
-    public Array<Player> randomizePlayers(int count) {
+    public Array<Player> build() {
+        Array<Player> players = new Array<Player>();
+        players.addAll(buildPredefinedPlayers());
+        players.addAll(randomizePlayers());
+        return players;
+    }
+
+    private Array<Player> buildPredefinedPlayers() {
+        Array<Player> players = new Array<Player>();
+        for (PlayerSetup setup : predefinedPlayers) {
+            Player player = mkNewPlayer();
+            player.setName(setup.getName());
+            player.setPlayerColor(setup.getColor());
+            player.setRace(setup.getRace());
+            players.add(player);
+        }
+        return players;
+    }
+
+    private Array<Player> randomizePlayers() {
         List<PlayerColor> colors = shufflePlayerColors();
         List<Race> races = shuffleRaces();
 
-        if (colors.size() < count) {
+        if (colors.size() < numRandomPlayers) {
             throw new IllegalArgumentException("player count cannot be greater than available colors count");
         }
 
         Array<Player> result = new Array<Player>();
-        for (int i = 0; i < count; ++i) {
-            Player player = new Player();
-            player.setName("Player-" + i);
+        for (int i = 0; i < numRandomPlayers; ++i) {
+            Player player = mkNewPlayer();
+            player.setName("Player-" + (i + predefinedPlayers.size));
             player.setPlayerColor(colors.get(i));
             player.setRace(races.get(i % races.size()));
-            createStartingShipDesigns(player);
-            player.getState().setTechTree(game.getActorAssets().tech);
             result.add(player);
         }
 
         return result;
+    }
+
+    private Player mkNewPlayer() {
+        Player player = new Player();
+        createStartingShipDesigns(player);
+        player.getState().setTechTree(game.getActorAssets().tech);
+        return player;
     }
 
     private void createStartingShipDesigns(Player player) {
@@ -85,9 +113,28 @@ public class PlayerBuilder {
     private List<PlayerColor> shufflePlayerColors() {
         List<PlayerColor> colors = new LinkedList<PlayerColor>();
         for (PlayerColor color : game.getActorAssets().playerColors.colors) {
-            colors.add(color);
+            if (!isColorUsedByPredefinedPlayer(color)) {
+                colors.add(color);
+            }
         }
         Collections.shuffle(colors, random);
         return colors;
+    }
+
+    private boolean isColorUsedByPredefinedPlayer(PlayerColor color) {
+        for (PlayerSetup setup : predefinedPlayers) {
+            if (setup.getColor().equals(color)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void setPredefinedPlayers(Array<PlayerSetup> predefinedPlayers) {
+        this.predefinedPlayers = predefinedPlayers;
+    }
+
+    public void setNumRandomPlayers(int numRandomPlayers) {
+        this.numRandomPlayers = numRandomPlayers;
     }
 }

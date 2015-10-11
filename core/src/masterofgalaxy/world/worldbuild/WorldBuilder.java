@@ -1,11 +1,10 @@
 package masterofgalaxy.world.worldbuild;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
-import masterofgalaxy.ecs.components.*;
+import masterofgalaxy.ecs.components.ColonyComponent;
+import masterofgalaxy.ecs.components.FleetComponent;
+import masterofgalaxy.ecs.components.Mappers;
+import masterofgalaxy.ecs.components.PlayerOwnerComponent;
+import masterofgalaxy.ecs.components.StarComponent;
 import masterofgalaxy.ecs.entities.FleetFactory;
 import masterofgalaxy.exceptions.NoDataException;
 import masterofgalaxy.gamestate.Player;
@@ -16,14 +15,21 @@ import masterofgalaxy.world.Docker;
 import masterofgalaxy.world.World;
 import masterofgalaxy.world.WorldScreen;
 
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+
 public class WorldBuilder {
     private Rectangle playField;
     private WorldScreen screen;
     private World world;
     private RectangleWorldStarLayout layout;
     private long seed;
-    private int numPlayers;
+    private int numRandomPlayers;
     private int numUnownedStars;
+    private Array<PlayerSetup> predefinedPlayers;
 
     public WorldBuilder(WorldScreen screen, RectangleWorldStarLayout layout, long seed) {
         this.seed = seed;
@@ -36,7 +42,7 @@ public class WorldBuilder {
 
         world.setPlayField(playField);
         world.setRaces(new Array<Race>(screen.getGame().getActorAssets().races.races));
-        world.setPlayers(new PlayerBuilder(screen.getGame(), seed).randomizePlayers(numPlayers));
+        world.setPlayers(buildPlayers());
         screen.setCurrentPlayer(world.getPlayers().get(0));
 
         layout.setNumUnownedStars(numUnownedStars);
@@ -48,6 +54,14 @@ public class WorldBuilder {
         buildFleets();
 
         return world;
+    }
+
+    private Array<Player> buildPlayers() {
+        PlayerBuilder playerBuilder = new PlayerBuilder(screen.getGame(), seed);
+        playerBuilder.setPredefinedPlayers(predefinedPlayers);
+        playerBuilder.setNumRandomPlayers(numRandomPlayers);
+        Array<Player> players = playerBuilder.build();
+        return players;
     }
 
     private void populateOwnedStars() {
@@ -115,12 +129,12 @@ public class WorldBuilder {
         throw new NoDataException("no default scout ship for player " + player.getName());
     }
 
-    public int getNumPlayers() {
-        return numPlayers;
+    public int getNumRandomPlayers() {
+        return numRandomPlayers;
     }
 
-    public void setNumPlayers(int numPlayers) {
-        this.numPlayers = numPlayers;
+    public void setNumRandomPlayers(int numPlayers) {
+        this.numRandomPlayers = numPlayers;
     }
 
     public Rectangle getPlayField() {
@@ -137,5 +151,9 @@ public class WorldBuilder {
 
     public void setNumUnownedStars(int numUnownedStars) {
         this.numUnownedStars = numUnownedStars;
+    }
+
+    public void setPredefinedPlayers(Array<PlayerSetup> players) {
+        this.predefinedPlayers = players;
     }
 }

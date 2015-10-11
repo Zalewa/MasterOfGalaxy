@@ -1,18 +1,17 @@
 package masterofgalaxy.world;
 
-import com.badlogic.ashley.core.Entity;
-import com.badlogic.ashley.core.PooledEngine;
-import com.badlogic.ashley.signals.Listener;
-import com.badlogic.ashley.signals.Signal;
-import com.badlogic.gdx.InputMultiplexer;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
-import masterofgalaxy.ecs.systems.*;
+import masterofgalaxy.ecs.systems.BlinkSystem;
+import masterofgalaxy.ecs.systems.DockCleanupSystem;
+import masterofgalaxy.ecs.systems.DockPositioningSystem;
+import masterofgalaxy.ecs.systems.MoveToTargetSystem;
+import masterofgalaxy.ecs.systems.ParentshipSystem;
+import masterofgalaxy.ecs.systems.RenderingSystem;
+import masterofgalaxy.ecs.systems.SelectionScalingSystem;
+import masterofgalaxy.ecs.systems.TargetDrawSystem;
+import masterofgalaxy.ecs.systems.TargetPurgingSystem;
+import masterofgalaxy.ecs.systems.TextRenderingSystem;
 import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.Player;
 import masterofgalaxy.gamestate.savegame.WorldState;
@@ -20,8 +19,21 @@ import masterofgalaxy.world.picking.PickLogic;
 import masterofgalaxy.world.turns.TurnProcessor;
 import masterofgalaxy.world.ui.GlobalUi;
 import masterofgalaxy.world.ui.WorldUi;
+import masterofgalaxy.world.worldbuild.GameStartSetup;
+import masterofgalaxy.world.worldbuild.PlayerSetup;
 import masterofgalaxy.world.worldbuild.RectangleWorldStarLayout;
 import masterofgalaxy.world.worldbuild.WorldBuilder;
+
+import com.badlogic.ashley.core.Entity;
+import com.badlogic.ashley.core.PooledEngine;
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class WorldScreen extends ScreenAdapter {
     private MogGame game;
@@ -73,9 +85,9 @@ public class WorldScreen extends ScreenAdapter {
         entityEngine.addSystem(new TextRenderingSystem(game));
     }
 
-    public void startNewGame() {
+    public void startNewGame(GameStartSetup setup) {
         resetGame();
-        createNewWorld();
+        createNewWorld(setup);
         postWorldBuildActions();
     }
 
@@ -85,11 +97,16 @@ public class WorldScreen extends ScreenAdapter {
         postWorldBuildActions();
     }
 
-    private void createNewWorld() {
-        WorldBuilder builder = new WorldBuilder(this, new RectangleWorldStarLayout(this), System.currentTimeMillis());
-        builder.setNumUnownedStars(20);
-        builder.setPlayField(new Rectangle(0.0f, 0.0f, 1200.0f, 1000.0f));
-        builder.setNumPlayers(4);
+    private void createNewWorld(GameStartSetup setup) {
+        WorldBuilder builder = new WorldBuilder(this,
+                new RectangleWorldStarLayout(this), System.currentTimeMillis());
+        builder.setNumUnownedStars(setup.getWorldSize() * 2);
+        builder.setPlayField(new Rectangle(0.0f, 0.0f,
+                World.unitsPerParsec * setup.getWorldSize(),
+                World.unitsPerParsec * setup.getWorldSize()));
+        builder.setPredefinedPlayers(new Array<PlayerSetup>(
+                new PlayerSetup[] { setup.getPlayerSetup() }));
+        builder.setNumRandomPlayers(setup.getNumRivals());
         world = builder.build();
     }
 

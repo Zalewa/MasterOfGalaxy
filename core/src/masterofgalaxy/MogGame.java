@@ -7,6 +7,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+
 import masterofgalaxy.assets.Background;
 import masterofgalaxy.assets.Sprite;
 import masterofgalaxy.assets.UiSkin;
@@ -24,6 +25,7 @@ import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.titlescreen.TitleScreen;
 import masterofgalaxy.world.WorldScreen;
+import masterofgalaxy.world.worldbuild.GameStartSetup;
 
 public class MogGame extends Game {
 	SpriteBatch spriteBatch;
@@ -59,8 +61,12 @@ public class MogGame extends Game {
 	}
 
 	public void startNewGame() {
+		startNewGame(GameStartSetup.randomize(this));
+	}
+
+	public void startNewGame(GameStartSetup setup) {
 		makeSureWorldScreenIsInit();
-		worldScreen.startNewGame();
+		worldScreen.startNewGame(setup);
 		setScreen(worldScreen);
 	}
 

@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.math.collision.Ray;
+
 import masterofgalaxy.ecs.systems.MoveToTargetSystem;
 import masterofgalaxy.ecs.systems.RenderingSystem;
+import masterofgalaxy.world.worldbuild.GameStartSetup;
 
 public class WorldInputProcessor extends InputAdapter {
     private WorldScreen screen;
@@ -21,7 +23,7 @@ public class WorldInputProcessor extends InputAdapter {
             RenderingSystem render = screen.getEntityEngine().getSystem(RenderingSystem.class);
             render.setDrawBounds(!render.isDrawBounds());
         } else if (keycode == Input.Keys.R) {
-            screen.startNewGame();
+            screen.startNewGame(GameStartSetup.randomize(screen.getGame()));
         } else if (keycode == Input.Keys.D) {
             debug = !debug;
             screen.setDebug(debug);

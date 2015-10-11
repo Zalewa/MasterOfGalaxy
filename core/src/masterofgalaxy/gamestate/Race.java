@@ -70,4 +70,10 @@ public class Race {
     public void setHomeworld(Homeworld homeworld) {
         this.homeworld = homeworld;
     }
+
+    @Override
+    public String toString() {
+        return I18NFormsResolver.resolve(localizationBase,
+                localizationBundleName, I18NFormsResolver.Form.Plural);
+    }
 }

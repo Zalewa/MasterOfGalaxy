@@ -6,9 +6,12 @@ import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.gamestate.savegame.SaveGameStorage;
+import masterofgalaxy.mainmenu.newgame.NewGameWizard;
 import masterofgalaxy.mainmenu.options.OptionsMenu;
 import masterofgalaxy.ui.WindowExtender;
 
+import com.badlogic.ashley.signals.Listener;
+import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
@@ -80,7 +83,16 @@ public class MainMenu extends Window implements Localizable {
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                game.startNewGame();
+                NewGameWizard newGameWizard = new NewGameWizard(game, getSkin());
+                newGameWizard.ex.setDestroyOnClose(true);
+                newGameWizard.ex.closedSignal.add(new Listener<Object>() {
+                    @Override
+                    public void receive(Signal<Object> signal, Object object) {
+                        setVisible(true);
+                    }
+                });
+                newGameWizard.ex.show(getStage());
+                setVisible(false);
             }
         });
 
