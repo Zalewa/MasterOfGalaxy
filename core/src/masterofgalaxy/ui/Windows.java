@@ -16,6 +16,6 @@ public class Windows {
             }
         });
 
-        window.getButtonTable().add(xButton).height(window.getPadTop());
+        window.getTitleTable().add(xButton).height(window.getPadTop());
     }
 }

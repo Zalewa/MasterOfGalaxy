@@ -17,8 +17,8 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.Align;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
+import com.badlogic.gdx.utils.Align;
 
 public class ResearchPickWindow extends Window implements Localizable {
     public Signal<Object> techPickedSignal = new Signal<Object>();
@@ -116,7 +116,7 @@ public class ResearchPickWindow extends Window implements Localizable {
 
     @Override
     public void applyTranslation() {
-        setTitle(I18N.resolve("$research"));
+        getTitleLabel().setText(I18N.resolve("$research"));
 
         String branchName = I18NFormsResolver.resolve(branch.getId(),
                 branch.getLocalizationBundleName(),

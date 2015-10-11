@@ -90,7 +90,7 @@ public class ResearchWindow extends Window implements Localizable {
 
     @Override
     public void applyTranslation() {
-        setTitle(I18N.resolve("$research"));
+        getTitleLabel().setText(I18N.resolve("$research"));
         for (TechBox box : techBoxes) {
             box.applyTranslation();
         }
