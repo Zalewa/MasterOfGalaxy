@@ -1,5 +1,11 @@
 package masterofgalaxy.world.ui;
 
+import masterofgalaxy.MogGame;
+import masterofgalaxy.assets.UiSkin;
+import masterofgalaxy.mainmenu.MainMenu;
+import masterofgalaxy.ui.Ui;
+import masterofgalaxy.world.ui.research.ResearchWindow;
+
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -8,15 +14,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import masterofgalaxy.MogGame;
-import masterofgalaxy.assets.UiSkin;
-import masterofgalaxy.mainmenu.MainMenu;
-import masterofgalaxy.ui.Ui;
 
 public class GlobalUi implements Disposable {
     private MogGame game;
     private Stage stage;
     private MainMenu mainMenu;
+    private ResearchWindow researchWindow;
     private boolean debug = false;
 
     public GlobalUi(MogGame game) {
@@ -101,5 +104,20 @@ public class GlobalUi implements Disposable {
 
     public void packMainMenu() {
         mainMenu.pack();
+    }
+
+    public void openResearchScreen() {
+        lazyInitResearchWindow();
+        researchWindow.refreshData();
+        stage.addActor(researchWindow);
+        researchWindow.pack();
+        researchWindow.setVisible(true);
+        Ui.centerWithinStage(researchWindow);
+    }
+
+    private void lazyInitResearchWindow() {
+        if (researchWindow == null) {
+            researchWindow = new ResearchWindow(game, UiSkin.skin);
+        }
     }
 }

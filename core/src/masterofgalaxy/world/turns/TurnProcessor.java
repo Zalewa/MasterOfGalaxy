@@ -8,6 +8,7 @@ public class TurnProcessor implements Disposable {
     private Slider slider;
     private ColonyProgressor colonyProgressor;
     private FleetSameDockMerger fleetSameDockMerger;
+    private ResearchProgressor researchProgressor;
     private int turn;
     private boolean isProcessing = false;
     private boolean firstProcess = false;
@@ -19,6 +20,7 @@ public class TurnProcessor implements Disposable {
         slider = new Slider(screen);
         colonyProgressor = new ColonyProgressor(screen);
         fleetSameDockMerger = new FleetSameDockMerger(screen);
+        researchProgressor = new ResearchProgressor(screen);
     }
 
     public void startProcessing() {
@@ -46,6 +48,7 @@ public class TurnProcessor implements Disposable {
 
     private void endProcessing() {
         colonyProgressor.progress();
+        researchProgressor.progress();
         isProcessing = false;
         slider.end();
         fleetSameDockMerger.execute();

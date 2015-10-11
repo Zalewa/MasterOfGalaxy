@@ -1,0 +1,56 @@
+{
+  "i18n": {
+    "bundle": "i18n/tech/propulsion"
+  },
+  "id": "$propulsion",
+  "tiers": [
+    {
+      "techs": [
+        {
+          "id": "$sublightDrive",
+          "cost": 500
+        }
+      ]
+    },
+    {
+      "techs": [
+        {
+          "id": "$ionDrive",
+          "cost": 1000,
+        }
+      ]
+    },
+    {
+      "techs": [
+        {
+          "id": "$antimatterDrive",
+          "cost": 1500,
+        }
+      ]
+    },
+    {
+      "techs": [
+        {
+          "id": "$gravitonDrive",
+          "cost": 2500,
+        }
+      ]
+    },
+    {
+      "techs": [
+        {
+          "id": "$warpDrive",
+          "cost": 3000,
+        }
+      ]
+    },
+    {
+      "techs": [
+        {
+          "id": "$tachyonDrive",
+          "cost": 3500,
+        }
+      ]
+    },
+  ]
+}

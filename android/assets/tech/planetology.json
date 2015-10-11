@@ -1,0 +1,20 @@
+{
+  "i18n": {
+    "bundle": "i18n/tech/planetology"
+  },
+  "id": "$planetology",
+  "tiers": [
+    {
+      "techs": [
+        {
+          "id": "$infernoColony",
+          "cost": 1000
+        },
+        {
+          "id": "$toxicColony",
+          "cost": 500,
+        }
+      ]
+    }
+  ]
+}

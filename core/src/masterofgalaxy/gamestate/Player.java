@@ -1,5 +1,8 @@
 package masterofgalaxy.gamestate;
 
+import masterofgalaxy.assets.tech.TechKnowledge;
+import masterofgalaxy.assets.tech.TechTree;
+
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.graphics.Color;
 
@@ -56,6 +59,10 @@ public class Player {
         state.setRaceName(race.getName());
     }
 
+    public TechKnowledge getTechKnowledge() {
+        return state.getTechKnowledge();
+    }
+
     public boolean isValid() {
         return valid;
     }
@@ -86,5 +93,9 @@ public class Player {
 
     public float getProductionPerMannedFactory() {
         return 5.0f * getRace().getProductionRate();
+    }
+
+    public TechTree getTechTree() {
+        return state.getTechTree();
     }
 }

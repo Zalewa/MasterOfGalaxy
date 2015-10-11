@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 public class ActorRemoveEscapeKeyAdapter extends EscapeKeyAdapter {
     private Actor actor;
-    private boolean enabled;
+    private boolean enabled = true;
 
     public ActorRemoveEscapeKeyAdapter(Actor actor) {
         this.actor = actor;

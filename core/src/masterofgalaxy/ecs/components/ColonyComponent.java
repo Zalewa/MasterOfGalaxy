@@ -136,9 +136,15 @@ public class ColonyComponent extends Component implements Pool.Poolable {
                 } else {
                     return I18N.resolve("$maxCapitalized");
                 }
+            case Research:
+                return I18N.formatFloat(getResearchPoints(), "{0,number,0.0}");
             default:
                 return I18N.resolve("$n/a");
         }
+    }
+
+    public float getResearchPoints() {
+        return getMaxResearchPoints() * state.mainResourceDistribution.getResearch();
     }
 
     public boolean isMaxPopulation() {

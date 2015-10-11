@@ -9,6 +9,7 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
 import masterofgalaxy.MogGame;
 import masterofgalaxy.ecs.EntityPicker;
 import masterofgalaxy.ecs.systems.*;
