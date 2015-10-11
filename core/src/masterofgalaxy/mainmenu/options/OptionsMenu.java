@@ -1,48 +1,37 @@
 package masterofgalaxy.mainmenu.options;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
-import masterofgalaxy.assets.i18n.LocalizationChangedListener;
-import masterofgalaxy.ui.EscapeKeyAdapter;
+import masterofgalaxy.ui.WindowExtender;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class OptionsMenu extends Window implements Localizable {
+    public WindowExtender ex;
     private VideoModeOptions videoModeOptions;
     private LanguageOptions languageOptions;
     private TextButton applyButton;
     private TextButton closeButton;
     private Table buttonRow = new Table();
-    private Button xButton;
     private Table mainLayout;
-    private LocalizationChangedListener translationListener = new LocalizationChangedListener(this);
 
     public OptionsMenu(MogGame game, Skin skin) {
         super("options", skin);
-        I18N.localeChanged.add(translationListener);
         setModal(true);
-        addListener(new EscapeKeyAdapter() {
-            @Override
-            protected boolean escape() {
-                Gdx.app.postRunnable(new Runnable() {
-                    @Override
-                    public void run() {
-                        close();
-                    }
-                });
-                return false;
-            }
-        });
+        ex = new WindowExtender(this);
+        ex.setDestroyOnClose(true);
 
         mainLayout = new Table(skin);
         mainLayout.pad(10.0f);
         mainLayout.defaults().space(5.0f);
         add(mainLayout).expand().fill();
-
-        setupXButton();
 
         setupVideoModeWidget();
         setupLanguageWidget();
@@ -81,7 +70,7 @@ public class OptionsMenu extends Window implements Localizable {
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                close();
+                remove();
             }
         });
         buttonRow.add(closeButton);
@@ -98,27 +87,9 @@ public class OptionsMenu extends Window implements Localizable {
         buttonRow.add(applyButton);
     }
 
-    private void setupXButton() {
-        xButton = new TextButton("X", getSkin());
-        xButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                close();
-            }
-        });
-
-        getTitleTable().add(xButton).height(getPadTop());
-    }
-
     private void apply() {
         videoModeOptions.apply();
         languageOptions.apply();
-    }
-
-    private void close() {
-        I18N.localeChanged.remove(translationListener);
-        clear();
-        remove();
     }
 
     @Override

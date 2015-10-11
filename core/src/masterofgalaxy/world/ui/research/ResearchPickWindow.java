@@ -6,12 +6,10 @@ import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.tech.Tech;
 import masterofgalaxy.assets.tech.TechBranch;
 import masterofgalaxy.assets.tech.TechKnowledge;
-import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
 import masterofgalaxy.ui.DoubleClickAdapter;
 import masterofgalaxy.ui.ListBox;
-import masterofgalaxy.ui.Windows;
+import masterofgalaxy.ui.WindowExtender;
 
-import com.badlogic.ashley.signals.Signal;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -21,8 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.Align;
 
 public class ResearchPickWindow extends Window implements Localizable {
-    public Signal<Object> techPickedSignal = new Signal<Object>();
-
+    public WindowExtender ex;
     private TechBranch branch;
     private TechKnowledge knowledge;
 
@@ -32,17 +29,15 @@ public class ResearchPickWindow extends Window implements Localizable {
 
     public ResearchPickWindow(TechBranch branch, TechKnowledge knowledge, Skin skin) {
         super("", skin);
+        ex = new WindowExtender(this);
         this.branch = branch;
         this.knowledge = knowledge;
 
         setup();
         fillIn();
-        applyTranslation();
     }
 
     private void setup() {
-        addListener(new ActorRemoveEscapeKeyAdapter(this));
-        Windows.addXButton(this, getSkin());
         setModal(true);
 
         defaults().space(5.0f);
@@ -87,8 +82,7 @@ public class ResearchPickWindow extends Window implements Localizable {
         if (techList.getSelected() != null) {
             knowledge.startResearch(branch, techList.getSelected());
         }
-        techPickedSignal.dispatch(this);
-        remove();
+        ex.close();
     }
 
     private void fillIn() {

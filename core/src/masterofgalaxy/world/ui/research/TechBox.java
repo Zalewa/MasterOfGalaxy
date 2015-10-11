@@ -119,12 +119,12 @@ public class TechBox extends Table {
     }
 
     private void openPickResearchBox() {
-        final ResearchPickWindow box = new ResearchPickWindow(techBranch, knowledge, getSkin());
-        box.techPickedSignal.add(new Listener<Object>() {
+        ResearchPickWindow box = new ResearchPickWindow(techBranch, knowledge, getSkin());
+        box.ex.setDestroyOnClose(true);
+        box.ex.closedSignal.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {
                 refreshData();
-                box.techPickedSignal.remove(this);
             }
         });
         getStage().addActor(box);

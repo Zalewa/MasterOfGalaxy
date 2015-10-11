@@ -8,8 +8,7 @@ import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
 import masterofgalaxy.assets.tech.TechBranch;
 import masterofgalaxy.assets.tech.TechKnowledge;
-import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
-import masterofgalaxy.ui.Windows;
+import masterofgalaxy.ui.WindowExtender;
 
 import com.badlogic.ashley.signals.Listener;
 import com.badlogic.ashley.signals.Signal;
@@ -26,12 +25,10 @@ public class ResearchWindow extends Window implements Localizable {
 
     public ResearchWindow(MogGame game, Skin skin) {
         super("$research", skin);
+        new WindowExtender(this);
         this.game = game;
-        I18N.addLocalizable(this);
-        addListener(new ActorRemoveEscapeKeyAdapter(this));
 
         setModal(true);
-        Windows.addXButton(this, skin);
 
         techBoxesContainer = new Container<Table>(null);
         add(techBoxesContainer).expand().fill();

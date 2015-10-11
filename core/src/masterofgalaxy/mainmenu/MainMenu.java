@@ -1,20 +1,25 @@
 package masterofgalaxy.mainmenu;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import masterofgalaxy.MogGame;
 import masterofgalaxy.assets.i18n.I18N;
 import masterofgalaxy.assets.i18n.Localizable;
-import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.exceptions.SavedGameException;
 import masterofgalaxy.gamestate.savegame.GameState;
 import masterofgalaxy.gamestate.savegame.SaveGameStorage;
 import masterofgalaxy.mainmenu.options.OptionsMenu;
-import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
-import masterofgalaxy.ui.Ui;
+import masterofgalaxy.ui.WindowExtender;
+
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 
 public class MainMenu extends Window implements Localizable {
+    private WindowExtender ex;
     private Container<TextButton> resumeGameButtonContainer;
     private TextButton resumeGameButton;
     private TextButton newGameButton;
@@ -28,24 +33,20 @@ public class MainMenu extends Window implements Localizable {
     private TextButton cancelButton;
     private Container<TextButton> titleScreenButtonContainer;
     private TextButton titleScreenButton;
-    private Button xButton;
     private Table mainLayout;
     private MogGame game;
-    private ActorRemoveEscapeKeyAdapter escapeAdapter = new ActorRemoveEscapeKeyAdapter(this);
 
     public MainMenu(MogGame game, Skin skin) {
         super("title", skin);
-        I18N.localeChanged.add(new LocalizationChangedListener(this));
+        ex = new WindowExtender(this);
         this.game = game;
         setModal(true);
-        addListener(escapeAdapter);
 
         mainLayout = new Table(skin);
         mainLayout.pad(12.0f);
         mainLayout.defaults().space(5.0f);
         add(mainLayout).expand().fill();
 
-        setupXButton();
         setupResumeGameButton();
         setupNewGameButton();
         setupSaveGameButton();
@@ -58,17 +59,6 @@ public class MainMenu extends Window implements Localizable {
         applyTranslation();
     }
 
-    private void setupXButton() {
-        xButton = new TextButton("X", getSkin());
-        xButton.addListener(new ChangeListener() {
-            @Override
-            public void changed(ChangeEvent event, Actor actor) {
-                remove();
-            }
-        });
-
-        getTitleTable().add(xButton).height(getPadTop());
-    }
 
     private void setupResumeGameButton() {
         resumeGameButton = new TextButton("$resumeGame", getSkin());
@@ -134,9 +124,7 @@ public class MainMenu extends Window implements Localizable {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 OptionsMenu menu = new OptionsMenu(game, getSkin());
-                getParent().addActor(menu);
-                getStage().setKeyboardFocus(menu);
-                Ui.centerWithinStage(menu);
+                menu.ex.show(getStage());
             }
         });
 
@@ -188,8 +176,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     public void setCancelable(boolean cancelable) {
-        escapeAdapter.setEnabled(cancelable);
-        xButton.setVisible(cancelable);
+        ex.setCloseable(cancelable);
         if (cancelable) {
             cancelButtonContainer.setActor(cancelButton);
         } else {
