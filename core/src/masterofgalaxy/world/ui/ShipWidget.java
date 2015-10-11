@@ -8,20 +8,18 @@ import masterofgalaxy.ecs.components.FleetComponent;
 public class ShipWidget extends Table {
     private Label nameLabel;
     private Label countLabel;
-    private Skin skin;
     private FleetComponent.Ship ship;
 
     public ShipWidget(Skin skin) {
         super(skin);
-        this.skin = skin;
         setupUi();
     }
 
     private void setupUi() {
-        nameLabel = new Label("", skin);
+        nameLabel = new Label("", getSkin());
         add(nameLabel).expandX().left();
 
-        countLabel = new Label("", skin);
+        countLabel = new Label("", getSkin());
         add(countLabel).expandX().right();
         row();
     }

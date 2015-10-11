@@ -10,13 +10,11 @@ import masterofgalaxy.gamestate.ships.ShipDesign;
 public class ShipDesignWidget extends Table {
     private Label nameLabel;
     private Label productionPerTurnLabel;
-    private Skin skin;
     private ColonyComponent colony;
     private ShipDesign shipDesign;
 
     public ShipDesignWidget(Skin skin, ColonyComponent colony) {
         super(skin);
-        this.skin = skin;
         this.colony = colony;
 
         setupUi();
@@ -29,12 +27,12 @@ public class ShipDesignWidget extends Table {
     }
 
     private void setupNameLabel() {
-        nameLabel = new Label("", skin);
+        nameLabel = new Label("", getSkin());
         add(nameLabel).expandX().left();
     }
 
     private void setupProductionPerTurnLabel() {
-        productionPerTurnLabel = new Label("", skin);
+        productionPerTurnLabel = new Label("", getSkin());
         add(productionPerTurnLabel).expandX().right();
     }
 

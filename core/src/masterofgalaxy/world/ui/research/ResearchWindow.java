@@ -20,7 +20,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 
 public class ResearchWindow extends Window implements Localizable {
     private MogGame game;
-    private Skin skin;
     private List<TechBox> techBoxes = new LinkedList<TechBox>();
     private Container<Table> techBoxesContainer;
     private Listener<TechBox> distributionChangeListener;
@@ -28,7 +27,6 @@ public class ResearchWindow extends Window implements Localizable {
     public ResearchWindow(MogGame game, Skin skin) {
         super("$research", skin);
         this.game = game;
-        this.skin = skin;
         I18N.addLocalizable(this);
         addListener(new ActorRemoveEscapeKeyAdapter(this));
 
@@ -41,7 +39,7 @@ public class ResearchWindow extends Window implements Localizable {
 
     private TechBox mkTechBox(TechBranch branch) {
         TechKnowledge knowledge = game.getWorldScreen().getCurrentPlayer().getTechKnowledge();
-        TechBox box = new TechBox(branch, knowledge, game, skin);
+        TechBox box = new TechBox(branch, knowledge, game, getSkin());
         box.distributionChangedSignal.add(getDistributionChangeListener());
         techBoxes.add(box);
         return box;
@@ -49,7 +47,7 @@ public class ResearchWindow extends Window implements Localizable {
 
     public void refreshData() {
         deregisterTechBoxes();
-        Table table = new Table(skin);
+        Table table = new Table(getSkin());
         for (TechBranch branch : game.getWorldScreen().getCurrentPlayer().getTechTree().getBranches()) {
             table.add(mkTechBox(branch)).width(300.0f).height(200.0f).fill();
             table.row();

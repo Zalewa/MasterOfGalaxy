@@ -15,7 +15,6 @@ import masterofgalaxy.world.PlayerOwnerControl;
 
 public class ColonyUi extends Table implements Localizable {
     private MogGame game;
-    private Skin skin;
     private Entity entity;
     private ResourcesDistributionUi resourcesDistributionUi;
     private Label populationLabel;
@@ -32,7 +31,6 @@ public class ColonyUi extends Table implements Localizable {
         super(skin);
         I18N.localeChanged.add(new LocalizationChangedListener(this));
         this.game = game;
-        this.skin = skin;
 
         defaults().expandX();
         pad(5.0f);
@@ -78,45 +76,45 @@ public class ColonyUi extends Table implements Localizable {
     }
 
     private void setupPopulation() {
-        populationLabel = new Label("", skin);
+        populationLabel = new Label("", getSkin());
         add(populationLabel).left();
-        populationValueLabel = new Label("", skin);
+        populationValueLabel = new Label("", getSkin());
         add(populationValueLabel).right();
         row();
     }
 
     private void setupFactoriesLabel() {
-        factoriesLabel = new Label("", skin);
+        factoriesLabel = new Label("", getSkin());
         add(factoriesLabel).left();
-        factoriesValueLabel = new Label("", skin);
+        factoriesValueLabel = new Label("", getSkin());
         add(factoriesValueLabel).right();
         row();
     }
 
     private void setupDefenseBasesLabel() {
-        defenseBasesLabel = new Label("", skin);
+        defenseBasesLabel = new Label("", getSkin());
         add(defenseBasesLabel).left();
-        defenseBasesValueLabel = new Label("", skin);
+        defenseBasesValueLabel = new Label("", getSkin());
         add(defenseBasesValueLabel).right();
         row();
     }
 
     private void setupProductionLabel() {
-        productionLabel = new Label("", skin);
+        productionLabel = new Label("", getSkin());
         add(productionLabel).left();
-        productionValueLabel = new Label("", skin);
+        productionValueLabel = new Label("", getSkin());
         add(productionValueLabel).right();
         row();
     }
 
     private void setupResourcesUi() {
-        resourcesDistributionUi = new ResourcesDistributionUi(skin);
+        resourcesDistributionUi = new ResourcesDistributionUi(getSkin());
         add(resourcesDistributionUi).expandX().fillX().colspan(2);
         row();
     }
 
     private void setupShipyardUi() {
-        shipyardUi = new ShipyardUi(skin);
+        shipyardUi = new ShipyardUi(getSkin());
         add(shipyardUi).colspan(2).expandX().fill();
         row();
     }

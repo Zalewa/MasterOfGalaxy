@@ -11,7 +11,6 @@ import masterofgalaxy.assets.i18n.LocalizationChangedListener;
 import masterofgalaxy.ui.EscapeKeyAdapter;
 
 public class OptionsMenu extends Window implements Localizable {
-    private Skin skin;
     private VideoModeOptions videoModeOptions;
     private LanguageOptions languageOptions;
     private TextButton applyButton;
@@ -24,7 +23,6 @@ public class OptionsMenu extends Window implements Localizable {
     public OptionsMenu(MogGame game, Skin skin) {
         super("options", skin);
         I18N.localeChanged.add(translationListener);
-        this.skin = skin;
         setModal(true);
         addListener(new EscapeKeyAdapter() {
             @Override
@@ -58,13 +56,13 @@ public class OptionsMenu extends Window implements Localizable {
     }
 
     private void setupVideoModeWidget() {
-        videoModeOptions = new VideoModeOptions(skin);
+        videoModeOptions = new VideoModeOptions(getSkin());
         mainLayout.add(videoModeOptions).expand().fillX().top();
         mainLayout.row();
     }
 
     private void setupLanguageWidget() {
-        languageOptions = new LanguageOptions(skin);
+        languageOptions = new LanguageOptions(getSkin());
         mainLayout.add(languageOptions).expand().fillX().top();
         mainLayout.row();
     }
@@ -72,14 +70,14 @@ public class OptionsMenu extends Window implements Localizable {
     private void setupButtonRow() {
         mainLayout.add(new Widget()).minHeight(30.0f);
         mainLayout.row();
-        buttonRow = new Table(skin);
+        buttonRow = new Table(getSkin());
         buttonRow.defaults().space(10.0f).bottom();
         mainLayout.add(buttonRow);
         mainLayout.row();
     }
 
     private void setupCloseButton() {
-        closeButton = new TextButton("close", skin);
+        closeButton = new TextButton("close", getSkin());
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -90,7 +88,7 @@ public class OptionsMenu extends Window implements Localizable {
     }
 
     private void setupApplyButton() {
-        applyButton = new TextButton("apply", skin);
+        applyButton = new TextButton("apply", getSkin());
         applyButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -101,7 +99,7 @@ public class OptionsMenu extends Window implements Localizable {
     }
 
     private void setupXButton() {
-        xButton = new TextButton("X", skin);
+        xButton = new TextButton("X", getSkin());
         xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

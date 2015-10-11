@@ -15,12 +15,10 @@ import masterofgalaxy.world.StarColonizer;
 public class FreeStarUi extends Table implements Localizable {
     private Entity entity;
     private TextButton colonizeButton;
-    private Skin skin;
     private MogGame game;
 
     public FreeStarUi(MogGame game, Skin skin) {
         super(skin);
-        this.skin = skin;
         this.game = game;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
@@ -31,7 +29,7 @@ public class FreeStarUi extends Table implements Localizable {
     }
 
     private void setupUi() {
-        colonizeButton = new TextButton("", skin);
+        colonizeButton = new TextButton("", getSkin());
         colonizeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

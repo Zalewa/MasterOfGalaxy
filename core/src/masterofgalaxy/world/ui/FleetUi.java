@@ -22,7 +22,6 @@ import masterofgalaxy.world.PlayerOwnerControl;
 import masterofgalaxy.world.turns.FleetSameDockMerger;
 
 public class FleetUi extends Table implements Localizable {
-    private Skin skin;
     private Entity entity;
     private Label titleLabel;
     private Label ownerLabel;
@@ -34,7 +33,6 @@ public class FleetUi extends Table implements Localizable {
     public FleetUi(MogGame game, Skin skin) {
         super(skin);
         this.game = game;
-        this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         setupHeader();
@@ -46,15 +44,15 @@ public class FleetUi extends Table implements Localizable {
     }
 
     private void setupHeader() {
-        titleLabel = new Label("", skin);
+        titleLabel = new Label("", getSkin());
         add(titleLabel).expandX();
         row();
 
-        ownerLabel = new Label("", skin);
+        ownerLabel = new Label("", getSkin());
         add(ownerLabel).expandX();
         row();
 
-        shipsUi = new FleetShipsUi(game, skin);
+        shipsUi = new FleetShipsUi(game, getSkin());
         add(shipsUi).expandX().fillX();
         row();
 
@@ -63,7 +61,7 @@ public class FleetUi extends Table implements Localizable {
     }
 
     private void setupSplitButton() {
-        splitButton = new TextButton("", skin);
+        splitButton = new TextButton("", getSkin());
         splitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -80,7 +78,7 @@ public class FleetUi extends Table implements Localizable {
     }
 
     private void setupMergeButton() {
-        mergeButton = new TextButton("", skin);
+        mergeButton = new TextButton("", getSkin());
         mergeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

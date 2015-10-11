@@ -8,25 +8,22 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
 
 public class ListBox<T> extends Table {
-    private Skin skin;
     private Label label;
     private List<T> list;
     private ScrollPane scrollPane;
 
     public ListBox(Skin skin) {
         super(skin);
-        this.skin = skin;
-
         setup();
     }
 
     private void setup() {
-        label = new Label("", skin);
+        label = new Label("", getSkin());
         add(label).expandX().row();
 
-        list = new List<T>(skin);
+        list = new List<T>(getSkin());
 
-        scrollPane = new ScrollPane(list, skin);
+        scrollPane = new ScrollPane(list, getSkin());
         add(scrollPane).expand().fill().row();
     }
 

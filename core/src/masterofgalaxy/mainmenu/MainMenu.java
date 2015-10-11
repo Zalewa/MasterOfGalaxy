@@ -15,7 +15,6 @@ import masterofgalaxy.ui.ActorRemoveEscapeKeyAdapter;
 import masterofgalaxy.ui.Ui;
 
 public class MainMenu extends Window implements Localizable {
-    private Skin skin;
     private Container<TextButton> resumeGameButtonContainer;
     private TextButton resumeGameButton;
     private TextButton newGameButton;
@@ -38,7 +37,6 @@ public class MainMenu extends Window implements Localizable {
         super("title", skin);
         I18N.localeChanged.add(new LocalizationChangedListener(this));
         this.game = game;
-        this.skin = skin;
         setModal(true);
         addListener(escapeAdapter);
 
@@ -61,7 +59,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupXButton() {
-        xButton = new TextButton("X", skin);
+        xButton = new TextButton("X", getSkin());
         xButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -73,7 +71,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupResumeGameButton() {
-        resumeGameButton = new TextButton("$resumeGame", skin);
+        resumeGameButton = new TextButton("$resumeGame", getSkin());
         resumeGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -88,7 +86,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupNewGameButton() {
-        newGameButton = new TextButton("$newGame", skin);
+        newGameButton = new TextButton("$newGame", getSkin());
         newGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -101,7 +99,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupSaveGameButton() {
-        saveGameButton = new TextButton("$saveGame", skin);
+        saveGameButton = new TextButton("$saveGame", getSkin());
         saveGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -116,7 +114,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupLoadGameButton() {
-        loadGameButton = new TextButton("$loadGame", skin);
+        loadGameButton = new TextButton("$loadGame", getSkin());
         loadGameButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -131,11 +129,11 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupOptionsButton() {
-        optionsButton = new TextButton("Options", skin);
+        optionsButton = new TextButton("Options", getSkin());
         optionsButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                OptionsMenu menu = new OptionsMenu(game, skin);
+                OptionsMenu menu = new OptionsMenu(game, getSkin());
                 getParent().addActor(menu);
                 getStage().setKeyboardFocus(menu);
                 Ui.centerWithinStage(menu);
@@ -147,7 +145,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupTitleScreenButton() {
-        titleScreenButton = new TextButton("$titleScreen", skin);
+        titleScreenButton = new TextButton("$titleScreen", getSkin());
         titleScreenButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -162,7 +160,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupExitButton() {
-        exitButton = new TextButton("Exit Game", skin);
+        exitButton = new TextButton("Exit Game", getSkin());
         exitButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -175,7 +173,7 @@ public class MainMenu extends Window implements Localizable {
     }
 
     private void setupCancelButton() {
-        cancelButton = new TextButton("Cancel", skin);
+        cancelButton = new TextButton("Cancel", getSkin());
         cancelButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -228,7 +226,7 @@ public class MainMenu extends Window implements Localizable {
             new SaveGameStorage().save(game, "mog.save");
         } catch (SavedGameException e) {
             e.printStackTrace();
-            new Dialog(I18N.resolve("$saveError"), skin).text(e.getLocalizedMessage()).button(I18N.resolve("$close")).show(getStage());
+            new Dialog(I18N.resolve("$saveError"), getSkin()).text(e.getLocalizedMessage()).button(I18N.resolve("$close")).show(getStage());
         }
     }
 
@@ -238,7 +236,7 @@ public class MainMenu extends Window implements Localizable {
             game.restoreGame(state);
         } catch (SavedGameException e) {
             e.printStackTrace();
-            new Dialog(I18N.resolve("$loadError"), skin).text(e.getLocalizedMessage()).button(I18N.resolve("$close")).show(getStage());
+            new Dialog(I18N.resolve("$loadError"), getSkin()).text(e.getLocalizedMessage()).button(I18N.resolve("$close")).show(getStage());
         }
     }
 

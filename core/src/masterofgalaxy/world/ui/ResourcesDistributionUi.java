@@ -17,7 +17,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class ResourcesDistributionUi extends Table implements Localizable {
-    private Skin skin;
     private Label header;
     private ColonyComponent colony;
     private Table slidersTable;
@@ -27,7 +26,6 @@ public class ResourcesDistributionUi extends Table implements Localizable {
 
     public ResourcesDistributionUi(Skin skin) {
         super(skin);
-        this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         setupUi();
@@ -40,14 +38,14 @@ public class ResourcesDistributionUi extends Table implements Localizable {
     }
 
     private void setupHeader() {
-        header = new Label("", skin);
+        header = new Label("", getSkin());
         add(header).expandX().center();
         row();
     }
 
 
     private void setupSliders() {
-        slidersTable = new Table(skin);
+        slidersTable = new Table(getSkin());
         slidersTable.defaults().space(3.0f);
         add(slidersTable).expandX().fillX().width(this.getWidth());
         row();
@@ -60,7 +58,7 @@ public class ResourcesDistributionUi extends Table implements Localizable {
     }
 
     private void mkMainResourceSlider(ResourceId resourceId) {
-        ResourceDistributionSlider slider = new ResourceDistributionSlider(skin);
+        ResourceDistributionSlider slider = new ResourceDistributionSlider(getSkin());
         addResourceSliderToTable(slidersTable, slider);
         registerMainResourceSlider(slider);
         mainResourceSliders.put(resourceId, slider);

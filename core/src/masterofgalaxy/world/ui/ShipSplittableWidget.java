@@ -11,16 +11,14 @@ import masterofgalaxy.ecs.components.FleetComponent;
 public class ShipSplittableWidget extends ShipWidget {
     private Slider amountSlider;
     private Label selectedAmountLabel;
-    private Skin skin;
 
     public ShipSplittableWidget(Skin skin) {
         super(skin);
-        this.skin = skin;
         setupUi();
     }
 
     private void setupUi() {
-        amountSlider = new Slider(0.0f, 0.0f, 1.0f, false, skin);
+        amountSlider = new Slider(0.0f, 0.0f, 1.0f, false, getSkin());
         amountSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -29,7 +27,7 @@ public class ShipSplittableWidget extends ShipWidget {
         });
         add(amountSlider).expandX().center();
 
-        selectedAmountLabel = new Label("", skin);
+        selectedAmountLabel = new Label("", getSkin());
         add(selectedAmountLabel).right();
     }
 

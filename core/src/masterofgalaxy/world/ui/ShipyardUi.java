@@ -17,14 +17,12 @@ import masterofgalaxy.ecs.components.Mappers;
 public class ShipyardUi extends Table implements Localizable {
     private Label nameLabel;
     private ProgressBar progressBar;
-    private Skin skin;
     private Entity entity;
 
     public Signal<Object> shipyardProductionMenuRequested = new Signal<Object>();
 
     public ShipyardUi(Skin skin) {
         super(skin);
-        this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
         setupUi();
     }
@@ -49,7 +47,7 @@ public class ShipyardUi extends Table implements Localizable {
     }
 
     private void setupNameLabel() {
-        nameLabel = new Label("", skin);
+        nameLabel = new Label("", getSkin());
         nameLabel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -61,7 +59,7 @@ public class ShipyardUi extends Table implements Localizable {
     }
 
     private void setupProgressBar() {
-        progressBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, skin);
+        progressBar = new ProgressBar(0.0f, 1.0f, 0.01f, false, getSkin());
         add(progressBar).expandX().fillX();
         row();
     }

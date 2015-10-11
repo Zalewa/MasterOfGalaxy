@@ -17,7 +17,6 @@ import masterofgalaxy.ecs.components.StarComponent;
 import masterofgalaxy.ui.ContainerEx;
 
 public class StarUi extends Table implements Localizable {
-    private Skin skin;
     private Entity entity;
     private Label nameLabel;
     private Label ownerLabel;
@@ -34,7 +33,6 @@ public class StarUi extends Table implements Localizable {
     public StarUi(MogGame game, Skin skin) {
         super(skin);
         this.game = game;
-        this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         setupHeader();
@@ -47,7 +45,7 @@ public class StarUi extends Table implements Localizable {
     }
 
     private void setupColonyUi() {
-        colonyUi = new ColonyUi(game, skin);
+        colonyUi = new ColonyUi(game, getSkin());
         colonyUiContainer = new ContainerEx<ColonyUi>();
         colonyUiContainer.fillX();
         colonyUiContainer.setActor(colonyUi);
@@ -56,7 +54,7 @@ public class StarUi extends Table implements Localizable {
     }
 
     private void setupFreeStarUi() {
-        freeStarUi = new FreeStarUi(game, skin);
+        freeStarUi = new FreeStarUi(game, getSkin());
         freeStarUiContainer = new ContainerEx<FreeStarUi>();
         freeStarUiContainer.fillX();
         freeStarUiContainer.setActor(freeStarUi);
@@ -65,13 +63,13 @@ public class StarUi extends Table implements Localizable {
     }
 
     private void setupHeader() {
-        Table table = new Table(skin);
+        Table table = new Table(getSkin());
 
-        nameLabel = new Label("", skin);
+        nameLabel = new Label("", getSkin());
         table.add(nameLabel).expandX();
         table.row();
 
-        ownerLabel = new Label("", skin);
+        ownerLabel = new Label("", getSkin());
         table.add(ownerLabel).expandX();
 
         add(table).expandX().fill();
@@ -79,7 +77,7 @@ public class StarUi extends Table implements Localizable {
     }
 
     private void setupStarInfo() {
-        starLayout = new Table(skin);
+        starLayout = new Table(getSkin());
         starLayout.setBackground("black");
         add(starLayout).expandX().fillX().pad(5.0f);
         row();
@@ -87,11 +85,11 @@ public class StarUi extends Table implements Localizable {
         planetImage = new Image();
         starLayout.add(planetImage).left().width(64.0f).height(64.0f);
 
-        starInfoLayout = new Table(skin);
+        starInfoLayout = new Table(getSkin());
         starLayout.add(starInfoLayout).expand().fillX().top();
 
         starInfoLayout.row();
-        planetLabel = new Label("", skin);
+        planetLabel = new Label("", getSkin());
         starInfoLayout.add(planetLabel).expandX().left();
     }
 

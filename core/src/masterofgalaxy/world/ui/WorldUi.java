@@ -22,7 +22,6 @@ import masterofgalaxy.ui.ConsumeTouchAdapter;
 import masterofgalaxy.world.WorldScreen;
 
 public class WorldUi implements Disposable {
-    private Skin skin;
     private Stage stage;
     private WorldScreen worldScreen;
     private EntitySelectionListener entitySelectionListener = new EntitySelectionListener();
@@ -41,7 +40,6 @@ public class WorldUi implements Disposable {
 
     public WorldUi(WorldScreen worldScreen) {
         this.worldScreen = worldScreen;
-        skin = UiSkin.skin;
         stage = new Stage(new ScreenViewport());
 
         setupMainLayout();
@@ -60,7 +58,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupMainLayout() {
-        mainLayout = new Table(skin);
+        mainLayout = new Table(getSkin());
         mainLayout.setFillParent(true);
         mainLayout.setBackground("default-rect");
         stage.addActor(mainLayout);
@@ -74,7 +72,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupShipyardProductionUi() {
-        shipyardProductionUi = new ShipyardProductionUi(worldScreen.getGame(), skin);
+        shipyardProductionUi = new ShipyardProductionUi(worldScreen.getGame(), getSkin());
         shipyardProductionUi.closeRequested.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {
@@ -94,7 +92,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupStarUi() {
-        starUi = new StarUi(worldScreen.getGame(), skin);
+        starUi = new StarUi(worldScreen.getGame(), getSkin());
         starUi.getColonyUi().getShipyardUi().shipyardProductionMenuRequested.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {
@@ -110,11 +108,11 @@ public class WorldUi implements Disposable {
     }
 
     private void setupFleetUi() {
-        fleetUi = new FleetUi(worldScreen.getGame(), skin);
+        fleetUi = new FleetUi(worldScreen.getGame(), getSkin());
     }
 
     private void setupBottomLayout() {
-        bottomLayout = new Table(skin);
+        bottomLayout = new Table(getSkin());
         mainLayout.add(bottomLayout).expand().fillX().center().bottom();
     }
 
@@ -123,9 +121,9 @@ public class WorldUi implements Disposable {
         playerIndicator = new Image(drawable, Scaling.fill);
         playerIndicator.setColor(1.0f, 0.0f, 0.0f, 1.0f);
 
-        turnLabel = new Label("$turnNo", skin);
+        turnLabel = new Label("$turnNo", getSkin());
 
-        Table row = new Table(skin);
+        Table row = new Table(getSkin());
         row.defaults().space(5.0f);
         row.pad(5.0f);
         row.add(playerIndicator).width(16.0f).height(16.0f).center();
@@ -142,7 +140,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupResearchButton() {
-        researchButton = new TextButton("$research", skin);
+        researchButton = new TextButton("$research", getSkin());
         researchButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -154,7 +152,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupNextTurnButton() {
-        nextTurnButton = new TextButton("$nextTurn", skin);
+        nextTurnButton = new TextButton("$nextTurn", getSkin());
         nextTurnButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -166,7 +164,7 @@ public class WorldUi implements Disposable {
     }
 
     private void setupMainMenuButton() {
-        mainMenuButton = new TextButton("Main Menu", skin);
+        mainMenuButton = new TextButton("Main Menu", getSkin());
         mainMenuButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -259,5 +257,9 @@ public class WorldUi implements Disposable {
         public void receive(Signal<Entity> signal, Entity object) {
             updateSelectionUi(object);
         }
+    }
+
+    private Skin getSkin() {
+        return UiSkin.skin;
     }
 }

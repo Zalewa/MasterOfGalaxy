@@ -21,7 +21,6 @@ import masterofgalaxy.ui.ContainerEx;
 
 public class ShipyardProductionUi extends Table implements Localizable {
     private TextButton closeButton;
-    private Skin skin;
     private Entity entity;
     private ContainerEx<Table> shipsContainer;
 
@@ -30,7 +29,6 @@ public class ShipyardProductionUi extends Table implements Localizable {
 
     public ShipyardProductionUi(MogGame game, Skin skin) {
         super(skin);
-        this.skin = skin;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
         setupUi();
@@ -50,7 +48,7 @@ public class ShipyardProductionUi extends Table implements Localizable {
     }
 
     private void setupCloseButton() {
-        closeButton = new TextButton("", skin);
+        closeButton = new TextButton("", getSkin());
         closeButton.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -80,7 +78,7 @@ public class ShipyardProductionUi extends Table implements Localizable {
     }
 
     private void addNewShipWidgetToTable(Table table, ShipDesign design) {
-        final ShipDesignWidget widget = new ShipDesignWidget(skin, getColonyComponent());
+        final ShipDesignWidget widget = new ShipDesignWidget(getSkin(), getColonyComponent());
         widget.setShipDesign(design);
         widget.addListener(new ClickListener() {
             @Override

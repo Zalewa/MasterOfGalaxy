@@ -17,12 +17,10 @@ public class FleetShipsUi extends Table implements Localizable {
     private Entity entity;
     private Container<Table> shipWidgetsLayout;
     private Array<ShipWidget> shipWidgets = new Array<ShipWidget>();
-    private Skin skin;
     private MogGame game;
 
     public FleetShipsUi(MogGame game, Skin skin) {
         super(skin);
-        this.skin = skin;
         this.game = game;
         I18N.localeChanged.add(new LocalizationChangedListener(this));
 
@@ -61,9 +59,9 @@ public class FleetShipsUi extends Table implements Localizable {
 
     private ShipWidget mkShipWidget() {
         if (isOwnedByCurrentPlayer()) {
-            return new ShipSplittableWidget(skin);
+            return new ShipSplittableWidget(getSkin());
         } else {
-            return new ShipWidget(skin);
+            return new ShipWidget(getSkin());
         }
     }
 

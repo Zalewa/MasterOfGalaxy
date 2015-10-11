@@ -31,7 +31,6 @@ import com.badlogic.gdx.utils.Align;
 public class TechBox extends Table {
     public Signal<TechBox> distributionChangedSignal = new Signal<TechBox>();
 
-    private Skin skin;
     private TechBranch techBranch;
     private TechKnowledge knowledge;
     private ListBox<Tech> list;
@@ -43,7 +42,7 @@ public class TechBox extends Table {
     private MogGame game;
 
     public TechBox(TechBranch techBranch, TechKnowledge knowledge, MogGame game, Skin skin) {
-        this.skin = skin;
+        super(skin);
         this.techBranch = techBranch;
         this.knowledge = knowledge;
         this.game = game;
@@ -66,7 +65,7 @@ public class TechBox extends Table {
     }
 
     private void setupResourceTable() {
-        resourceTable = new Table(skin);
+        resourceTable = new Table(getSkin());
         resourceTable.defaults().space(5.0f);
 
         setupResourceLockedButton();
@@ -102,7 +101,7 @@ public class TechBox extends Table {
     }
 
     private void setupResourceSlider() {
-        resourceSlider = new Slider(0.0f, 1.0f, 0.01f, false, skin);
+        resourceSlider = new Slider(0.0f, 1.0f, 0.01f, false, getSkin());
         resourceSlider.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -114,13 +113,13 @@ public class TechBox extends Table {
     }
 
     private void setupProgressLabel() {
-        progressLabel = new Label("", skin);
+        progressLabel = new Label("", getSkin());
         progressLabel.setAlignment(Align.right);
         resourceTable.add(progressLabel).width(40.0f);
     }
 
     private void openPickResearchBox() {
-        final ResearchPickWindow box = new ResearchPickWindow(techBranch, knowledge, skin);
+        final ResearchPickWindow box = new ResearchPickWindow(techBranch, knowledge, getSkin());
         box.techPickedSignal.add(new Listener<Object>() {
             @Override
             public void receive(Signal<Object> signal, Object object) {

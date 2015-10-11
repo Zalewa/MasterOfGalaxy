@@ -23,7 +23,6 @@ import com.badlogic.gdx.utils.Align;
 public class ResearchPickWindow extends Window implements Localizable {
     public Signal<Object> techPickedSignal = new Signal<Object>();
 
-    private Skin skin;
     private TechBranch branch;
     private TechKnowledge knowledge;
 
@@ -33,7 +32,6 @@ public class ResearchPickWindow extends Window implements Localizable {
 
     public ResearchPickWindow(TechBranch branch, TechKnowledge knowledge, Skin skin) {
         super("", skin);
-        this.skin = skin;
         this.branch = branch;
         this.knowledge = knowledge;
 
@@ -44,24 +42,24 @@ public class ResearchPickWindow extends Window implements Localizable {
 
     private void setup() {
         addListener(new ActorRemoveEscapeKeyAdapter(this));
-        Windows.addXButton(this, skin);
+        Windows.addXButton(this, getSkin());
         setModal(true);
 
         defaults().space(5.0f);
 
-        titleLabel = new Label("", skin);
+        titleLabel = new Label("", getSkin());
         add(titleLabel).expandX().left().row();
 
         setupTechList();
 
-        descriptionLabel = new Label("", skin);
+        descriptionLabel = new Label("", getSkin());
         descriptionLabel.setAlignment(Align.topLeft);
         descriptionLabel.setWrap(true);
         add(descriptionLabel).width(400.0f).height(100.0f).expandX().top().row();
     }
 
     private void setupTechList() {
-        techList = new ListBox<Tech>(skin);
+        techList = new ListBox<Tech>(getSkin());
         techList.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
