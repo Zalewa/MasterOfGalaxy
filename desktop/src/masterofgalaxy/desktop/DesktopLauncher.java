@@ -4,12 +4,12 @@ import masterofgalaxy.MogGame;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.badlogic.gdx.tools.texturepacker.TexturePacker;
 
 public class DesktopLauncher {
-	public static void main(String[] arg) {
-		TexturePacker.processIfModified("ui/skin", "ui/", "uiskin");
-
+	public static void main(String[] args) {
+		if (ResourceBuilder.isResourceBuildEnabled(args)) {
+			new ResourceBuilder().build();
+		}
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 		new LwjglApplication(new MogGame(), config);
 	}
