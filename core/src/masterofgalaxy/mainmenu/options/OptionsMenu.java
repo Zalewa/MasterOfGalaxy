@@ -33,7 +33,7 @@ public class OptionsMenu extends Window implements Localizable {
         mainLayout.defaults().space(5.0f);
         add(mainLayout).expand().fill();
 
-        setupVideoModeWidget();
+        setupVideoModeWidget(game);
         setupLanguageWidget();
 
         setupButtonRow();
@@ -44,8 +44,8 @@ public class OptionsMenu extends Window implements Localizable {
         pack();
     }
 
-    private void setupVideoModeWidget() {
-        videoModeOptions = new VideoModeOptions(getSkin());
+    private void setupVideoModeWidget(MogGame game) {
+        videoModeOptions = new VideoModeOptions(game, getSkin());
         mainLayout.add(videoModeOptions).expand().fillX().top();
         mainLayout.row();
     }

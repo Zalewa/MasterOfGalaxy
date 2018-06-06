@@ -200,7 +200,9 @@ public class WorldUi implements Disposable {
     }
 
     private void updateSelectionUi(Entity entity) {
-        infoUiContainer.removeActor(infoUiContainer.getActor());
+        if (infoUiContainer.getActor() != null) {
+            infoUiContainer.removeActor(infoUiContainer.getActor());
+        }
         if (entity == null) {
             return;
         }

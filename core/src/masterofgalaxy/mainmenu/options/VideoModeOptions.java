@@ -1,26 +1,35 @@
 package masterofgalaxy.mainmenu.options;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Graphics;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
-
-import masterofgalaxy.assets.i18n.I18N;
-import masterofgalaxy.assets.i18n.Localizable;
-import masterofgalaxy.config.VideoConfig;
-import masterofgalaxy.config.VideoDisplayMode;
-
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Widget;
+
+import masterofgalaxy.MogGame;
+import masterofgalaxy.assets.i18n.I18N;
+import masterofgalaxy.assets.i18n.Localizable;
+import masterofgalaxy.config.VideoConfig;
+import masterofgalaxy.config.VideoDisplayMode;
+import masterofgalaxy.config.VideoDisplayMode.ScreenMode;
+
 public class VideoModeOptions extends Table implements Localizable {
     private CheckBox fullscreenCheckbox;
     private Label resolutionsLabel;
     private SelectBox<Resolution> resolutionsSelectBox;
+    private MogGame game;
 
-    public VideoModeOptions(Skin skin) {
+    public VideoModeOptions(MogGame game, Skin skin) {
         super(skin);
+        this.game = game;
 
         setupUi(skin);
         loadResolutions();
@@ -90,7 +99,8 @@ public class VideoModeOptions extends Table implements Localizable {
 
     private void applyResolution() {
         Resolution resolution = getSelectedResolution();
-        Gdx.graphics.setDisplayMode(resolution.width, resolution.height, fullscreenCheckbox.isChecked());
+        game.setVideoDisplayMode(new VideoDisplayMode(resolution.width, resolution.height,
+            fullscreenCheckbox.isChecked() ? ScreenMode.Fullscreen : ScreenMode.Windowed));
     }
 
     private void saveConfig() {

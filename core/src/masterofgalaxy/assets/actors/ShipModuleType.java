@@ -1,10 +1,12 @@
 package masterofgalaxy.assets.actors;
 
+import java.util.Locale;
+
 public enum ShipModuleType {
     Engine, Special;
 
     public String lowerCaseName() {
-        return this.name().toLowerCase();
+        return this.name().toLowerCase(Locale.ROOT);
     }
 
     public boolean isTypeExclusive() {

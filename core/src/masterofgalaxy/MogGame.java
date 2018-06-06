@@ -2,6 +2,7 @@ package masterofgalaxy;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Graphics.DisplayMode;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
@@ -98,14 +99,31 @@ public class MogGame extends Game {
 		}
 	}
 
+	public void setVideoDisplayMode(VideoDisplayMode mode) {
+		if (mode.isFullscreen()) {
+			Gdx.graphics.setFullscreenMode(findBestMatchingFullscreenMode(mode));
+		} else {
+			Gdx.graphics.setWindowedMode(mode.width, mode.height);
+		}
+	}
+
 	private void setupScreenMode() {
 		VideoConfig config = new VideoConfig();
 		VideoDisplayMode mode = config.getLastDisplayMode();
-		Gdx.graphics.setDisplayMode(mode.width, mode.height, mode.isFullscreen());
+		setVideoDisplayMode(mode);
 		if (!config.hasDisplayModeStored(VideoDisplayMode.getCurrentScreenMode())) {
 			config.storeDisplayMode(VideoDisplayMode.getCurrentVideoDisplayMode());
 			config.flush();
 		}
+	}
+
+	private DisplayMode findBestMatchingFullscreenMode(VideoDisplayMode mode) {
+		for (DisplayMode displayMode : Gdx.graphics.getDisplayModes()) {
+			if (displayMode.width == mode.width && displayMode.height == mode.height) {
+				return displayMode;
+			}
+		}
+		return Gdx.graphics.getDisplayMode();
 	}
 
 	private void setupInput() {
@@ -206,13 +224,13 @@ public class MogGame extends Game {
 	private void setWindowed() {
 		VideoConfig config = new VideoConfig();
 		VideoDisplayMode mode = config.getDisplayModeForScreenMode(VideoDisplayMode.ScreenMode.Windowed);
-		Gdx.graphics.setDisplayMode(mode.width, mode.height, false);
+		Gdx.graphics.setWindowedMode(mode.width, mode.height);
 	}
 
 	private void setFullscreen() {
 		VideoConfig config = new VideoConfig();
 		VideoDisplayMode mode = config.getDisplayModeForScreenMode(VideoDisplayMode.ScreenMode.Fullscreen);
-		Gdx.graphics.setDisplayMode(mode.width, mode.height, true);
+		Gdx.graphics.setFullscreenMode(findBestMatchingFullscreenMode(mode));
 	}
 
 	public void exit() {

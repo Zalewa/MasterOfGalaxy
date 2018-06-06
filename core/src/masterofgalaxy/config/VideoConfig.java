@@ -30,7 +30,7 @@ public class VideoConfig {
         int width = prefs.getInteger(prefix + "/Width", -1);
         int height = prefs.getInteger(prefix + "/Height", -1);
 
-        DisplayMode desktop = Gdx.graphics.getDesktopDisplayMode();
+        DisplayMode desktop = Gdx.graphics.getDisplayMode();
         if (width > minValidSize && height > minValidSize && screenMode != ScreenMode.Unknown) {
             return new VideoDisplayMode(width, height, screenMode);
         } else {
